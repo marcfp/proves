@@ -1,0 +1,27 @@
+#include <iostream>
+#include <string.h>
+#include <vector>
+#include <algorithm>
+#include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
+#include <string>
+#include <locale> 
+using namespace std;
+class Token {
+//a very simple user-defined type
+public:
+char kind;
+double value;
+};
+vector<Token> tok;
+int main()
+{
+	//vector<Token> tok;
+	//token = new Token()
+	while(cin){
+		Token t = get_token();
+		tok.push_back(t);
+	}
+	return(0);
+}
