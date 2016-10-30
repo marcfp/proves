@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <stdexcept>
 #include <cmath>
+
+#include<std_lib_facilities.h>
+
 using namespace std;
 
 #define debug 0
@@ -100,10 +103,12 @@ void /*Token_stream::*/clean_up_mess()
 
 
 
+/*
 void error(string s1){
 throw runtime_error(s1);
 cout << "\n error string s = " << s1 << "\n";
 }
+*/
 //------------------------------------------------------------------------------
 
 double get_value(string s)// return the Value of a variable named s
@@ -112,6 +117,17 @@ double get_value(string s)// return the Value of a variable named s
                 if(v.name == s) return v.value;
         error("get: undefined variable");//, s);
 
+}
+
+void set_value(string s, double d)
+// set the Variable named s to d
+{
+for (Variable& v : var_table)
+	if (v.name == s) {
+		v.value = d;
+		return;
+}
+error("set: undefined variable ");//, s);
 }
 
 // The putback() member function puts its argument back into the Token_stream's buffer:
@@ -232,6 +248,8 @@ if (left!=1 && left!=0){
 
 }
 
+
+/*
 // run-time checked narrowing cast (type conversion). See ???.
 template<class R, class A> R narrow_cast(const A& a)
 {
@@ -239,6 +257,7 @@ template<class R, class A> R narrow_cast(const A& a)
 	if (A(r)!=a) error(string("info loss"));
 	return r;
 }
+*/
 
 
 // deal with *, /, and %
@@ -351,21 +370,21 @@ catch(runtime_error& e){
 double get_Value(string s)
     //returna el valor de la variable s
     {
-/*        for(const Variable& v : var_table)
+        for(const Variable& v : var_table)
                     if(v.name==s)return v.value;
-        error("get: undefined variable ",s);*/
+        error("get: undefined variable ",s);
     }
   void set_Value(string s, double d)
   //carrega a la variable s el valor d
   {
-/*for(Variable& v : var_table)
-          if(v.name==s){
+for(Variable& v : var_table)
+          if(v.name==s){ 
                   v.value=d;
                   return;
-         
-error("set : undefined variable " , s);*/
-  }
-
+		}
+  error("set : undefined variable " , s);
+  
+}
 
 //------------------------------------------------------------------------------
 
