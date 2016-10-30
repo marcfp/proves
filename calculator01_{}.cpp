@@ -342,7 +342,7 @@ double expression()
 void calculate()
 {
 double val=0;
- while(true) try{
+try{
 	while (cin) {
        		cout << prompt;;          // print prompt
 	        Token t = ts.get();
@@ -391,7 +391,7 @@ for(Variable& v : var_table)
 int main()
 try
 {
-    cout << "\npàgina 217 del llibre, TEMA 7.8\n var_table; \n";
+    cout << "\npàgina 217 del llibre, TEMA 7.8.1\n We can now read and write “variables” represented as Variables in var_table." << endl;
     calculate();	
     /*while (cin) {
         cout << prompt;;          // print prompt
