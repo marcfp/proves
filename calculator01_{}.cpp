@@ -1,3 +1,5 @@
+
+
 //
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
@@ -12,10 +14,18 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
+#include <cmath>
 using namespace std;
 
 #define debug 0
 //------------------------------------------------------------------------------
+
+
+class Variable{
+public:
+	string name;
+	double value;
+};
 
 class Token {
 public:
@@ -34,12 +44,28 @@ public:
     Token_stream();   // make a Token_stream that reads from cin
     Token get();      // get a Token (get() is defined elsewhere)
     void putback(Token t);    // put a Token back
+    void ignore(char c);
+//    void clean_up_mess();
 private:
     bool full;        // is there a Token in the buffer?
     Token buffer;     // here is where we keep a Token put back using putback()
 };
 
 //------------------------------------------------------------------------------
+
+const char number ='8';
+const char quit = 'q';
+const char print = ';';
+const string prompt = "|=>";
+const string result = "="; //used to indicate that what follows is a result
+vector<Variable> var_table;
+
+
+
+
+Token_stream ts;        // provides get() and putback()
+  
+
 
 // The constructor just sets full to indicate that the buffer is empty:
 Token_stream::Token_stream()
@@ -48,11 +74,45 @@ Token_stream::Token_stream()
 }
 
 
+void Token_stream::ignore(char c)
+  //c representa el tipus de Token
+  {
+          //primera mirada al buffer?:
+          if(full && c==buffer.kind){
+                  full=false;
+                  return;
+          }
+          full=false;
+          //ara busca introduccions
+          char ch=0;
+          while(cin>>ch)
+                  if(ch==c) return;
+  }
+
+
+//pagina 216, 217, com l'incloc ? no ho pillo
+
+void /*Token_stream::*/clean_up_mess()
+{
+	cout << "\nclean_up_mess?\n";
+	ts.ignore(print); //pagina 216-217 del llibre, just al cambiar de pàgina
+}
+
+
+
 void error(string s1){
 throw runtime_error(s1);
-//cout << "\n error string s = " << s<< "\n";
+cout << "\n error string s = " << s1 << "\n";
 }
 //------------------------------------------------------------------------------
+
+double get_value(string s)// return the Value of a variable named s
+{
+      for(const Variable& v: var_table)
+                if(v.name == s) return v.value;
+        error("get: undefined variable");//, s);
+
+}
 
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
@@ -65,9 +125,11 @@ void Token_stream::putback(Token t)
     full = true;      // buffer is now full
 }
 
+
 //------------------------------------------------------------------------------
 
 Token Token_stream::get()
+//lectura de dades des del teclat i composició del Token
 {
     if (full) {       // do we already have a Token ready?
         // remove token from buffer
@@ -79,10 +141,21 @@ Token Token_stream::get()
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 
     switch (ch) {
-	    case '=': case ';':    // for "print"
-	    case 'x':    // for "quit"
-	    case '%': case '!': case '{': case '}': case '(': case ')': case '+': case '-': case '*': case '/':
-	        return Token(ch);        // let each character represent itself
+		case '=': 
+		case ';':    // for "print"
+		case 'x':
+		case 'q':    // for "quit"
+		case '%':
+		case '!': 
+		case '{': 
+		case '}': 
+		case '(': 
+		case ')': 
+		case '+': 
+		case '-': 
+		case '*': 
+		case '/':
+	        	return Token(ch);        // let each character represent itself
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
 	    case '5': case '6': case '7': case '8': case '9':
@@ -90,7 +163,7 @@ Token Token_stream::get()
 	            cin.putback(ch);         // put digit back into the input stream
 	            double val;
 	            cin >> val;              // read a floating-point number
-	            return Token('8',val);   // let '8' represent "a number"
+	            return Token(number,val);   // let '8' represent "a number"
 	        }
  	   default:
 	        error("Bad token");
@@ -100,14 +173,11 @@ Token Token_stream::get()
 
 //------------------------------------------------------------------------------
 
-Token_stream ts;        // provides get() and putback()
-
 //------------------------------------------------------------------------------
 
 double expression();    // declaration so that primary() can call expression()
 
 //------------------------------------------------------------------------------
-
 // deal with numbers and parentheses
 double primary()
 {
@@ -127,11 +197,11 @@ double primary()
             if (t.kind != ')') error("')' expected");
             return d;
         }
-    case '8':            // we use '8' to represent a number
+    case number:            // we use '8' to represent a number
         return t.value;  // return the number's value
     case '-':
 	return - primary();
-    case '+':
+    case '+':case '=':
 	return primary();
     default:
         error("primary expected");
@@ -161,6 +231,16 @@ if (left!=1 && left!=0){
 		}
 
 }
+
+// run-time checked narrowing cast (type conversion). See ???.
+template<class R, class A> R narrow_cast(const A& a)
+{
+	R r = R(a);
+	if (A(r)!=a) error(string("info loss"));
+	return r;
+}
+
+
 // deal with *, /, and %
 double term()
 {
@@ -192,16 +272,18 @@ double term()
 	case '%':
 	{
 
+/*	
 		double d = primary();
 		if(d==0) error("divide by zero");
 		left = fmod(left,d);
+*/
 
-/*
 		//pagina 209 del llibre pdf, mirar narrow_cast
 		int i1 = narrow_cast<int>(left); //no incloc narrow_cast, mirar-ho bé ... com fer-ho
-		int i2 = narrow_Cast<int>(primary());
+		int i2 = narrow_cast<int>(primary());
 		if(i2==0) error("% : divide by zero");
-		left = i1 % i2;*/
+		left = i1 % i2;
+
 		t = ts.get();
 		break;
 	}
@@ -237,28 +319,78 @@ double expression()
     }
 }
 
+
+void calculate()
+{
+double val=0;
+ while(true) try{
+	while (cin) {
+       		cout << prompt;;          // print prompt
+	        Token t = ts.get();
+       		while(t.kind== print) t= ts.get();
+	        if(t.kind == quit){
+	               // return(0);
+	                break;
+	        }
+//		if(t.kind == quit) break;
+	        //while(t.kind==';') t= ts.get(); //eat //if (t.kind == 'x') break; // 'q' per sortir
+	        if(t.kind == print) // escriure ara
+	            cout << result << val << '\n'; // print result
+	        //else
+       		ts.putback(t);
+	        //val = expression();
+        	cout << result << expression() << "\n";
+	}
+}
+catch(runtime_error& e){
+	cerr << e.what()<< endl;
+	clean_up_mess();
+	}
+}
+
+double get_Value(string s)
+    //returna el valor de la variable s
+    {
+/*        for(const Variable& v : var_table)
+                    if(v.name==s)return v.value;
+        error("get: undefined variable ",s);*/
+    }
+  void set_Value(string s, double d)
+  //carrega a la variable s el valor d
+  {
+/*for(Variable& v : var_table)
+          if(v.name==s){
+                  v.value=d;
+                  return;
+         
+error("set : undefined variable " , s);*/
+  }
+
+
 //------------------------------------------------------------------------------
 
 int main()
 try
 {
-    double val = 0;
-    cout << "\npàgina 208 del llibre, TEMA 7\n narrow_cast(com l\'incloc?)\n";
-    while (cin) {
-        cout << "|=> ";          // print prompt
+    cout << "\npàgina 217 del llibre, TEMA 7.8\n var_table; \n";
+    calculate();	
+    /*while (cin) {
+        cout << prompt;;          // print prompt
         Token t = ts.get();
-	if(t.kind == 'q'){
-		//return(0);
-		break;
+	while(t.kind== print) t= ts.get();
+	if(t.kind == quit){
+		return(0);
+		//break;
 	}
-        if(t.kind == 'x') break;
+        if(t.kind == quit) break;
 	//while(t.kind==';') t= ts.get(); //eat //if (t.kind == 'x') break; // 'q' per sortir
-        if(t.kind == ';') // escriure ara
+        if(t.kind == print) // escriure ara
             cout << "= " << val << '\n'; // print result
-        else
-            ts.putback(t);
-        val = expression();
-    }
+        //else
+        ts.putback(t);
+        //val = expression();
+	cout << result << expression() << "\n";
+    }*/
 }
 catch (runtime_error& e){//(exception& e) {
     cerr << "error: " << e.what() << '\n';
