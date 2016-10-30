@@ -23,21 +23,28 @@ using namespace std;
 #define debug 0
 //------------------------------------------------------------------------------
 
-
+/*error: no matching function for call to ‘Variable::Variable(std::string&, double&)’*/
 class Variable{
 public:
 	string name;
 	double value;
+/*	
+	Variable(string nm, value(val ))
+		:name(nm), value(val){ }
+*/
 };
 
 class Token {
 public:
     char kind;        // what kind of token
     double value;     // for numbers: a value
+    string name;
     Token(char ch)    // make a Token from a char
         :kind(ch), value(0) { }
     Token(char ch, double val)     // make a Token from a char and a double
         :kind(ch), value(val) { }
+    Token(char ch, string n)
+	:kind(ch), name(n){ }
 };
 
 //------------------------------------------------------------------------------
@@ -77,6 +84,9 @@ Token_stream::Token_stream()
 }
 
 
+
+
+
 void Token_stream::ignore(char c)
   //c representa el tipus de Token
   {
@@ -93,22 +103,15 @@ void Token_stream::ignore(char c)
   }
 
 
-//pagina 216, 217, com l'incloc ? no ho pillo
 
-void /*Token_stream::*/clean_up_mess()
+void clean_up_mess()
 {
-	cout << "\nclean_up_mess?\n";
+//	cout << "\nclean_up_mess?\n";
 	ts.ignore(print); //pagina 216-217 del llibre, just al cambiar de pàgina
 }
 
 
 
-/*
-void error(string s1){
-throw runtime_error(s1);
-cout << "\n error string s = " << s1 << "\n";
-}
-*/
 //------------------------------------------------------------------------------
 
 double get_value(string s)// return the Value of a variable named s
@@ -130,6 +133,23 @@ for (Variable& v : var_table)
 error("set: undefined variable ");//, s);
 }
 
+bool is_declared(string var)
+  // is var already in var_table ?
+  {
+	for (const Variable& v : var_table)
+        	if (v.name == var) return true;
+
+        return false;
+  }
+double define_name(string var, double val)
+  // add (var,val) to var_table
+  {
+	if (is_declared(var)) error(var," declared twice");
+//        var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
+
+        return val;
+  }
+
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
 {
@@ -143,6 +163,13 @@ void Token_stream::putback(Token t)
 
 
 //------------------------------------------------------------------------------
+
+const char name = 'a';
+const char let = 'L';
+const string declkey = "let";
+// name token
+// declaration token
+// declaration keyword
 
 Token Token_stream::get()
 //lectura de dades des del teclat i composició del Token
@@ -182,6 +209,16 @@ Token Token_stream::get()
 	            return Token(number,val);   // let '8' represent "a number"
 	        }
  	   default:
+		if(isalpha(ch)){
+			string s;
+			s += ch;
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
+			cin.putback(ch);
+			//string s;
+			//cin >> s;
+			if(s == declkey) return Token(let); //declaration keyboard
+			return Token{name,s};
+		}
 	        error("Bad token");
 	
     }
@@ -338,6 +375,40 @@ double expression()
     }
 }
 
+double define_name(string var, double val);
+
+double declaration()
+// assume we have seen "let”
+// handle : name = expression
+// declare a variable called "name ” with the initial value "expression”
+{
+Token t = ts.get();
+if (t.kind != name) error ("name expected in declaration");
+string var_name = t.name;
+
+
+Token t2 = ts.get();
+if (t2.kind != '=') error("= missing in declaration of ", var_name);
+
+double d = expression();
+define_name(var_name,d);
+return d;
+}
+
+
+double statement()
+  {
+  Token t = ts.get();
+          switch (t.kind) {
+                case let:
+                        return declaration();
+                  default:
+			ts.putback(t);
+                        return expression();
+          }
+  }
+
+
 
 void calculate()
 {
@@ -358,7 +429,7 @@ try{
 	        //else
        		ts.putback(t);
 	        //val = expression();
-        	cout << result << expression() << "\n";
+        	cout << result << statement() << endl;//expression() << "\n";
 	}
 }
 catch(runtime_error& e){
@@ -391,6 +462,8 @@ for(Variable& v : var_table)
 int main()
 try
 {
+   define_name("pi", 3.1415926535);
+   define_name("e", 2.7182818284);
     cout << "\npàgina 217 del llibre, TEMA 7.8.1\n We can now read and write “variables” represented as Variables in var_table." << endl;
     calculate();	
     /*while (cin) {
@@ -410,8 +483,10 @@ try
         //val = expression();
 	cout << result << expression() << "\n";
     }*/
+	keep_window_open();
+	return 0;
 }
-catch (runtime_error& e){//(exception& e) {
+catch (/*runtime_error*/exception& e){//(exception& e) {
     cerr << "error: " << e.what() << '\n';
     //keep_window_open():
     cout << "Please enter the character ~ to close the window " << endl;
