@@ -5,7 +5,6 @@
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
 //
 
-//#include "../std_lib_facilities.h"
 #include<iostream>
 #include<stdlib.h>
 #include <stdio.h>
@@ -28,10 +27,10 @@ class Variable{
 public:
 	string name;
 	double value;
-/*	
-	Variable(string nm, value(val ))
+	
+	Variable(string nm, double val)
 		:name(nm), value(val){ }
-*/
+
 };
 
 class Token {
@@ -39,8 +38,9 @@ public:
     char kind;        // what kind of token
     double value;     // for numbers: a value
     string name;
-    Token(char ch)    // make a Token from a char
-        :kind(ch), value(0) { }
+    Token(char ch) : kind{ch} { }
+   /* Token(char ch)    // make a Token from a char
+        :kind(ch), value(0) { }*/
     Token(char ch, double val)     // make a Token from a char and a double
         :kind(ch), value(val) { }
     Token(char ch, string n)
@@ -145,7 +145,7 @@ double define_name(string var, double val)
   // add (var,val) to var_table
   {
 	if (is_declared(var)) error(var," declared twice");
-//        var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
+        var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
 
         return val;
   }
@@ -213,9 +213,12 @@ Token Token_stream::get()
 			string s;
 			s += ch;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
+
 			cin.putback(ch);
-			//string s;
-			//cin >> s;
+			/*
+			string s;
+			cin >> s;
+			*/
 			if(s == declkey) return Token(let); //declaration keyboard
 			return Token{name,s};
 		}
@@ -412,27 +415,31 @@ double statement()
 
 void calculate()
 {
-double val=0;
-try{
-	while (cin) {
+//double val=0;
+//try{
+	while (cin) 
+		try{
        		cout << prompt;;          // print prompt
 	        Token t = ts.get();
        		while(t.kind== print) t= ts.get();
 	        if(t.kind == quit){
 	               // return(0);
-	                break;
+	               // break;
+			return;
 	        }
 //		if(t.kind == quit) break;
 	        //while(t.kind==';') t= ts.get(); //eat //if (t.kind == 'x') break; // 'q' per sortir
-	        if(t.kind == print) // escriure ara
+	        /*
+		if(t.kind == print) // escriure ara
 	            cout << result << val << '\n'; // print result
+		*/
 	        //else
        		ts.putback(t);
 	        //val = expression();
         	cout << result << statement() << endl;//expression() << "\n";
 	}
-}
-catch(runtime_error& e){
+//}
+catch(/*runtime_error*/exception& e){
 	cerr << e.what()<< endl;
 	clean_up_mess();
 	}
@@ -478,7 +485,7 @@ try
 	//while(t.kind==';') t= ts.get(); //eat //if (t.kind == 'x') break; // 'q' per sortir
         if(t.kind == print) // escriure ara
             cout << "= " << val << '\n'; // print result
-        //else
+ .       //else
         ts.putback(t);
         //val = expression();
 	cout << result << expression() << "\n";
@@ -488,7 +495,7 @@ try
 }
 catch (/*runtime_error*/exception& e){//(exception& e) {
     cerr << "error: " << e.what() << '\n';
-    //keep_window_open():
+    keep_window_open();
     cout << "Please enter the character ~ to close the window " << endl;
     for(char ch; cin >> ch;)
 	if(ch=='~') return (1);
