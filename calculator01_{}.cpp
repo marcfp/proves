@@ -471,7 +471,7 @@ try
 {
    define_name("pi", 3.1415926535);
    define_name("e", 2.7182818284);
-    cout << "\npàgina 217 del llibre, TEMA 7.8.1\n We can now read and write “variables” represented as Variables in var_table." << endl;
+    cout << "\npàgina 224 del llibre, TEMA 7 Drill." << endl;
     calculate();	
     /*while (cin) {
         cout << prompt;;          // print prompt
