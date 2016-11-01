@@ -1,0 +1,4 @@
+primer commit 
+git add <fitxer>
+git commit -m "missatge"
+git push -u origin master //demana autenticació
