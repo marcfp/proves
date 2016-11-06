@@ -163,10 +163,12 @@ void Token_stream::putback(Token t)
 
 
 //------------------------------------------------------------------------------
-
+//const char k = 'k';
+//const string declteclak = "k";
 const char name = 'a';
 const char let = 'L';
 const string declkey = "let";
+
 // name token
 // declaration token
 // declaration keyword
@@ -186,7 +188,7 @@ Token Token_stream::get()
     switch (ch) {
 		case '=': 
 		case ';':    // for "print"
-		case 'x':
+		//case 'x':
 		case 'q':    // for "quit"
 		case '%':
 		case '!': 
@@ -198,6 +200,7 @@ Token Token_stream::get()
 		case '-': 
 		case '*': 
 		case '/':
+		//case 'k':
 	        	return Token(ch);        // let each character represent itself
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
@@ -212,15 +215,27 @@ Token Token_stream::get()
 		if(isalpha(ch)){
 			string s;
 			s += ch;
+			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
+			cin.putback(ch);
+			if (s == declkey) return Token{let};
+			//if (s == declteclak) return Token{k};
+			return Token{name,s};
+			/*cin.putback(ch);
+			string s;
+			cin>>s;
+			if (s == declkey) return Token{let};
+			return Token{name,s};
+			//7.8.2 pagina 221 dalt
+			/* dalt string s;
+			s += ch;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
-
 			cin.putback(ch);
 			/*
 			string s;
 			cin >> s;
 			*/
-			if(s == declkey) return Token(let); //declaration keyboard
-			return Token{name,s};
+			/* dalt if(s == declkey) return Token{let}; //declaration keyboard
+			return Token{name,s};*/
 		}
 	        error("Bad token");
 	
@@ -257,7 +272,7 @@ double primary()
         return t.value;  // return the number's value
     case '-':
 	return - primary();
-    case '+':case '=':
+    case '+':case '=': case 'k':
 	return primary();
     default:
         error("primary expected");
@@ -386,6 +401,7 @@ double declaration()
 // declare a variable called "name ” with the initial value "expression”
 {
 Token t = ts.get();
+cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl;
 if (t.kind != name) error ("name expected in declaration");
 string var_name = t.name;
 
@@ -417,6 +433,9 @@ void calculate()
 {
 //double val=0;
 //try{
+//define_name("pi", 3.1415926535);
+//define_name("e", 2.7182818284);
+
 	while (cin) 
 		try{
        		cout << prompt;;          // print prompt
@@ -469,9 +488,10 @@ for(Variable& v : var_table)
 int main()
 try
 {
+//predefined names :
    define_name("pi", 3.1415926535);
    define_name("e", 2.7182818284);
-    cout << "\npàgina 224 del llibre, TEMA 7 Drill." << endl;
+    cout << "\npàgina 222 del llibre, TEMA 7 Drill." << endl;
     calculate();	
     /*while (cin) {
         cout << prompt;;          // print prompt
