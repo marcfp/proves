@@ -4,6 +4,35 @@
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
 //
+/*
+	Statement :
+		Expression
+		Print
+		Quit
+	Print :
+		;
+	Quit:
+		q
+	Expression :
+		Term
+		Expression + Term
+		Expression - Term
+	Term :
+		Primary
+		Term * Primary
+		Term / Primary
+		Term % Primary
+	Primary :
+		Number
+		( Expression ) 
+		- Primary
+		+ Primary
+	Number :
+		Floating-point-literal
+-------------------------------------------------------------
+-> Input comes from cin through the Token_stream called td <-
+-------------------------------------------------------------
+*/
 
 #include<iostream>
 #include<stdlib.h>
@@ -109,9 +138,9 @@ void clean_up_mess()
 /*	while(true){
 		Token t = ts.get();
 		if(t.kind == print) return;
-	//	cout << "\nclean_up_mess?\n";*/
+	//	cout << "\nclean_up_mess?\n";
+	}*/
 	ts.ignore(print); //pagina 216-217 del llibre, just al cambiar de pàgina
-//	}
 }
 
 
@@ -198,7 +227,7 @@ Token Token_stream::get()
   //                        return Token(ch);   
 //		case '=': 
 //				case 'x':
-				case '%':
+		case '%':
 		case '!': 
 		case '{': 
 		case '}': 
@@ -220,21 +249,6 @@ Token Token_stream::get()
 	            return Token(number,val);   // let '8' represent "a number"
 	        }
  	   default:
-/*		if(isalpha(ch)){
-		/*	string s;
-			s += ch;
-			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
-			cin.putback(ch);
-			if (s == declkey) return Token{let};
-			//if (s == declteclak) return Token{k};
-			return Token{name,s};*/
-/*			cin.putback(ch);
-			string s;
-			cin >> s;
-			if (s == declkey) return Token(let);
-			return Token{name,s};
-
-		}*/
 	        error("Bad token");
 	
     }
@@ -383,7 +397,7 @@ double expression()
             t = ts.get();
             break;
         case '-':
-            left -= term();    // evaluate Term and subtract
+            left -= term();    // evaluate Term and subtract or change sign
             t = ts.get();
             break;
         default:
@@ -429,31 +443,27 @@ double statement()
 
 
 
-int calculate()
+void calculate()
 {
 
-	while (cin) {
-//		try{
+	while (cin) 
+		try{
 	       		cout << prompt;          // print prompt
 	        	Token t = ts.get();
        			while(t.kind == print) t = ts.get();
-//			cout << " t.kind = " << t.kind << endl;
 		        if(t.kind == quit){
-				keep_window_open();
-				return (0);
+//				keep_window_open();
+//				return (0);
+				return;
 	        	}
-			else ts.putback(t);
-	        	//val = expression();
-   		     	cout << result << /*statement() << endl;*/ expression() << endl;
+			ts.putback(t);
+   		     	cout << result << expression() << endl;
 		}
-/*		catch(runtime_error
-/*& e){
-		cerr << e.what()<< endl;
-		//clean_up_mess();
-		keep_window_open("~~");
-		return 1;
+		catch(exception& e){ //si hi ha error d'introducció, surt aquí ...
+			cout << endl << "surto aqui, oi ?" << endl ;
+			cerr << e.what() << endl;
+			clean_up_mess();
 		}
-*/
 }
 
 double get_Value(string s)
@@ -480,43 +490,23 @@ for(Variable& v : var_table)
 int main()
 try
 {
-//predefined names :
-   define_name("pi", 3.1415926535);
-   define_name("e", 2.7182818284);
-    cout << "\npàgina 215 del llibre, TEMA 7, punt 7.7. repassar-ho" << endl;
-    calculate();
-    /*while (cin) {
-        cout << prompt;;          // print prompt
-        Token t = ts.get();
-	while(t.kind== print) t= ts.get();
-	if(t.kind == quit){
-		return(0);
-		//break;
-	}
-        if(t.kind == quit) break;
-	//while(t.kind==';') t= ts.get(); //eat //if (t.kind == 'x') break; // 'q' per sortir
-        if(t.kind == print) // escriure ara
-            cout << "= " << val << '\n'; // print result
- .       //else
-        ts.putback(t);
-        //val = expression();
-	cout << result << expression() << "\n";
-    }*/
-//    keep_window_open();
-    return 0;
+	//predefined names :
+	define_name("pi", 3.1415926535);
+	define_name("e", 2.7182818284);
+	cout << "\npàgina 242 del llibre, TEMA 7, punt 7.8. Variables" << endl;
+	calculate();
+	keep_window_open();
+	  return 0;
 }
-catch (runtime_error/*exception*/& e){//(exception& e) {
+catch (exception& e){
     cerr << "error: " << e.what() << endl;
-    //keep_window_open("~~");
-    cout << "Please enter the character ~ to close the window " << endl;
-    for(char ch; cin >> ch;)
-	if(ch=='~') return (1);
+    keep_window_open("~~");
     return (1);
 }
 catch (...) {
     cerr << "Oops: unknown exception!\n";
     keep_window_open("~~");
-    return 2;
+    return (2);
 }
 
 //------------------------------------------------------------------------------

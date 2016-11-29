@@ -19,3 +19,7 @@ calculadora01:
 rm_calculadora01:
 	$(RM) $(calculadora)	
 #calculator01_\{\}.cpp -o calculator01_\{\} #$(SOURCE) $(OUTPUT)
+
+recompila:
+	$(RM) $(calculadora)
+	$(CC) $(C_BUILD) $(C_BUILD_DIRECTORI) $(SOURCE_calculadora) $(OUTPUT_calculadora) 
