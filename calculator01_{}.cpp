@@ -6,6 +6,7 @@
 //
 /*
 	Statement :
+		Declaration
 		Expression
 		Print
 		Quit
@@ -13,6 +14,10 @@
 		;
 	Quit:
 		q
+	Calculation Statement
+
+
+
 	Expression :
 		Term
 		Expression + Term
@@ -69,11 +74,11 @@ public:
     string name;
    // Token(char ch) : kind{ch} { }
     Token(char ch)    // make a Token from a char
-        :kind(ch) {}
+        :kind{ch} {}
     Token(char ch, double val)     // make a Token from a char and a double
         :kind{ch}, value{val} {}
     Token(char ch, string n)
-	:kind{ch}, name{n}{}
+	:kind{ch}, name{n} {}
 };
 
 //------------------------------------------------------------------------------
@@ -151,7 +156,7 @@ double get_value(string s)// return the Value of a variable named s
 {
       for(const Variable& v: var_table)
                 if(v.name == s) return v.value;
-        error("get: undefined variable");//, s);
+        error("get: undefined variable ",s);//, s);
 
 }
 
@@ -163,7 +168,7 @@ for (Variable& v : var_table)
 		v.value = d;
 		return;
 }
-error("set: undefined variable ");//, s);
+error("set: undefined variable ",s);//, s);
 }
 
 bool is_declared(string var)
@@ -178,7 +183,7 @@ double define_name(string var, double val)
   // add (var,val) to var_table
   {
 	if (is_declared(var)) error(var," declared twice");
-        var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
+        var_table.push_back(Variable{var,val}); //falta el setter ... pagina 218
 
         return val;
   }
@@ -249,6 +254,28 @@ Token Token_stream::get()
 	            return Token(number,val);   // let '8' represent "a number"
 	        }
  	   default:
+		if(isalpha(ch)){
+		/*	cin.putback(ch);
+			string s;
+			cin >> s;
+			if(s == declkey) return Token{let}; //declaration keyboard
+			return Token{name,s};
+*/
+			string s;
+			cout << "s(abans) = " <<  s << endl;
+			s += ch;
+			cout << "s(després) = " << s << endl;
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
+			cout << "s(després bucle) = " << s << endl;
+
+			cin.putback(ch);
+			if(s==declkey){
+					cout << endl << "surto token{let}" << endl;
+					 return Token{let};
+			}
+			cout << endl << "surto token{name,s}" << " name = " << name << " s = " << s << endl ;
+			return Token{name,s};
+		}
 	        error("Bad token");
 	
     }
@@ -430,16 +457,16 @@ return d;
 
 
 double statement()
-  {
+{
   Token t = ts.get();
-          switch (t.kind) {
-                case let:
-                        return declaration();
-                  default:
-			ts.putback(t);
-                        return expression();
-          }
+  switch (t.kind) {
+         case let:
+                 return declaration();
+         default:
+		ts.putback(t);
+                return expression();
   }
+}
 
 
 
@@ -457,10 +484,10 @@ void calculate()
 				return;
 	        	}
 			ts.putback(t);
-   		     	cout << result << expression() << endl;
+   		     	cout << result << statement() << endl; //expression() << endl;
 		}
 		catch(exception& e){ //si hi ha error d'introducció, surt aquí ...
-			cout << endl << "surto aqui, oi ?" << endl ;
+			cout << endl << "surto aqui, oi, pel let ??" << endl ;
 			cerr << e.what() << endl;
 			clean_up_mess();
 		}
