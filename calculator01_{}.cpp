@@ -1,5 +1,4 @@
 
-
 //
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
@@ -101,7 +100,7 @@ const char number ='8';
 const char quit = 'q';
 const char print = ';';
 const string prompt = "|=>";
-const string result = "="; //used to indicate that what follows is a result
+const char /*string*/ result = '='; //used to indicate that what follows is a result
 vector<Variable> var_table;
 
 
@@ -165,6 +164,7 @@ void set_value(string s, double d)
 {
 for (Variable& v : var_table)
 	if (v.name == s) {
+//		cout << "Estic dins del setter Variable" << endl;
 		v.value = d;
 		return;
 }
@@ -183,7 +183,7 @@ double define_name(string var, double val)
   // add (var,val) to var_table
   {
 	if (is_declared(var)) error(var," declared twice");
-        var_table.push_back(Variable{var,val}); //falta el setter ... pagina 218
+        var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
 
         return val;
   }
@@ -222,15 +222,15 @@ Token Token_stream::get()
 
     char ch;
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
-
+//    cout << " ch=" << ch << endl;
     switch (ch) {
 		case quit:
 		case print:    // for "print"
 
 //		case 'q':  if(ch=='q') return Token(ch); // for "quit"
 //		case 's': if(ch+1=='q' && ch+2=='r' && ch+3=='t')
-  //                        return Token(ch);   
-//		case '=': 
+//	                        return Token(ch);   
+		case result: 
 //				case 'x':
 		case '%':
 		case '!': 
@@ -254,26 +254,34 @@ Token Token_stream::get()
 	            return Token(number,val);   // let '8' represent "a number"
 	        }
  	   default:
-		if(isalpha(ch)){
-		/*	cin.putback(ch);
+		if(isalpha(ch)){ //si es let, val l, entro aquí.
+/*			cin.putback(ch);
 			string s;
 			cin >> s;
 			if(s == declkey) return Token{let}; //declaration keyboard
 			return Token{name,s};
 */
 			string s;
-			cout << "s(abans) = " <<  s << endl;
+//			cout << "s(abans) = " <<  s << endl;
 			s += ch;
-			cout << "s(després) = " << s << endl;
-			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
-			cout << "s(després bucle) = " << s << endl;
-
+//			cout << "s(després) = " << s << endl;
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))){
+					 s+=ch;
+			//		if(debug==1)cout << endl << " ch = " << ch << endl << " s = " << s << endl << "declkey = " << declkey << endl << " s = " << s << endl;
+			}
+			/*
+			if (s ==   "let"){
+					cout << endl << "let introduit?"<< endl;
+					return Token(let);
+					}
+			*/
 			cin.putback(ch);
+			//cout << "ch = " << ch;
 			if(s==declkey){
-					cout << endl << "surto token{let}" << endl;
+					//if(debug==1) cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "declkey=" << declkey << endl;
 					 return Token{let};
 			}
-			cout << endl << "surto token{name,s}" << " name = " << name << " s = " << s << endl ;
+			//if(debug==1)cout << endl << "let = " << let << "surto token{name,s}" << " name = " << name << " s = " << s << endl << " ch ='" << ch << "'" << endl << "name = '" << name << "'" << endl << " s ='" << s << "'" << endl << " let ='" << let << "'" << endl << " number = '" << number << "'" << endl;
 			return Token{name,s};
 		}
 	        error("Bad token");
@@ -322,22 +330,20 @@ double primary()
 //------------------------------------------------------------------------------
 int factorial(int left)
 {
-	if(debug)cout  << " dins de factorial ?\n" ;
+//	if(debug)cout  << " dins de factorial ?\n" ;
 if (left!=1 && left!=0){
 		/*cout << "\nfactorial  de 1 ";
 		left=1;
 		return(1);*/
-		if(debug) cout << "\n factorial de  " << left << " * factorial(" << left-1 << ") = " << left*factorial(left-1) ;
+//		if(debug) cout << "\n factorial de  " << left << " * factorial(" << left-1 << ") = " << left*factorial(left-1) ;
                 return( left* factorial(left-1));
 
 
 	}
 	else {
-		if(debug) {
-			cout << "left = " << left << "\n";
-			if(left==0) return(1);
-		}
-		if(debug) cout << "\nfactorial  de 1 " << endl;
+		//if(debug) cout << "left = " << left << "\n";
+		if(left==0) return(1);
+		//if(debug) cout << "\nfactorial  de 1 " << endl;
                 return(1);
 		}
 
@@ -365,7 +371,7 @@ double term()
     while(true) {
         switch (t.kind) {
 	case '!':
-	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
+//	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
 	    valor=left;
 	    left=factorial(left);
 	    cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
@@ -449,9 +455,11 @@ string var_name = t.name;
 
 Token t2 = ts.get();
 if (t2.kind != '=') error("= missing in declaration of ", var_name);
-
+//cout << "si?" << endl;
 double d = expression();
+//cout << " d= " << d << endl;
 define_name(var_name,d);
+//set_value(var_name,d);
 return d;
 }
 
@@ -487,29 +495,10 @@ void calculate()
    		     	cout << result << statement() << endl; //expression() << endl;
 		}
 		catch(exception& e){ //si hi ha error d'introducció, surt aquí ...
-			cout << endl << "surto aqui, oi, pel let ??" << endl ;
+//			cout << endl << "surto aqui, oi, pel let ??" << endl ;
 			cerr << e.what() << endl;
 			clean_up_mess();
 		}
-}
-
-double get_Value(string s)
-    //returna el valor de la variable s
-    {
-        for(const Variable& v : var_table)
-                    if(v.name==s)return v.value;
-        error("get: undefined variable ",s);
-    }
-void set_Value(string s, double d)
-  //carrega a la variable s el valor d
-  {
-for(Variable& v : var_table)
-          if(v.name==s){ 
-                  v.value=d;
-                  return;
-		}
-  error("set : undefined variable " , s);
-  
 }
 
 //------------------------------------------------------------------------------
