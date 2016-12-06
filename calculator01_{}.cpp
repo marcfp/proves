@@ -96,7 +96,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-const char number ='8';
+const char number ='8'; //global!!
 const char quit = 'q';
 const char print = ';';
 const string prompt = "|=>";
@@ -248,9 +248,11 @@ Token Token_stream::get()
 	    case '0': case '1': case '2': case '3': case '4':
 	    case '5': case '6': case '7': case '8': case '9':
 	        {
+//		    cout << "ch = " << ch << endl;
 	            cin.putback(ch);         // put digit back into the input stream
 	            double val;
 	            cin >> val;              // read a floating-point number
+//		    cout << "val = " << val << endl << " number = " << number << endl;
 	            return Token(number,val);   // let '8' represent "a number"
 	        }
  	   default:
@@ -268,6 +270,7 @@ Token Token_stream::get()
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))){
 					 s+=ch;
 			//		if(debug==1)cout << endl << " ch = " << ch << endl << " s = " << s << endl << "declkey = " << declkey << endl << " s = " << s << endl;
+//					cout << "s = " << s << endl;
 			}
 			/*
 			if (s ==   "let"){
@@ -319,10 +322,13 @@ double primary()
         return t.value;  // return the number's value
     case '-':
 	return - primary();
-    case '+':case '=': case 'k': 
+    case '+':case '=':
 	return primary();
+    case 'a': //si 'a', recull valor!!!!
+//	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
+	return get_value(t.name);
     default:
-	//if(debug==1)cout << "t = " << t.value << endl;
+//	if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
         error("primary expected");
     }
 }
@@ -448,7 +454,8 @@ double declaration()
 // declare a variable called "name ” with the initial value "expression”
 {
 Token t = ts.get();
-//cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl;
+//cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
+///cout << "t.kind = " << t.kind << endl << "t.value = " << t.value << endl << "t.name = " << t.name << endl;
 if (t.kind != name) error ("name expected in declaration");
 string var_name = t.name;
 
@@ -459,6 +466,7 @@ if (t2.kind != '=') error("= missing in declaration of ", var_name);
 double d = expression();
 //cout << " d= " << d << endl;
 define_name(var_name,d);
+cout << "var_name = " << var_name << "\n d =" << d << endl;
 //set_value(var_name,d);
 return d;
 }

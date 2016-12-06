@@ -4,6 +4,8 @@ C_BUILD_DIRECTORI=/home/marc/Programació/proves
 SOURCE_calculadora=calculator01_\{\}.cpp
 OUTPUT_calculadora=-o calculator01_\{\}
 calculadora=calculator01_\{\}
+calculdebug=calculdebug
+OUTPUT_calculdebug=-o calculdebug
 ECHO=@echo #echoing
 RM=rm
 CALCULADORA=COMPILACIÓ DE LA CALCULADORA
@@ -22,4 +24,9 @@ rm_calculadora01:
 
 recompila:
 	$(RM) $(calculadora)
-	$(CC) $(C_BUILD) $(C_BUILD_DIRECTORI) $(SOURCE_calculadora) $(OUTPUT_calculadora) 
+	$(CC) $(C_BUILD) $(C_BUILD_DIRECTORI) $(SOURCE_calculadora) $(OUTPUT_calculadora)
+calculdebug:
+	$(CC) $(C_BUILD) $(C_BUILD_DIRECTORI) $(SOURCE_calculadora)  -g $(OUTPUT_calculdebug) 
+recompiladebug:
+	$(RM) $(calculdebug)
+	$(CC) $(C_BUILD) $(C_BUILD_DIRECTORI) $(SOURCE_calculadora)  -g $(OUTPUT_calculdebug) 
