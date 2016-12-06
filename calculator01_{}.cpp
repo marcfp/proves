@@ -47,7 +47,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <cmath>
-
+#include <string>
 #include<std_lib_facilities.h>
 
 using namespace std;
@@ -140,15 +140,31 @@ void clean_up_mess()
 
 //------------------------------------------------------------------------------
 
-
+inline double convertToDouble(const string& s)
+{
+  istringstream i(s);
+  double x;
+  if (!(i >> x))
+    error("error de conversio ",s);//throw BadConversion("convertToDouble(\"" + s + "\")");
+  return x;
+}
 double arrelquadrada(string s)
 {
 	
-//	double prova;// =stod(s);
-	string::size_type sz;     // alias of size_t
-	double prova=stod(s, &sz);
-	cout << "funcion double arrel(string s) " << endl << " s = " << s << endl << "atof = " << prova << endl;
-//	return(sqrt(s));
+
+
+/*	int /*double*//* prova =atoi(s.c_str());//.c_str());
+		
+//	cout << " sqrt(prova) = " << sqrt(prova) << endl;
+	cout << "s = " << s << " prova = " << prova << endl;
+
+	return(prova);
+	//sqrt(prova));	
+//	return(sqrt(prova));
+*/
+	cout << " s=" << s.c_str() << endl;
+	cout << "s1=" << s << endl;
+	return (0);
 }
 double get_value(string s)// return the Value of a variable named s
 {
@@ -352,6 +368,7 @@ double sqrt( double val){ //arrel
 	}
 	else{
 		cout << "\n Error!!!!!!!!!!!!! valor no vàlid" << endl;
+//		cout << "\n val = " << val << "\n sqrt(val) = " << sqrt(val) << endl;
 	}
 
 return(1);
