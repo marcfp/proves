@@ -104,10 +104,7 @@ const char /*string*/ result = '='; //used to indicate that what follows is a re
 vector<Variable> var_table;
 
 
-
-
 Token_stream ts;        // provides get() and putback()
-  
 
 
 // The constructor just sets full to indicate that the buffer is empty:
@@ -115,9 +112,6 @@ Token_stream::Token_stream()
 :full(false), buffer(0)    // no Token in buffer
 {
 }
-
-
-
 
 
 void Token_stream::ignore(char c)
@@ -139,11 +133,6 @@ void Token_stream::ignore(char c)
 
 void clean_up_mess()
 {
-/*	while(true){
-		Token t = ts.get();
-		if(t.kind == print) return;
-	//	cout << "\nclean_up_mess?\n";
-	}*/
 	ts.ignore(print); //pagina 216-217 del llibre, just al cambiar de pàgina
 }
 
@@ -151,6 +140,16 @@ void clean_up_mess()
 
 //------------------------------------------------------------------------------
 
+
+double arrelquadrada(string s)
+{
+	
+//	double prova;// =stod(s);
+	string::size_type sz;     // alias of size_t
+	double prova=stod(s, &sz);
+	cout << "funcion double arrel(string s) " << endl << " s = " << s << endl << "atof = " << prova << endl;
+//	return(sqrt(s));
+}
 double get_value(string s)// return the Value of a variable named s
 {
       for(const Variable& v: var_table)
@@ -201,11 +200,13 @@ void Token_stream::putback(Token t)
 
 
 //------------------------------------------------------------------------------
-//const char k = 'k';
-//const string declteclak = "k";
 const char name = 'a';
 const char let = 'L';
-const string declkey = "let";
+const string decllet = "let";
+
+const char arrel = 'r';
+const string declsqrt = "sqrt";
+
 
 // name token
 // declaration token
@@ -226,12 +227,7 @@ Token Token_stream::get()
     switch (ch) {
 		case quit:
 		case print:    // for "print"
-
-//		case 'q':  if(ch=='q') return Token(ch); // for "quit"
-//		case 's': if(ch+1=='q' && ch+2=='r' && ch+3=='t')
-//	                        return Token(ch);   
 		case result: 
-//				case 'x':
 		case '%':
 		case '!': 
 		case '{': 
@@ -242,7 +238,6 @@ Token Token_stream::get()
 		case '-': 
 		case '*': 
 		case '/':
-		//case 'k':
 	        	return Token(ch);        // let each character represent itself
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
@@ -257,33 +252,26 @@ Token Token_stream::get()
 	        }
  	   default:
 		if(isalpha(ch)){ //si es let, val l, entro aquí.
-/*			cin.putback(ch);
-			string s;
-			cin >> s;
-			if(s == declkey) return Token{let}; //declaration keyboard
-			return Token{name,s};
-*/
 			string s;
 //			cout << "s(abans) = " <<  s << endl;
 			s += ch;
 //			cout << "s(després) = " << s << endl;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))){
 					 s+=ch;
-			//		if(debug==1)cout << endl << " ch = " << ch << endl << " s = " << s << endl << "declkey = " << declkey << endl << " s = " << s << endl;
+//					if(debug==1)cout << endl << " ch = " << ch << endl << " s = " << s << endl << "declkey = " << declkey << endl << " s = " << s << endl;
 //					cout << "s = " << s << endl;
 			}
-			/*
-			if (s ==   "let"){
-					cout << endl << "let introduit?"<< endl;
-					return Token(let);
-					}
-			*/
 			cin.putback(ch);
 			//cout << "ch = " << ch;
-			if(s==declkey){
+			if(s==decllet){
 					//if(debug==1) cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "declkey=" << declkey << endl;
 					 return Token{let};
 			}
+			if(s==declsqrt){
+					if(debug==1) cout << "introduida sqrt ? Arrel  s = " << s << endl;//faig arrel
+					return Token{arrel};
+			}
+
 			//if(debug==1)cout << endl << "let = " << let << "surto token{name,s}" << " name = " << name << " s = " << s << endl << " ch ='" << ch << "'" << endl << "name = '" << name << "'" << endl << " s ='" << s << "'" << endl << " let ='" << let << "'" << endl << " number = '" << number << "'" << endl;
 			return Token{name,s};
 		}
@@ -324,6 +312,8 @@ double primary()
 	return - primary();
     case '+':case '=':
 	return primary();
+    case 'r':
+	return arrelquadrada(t.name);
     case 'a': //si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
@@ -517,7 +507,8 @@ try
 	//predefined names :
 	define_name("pi", 3.1415926535);
 	define_name("e", 2.7182818284);
-	cout << "\npàgina 242 del llibre, TEMA 7, punt 7.8. Variables" << endl;
+	define_name("k", 1000);
+	cout << "\npàgina 251 del llibre, TEMA 7, punt DRILL" << endl;
 	calculate();
 	keep_window_open();
 	  return 0;
