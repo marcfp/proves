@@ -335,8 +335,16 @@ double primary()
     case '+':case '=':
 	return primary();
     case 'r':
-	cout << "r i arrelquadrada(t.name) =" << arrelquadrada(t.name) << endl;
-	return(0);
+	cout << "r i arrelquadrada(t) =" << arrelquadrada(t.name) << endl;
+//	double proves = t.name;
+	double nouse;
+	nouse=sqrt(t.value);
+	cout << "sqrt(proves) = " << nouse << endl;
+/*	cout  << " arrelquadrada string t = " << t << endl;
+	cout <<  " t.length() = " << t.length() /* s.length()*//* << endl;
+	istringstream(t >> proves;
+	cout << "prova = " << proves << endl;*/
+	return nouse;
     case 'a': //si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
