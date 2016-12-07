@@ -72,6 +72,7 @@ public:
     double value;     // for numbers: a value
     string name;
    // Token(char ch) : kind{ch} { }
+//    Token() {}
     Token(char ch)    // make a Token from a char
         :kind{ch} {}
     Token(char ch, double val)     // make a Token from a char and a double
@@ -140,19 +141,21 @@ void clean_up_mess()
 
 //------------------------------------------------------------------------------
 
-inline double convertToDouble(const string& s)
+/*inline double convertToDouble(const string& s)
 {
   istringstream i(s);
   double x;
   if (!(i >> x))
     error("error de conversio ",s);//throw BadConversion("convertToDouble(\"" + s + "\")");
   return x;
-}
+}*/
 double arrelquadrada(string s)
 {
 	
-
-
+//	double prova=stod(s);
+	cout  << " arrelquadrada string s = " << s << endl;
+	cout <<  " s.length() = " << s.length() /* s.length()*/ << endl;
+//	cout << "stod(s) = " << stod(s)	 << endl;
 /*	int /*double*//* prova =atoi(s.c_str());//.c_str());
 		
 //	cout << " sqrt(prova) = " << sqrt(prova) << endl;
@@ -162,8 +165,10 @@ double arrelquadrada(string s)
 	//sqrt(prova));	
 //	return(sqrt(prova));
 */
-	cout << " s=" << s.c_str() << endl;
-	cout << "s1=" << s << endl;
+//	cout << " s=" << s.c_str() << endl;
+//	cout << "s1=" << s << endl;
+//	cout << "prova = " << prova << endl;
+//	return (prova);
 	return (0);
 }
 double get_value(string s)// return the Value of a variable named s
@@ -284,7 +289,8 @@ Token Token_stream::get()
 					 return Token{let};
 			}
 			if(s==declsqrt){
-					if(debug==1) cout << "introduida sqrt ? Arrel  s = " << s << endl;//faig arrel
+//					if(debug==1) cout << "introduida sqrt ? Arrel  s = " << s << endl;//faig arrel
+					cout << "faig arrel ?" << endl;
 					return Token{arrel};
 			}
 
@@ -329,7 +335,8 @@ double primary()
     case '+':case '=':
 	return primary();
     case 'r':
-	return arrelquadrada(t.name);
+	cout << "r i arrelquadrada(t.name) =" << arrelquadrada(t.name) << endl;
+	return(0);
     case 'a': //si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
