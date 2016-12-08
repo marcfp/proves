@@ -141,20 +141,12 @@ void clean_up_mess()
 
 //------------------------------------------------------------------------------
 
-/*inline double convertToDouble(const string& s)
-{
-  istringstream i(s);
-  double x;
-  if (!(i >> x))
-    error("error de conversio ",s);//throw BadConversion("convertToDouble(\"" + s + "\")");
-  return x;
-}*/
-double arrelquadrada(string s)
+double arrelquadrada(float/*string*/ s)
 {
 	
 //	double prova=stod(s);
 	cout  << " arrelquadrada string s = " << s << endl;
-	cout <<  " s.length() = " << s.length() /* s.length()*/ << endl;
+//	cout <<  " s.length() = " << s.length() /* s.length()*/ << endl;
 //	cout << "stod(s) = " << stod(s)	 << endl;
 /*	int /*double*//* prova =atoi(s.c_str());//.c_str());
 		
@@ -335,7 +327,7 @@ double primary()
     case '+':case '=':
 	return primary();
     case 'r':
-	cout << "r i arrelquadrada(t) =" << arrelquadrada(t.name) << endl;
+	cout << "r i arrelquadrada(t) =" << arrelquadrada(t.value) << endl;
 //	double proves = t.name;
 	double nouse;
 	nouse=sqrt(t.value);
