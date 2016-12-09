@@ -141,10 +141,10 @@ void clean_up_mess()
 
 //------------------------------------------------------------------------------
 
-double arrelquadrada(float/*string*/ s)
+double arrelquadrada(/*float*/string s)
 {
 	
-//	double prova=stod(s);
+	double prova=stod(s);
 	cout  << " arrelquadrada string s = " << s << endl;
 //	cout <<  " s.length() = " << s.length() /* s.length()*/ << endl;
 //	cout << "stod(s) = " << stod(s)	 << endl;
@@ -326,17 +326,23 @@ double primary()
 	return - primary();
     case '+':case '=':
 	return primary();
-    case 'r':
-	cout << "r i arrelquadrada(t) =" << arrelquadrada(t.value) << endl;
+/*    case 'r':
+//	cout << "r i arrelquadrada(t) =" << arrelquadrada(t.value) << endl;
+//	cout << " nouse = " << nouse << " t.value = " << t.value << endl;
 //	double proves = t.name;
 	double nouse;
-	nouse=sqrt(t.value);
+	
+	nouse=t.value;
+	cout << " nouse = " << nouse << " t.value = " << t.value << endl;
+//	nouse=sqrt(t.value);
+	nouse=sqrt(nouse);
+	
 	cout << "sqrt(proves) = " << nouse << endl;
 /*	cout  << " arrelquadrada string t = " << t << endl;
 	cout <<  " t.length() = " << t.length() /* s.length()*//* << endl;
 	istringstream(t >> proves;
 	cout << "prova = " << proves << endl;*/
-	return nouse;
+//	return nouse;
     case 'a': //si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
