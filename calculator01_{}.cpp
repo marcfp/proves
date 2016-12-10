@@ -48,6 +48,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <string>
+#include <sstream>
 #include<std_lib_facilities.h>
 
 using namespace std;
@@ -144,23 +145,7 @@ void clean_up_mess()
 double arrelquadrada(float/*string*/ s)
 {
 	
-//	double prova=stod(s);
 	cout  << " arrelquadrada string s = " << s << endl;
-//	cout <<  " s.length() = " << s.length() /* s.length()*/ << endl;
-//	cout << "stod(s) = " << stod(s)	 << endl;
-/*	int /*double*//* prova =atoi(s.c_str());//.c_str());
-		
-//	cout << " sqrt(prova) = " << sqrt(prova) << endl;
-	cout << "s = " << s << " prova = " << prova << endl;
-
-	return(prova);
-	//sqrt(prova));	
-//	return(sqrt(prova));
-*/
-//	cout << " s=" << s.c_str() << endl;
-//	cout << "s1=" << s << endl;
-//	cout << "prova = " << prova << endl;
-//	return (prova);
 	return (0);
 }
 double get_value(string s)// return the Value of a variable named s
@@ -282,7 +267,7 @@ Token Token_stream::get()
 			}
 			if(s==declsqrt){
 //					if(debug==1) cout << "introduida sqrt ? Arrel  s = " << s << endl;//faig arrel
-					cout << "faig arrel ?" << endl;
+					cout << "faig arrel ?(get)" << endl;
 					return Token{arrel};
 			}
 
@@ -327,23 +312,12 @@ double primary()
     case '+':case '=': 
 	return primary();
   case 'r':
-//	cout << "r i arrelquadrada(t) =" << arrelquadrada(t.value) << endl;
-//	cout << " nouse = " << nouse << " t.value = " << t.value << endl;
-//	double proves = t.name;
-	double nouse;
+	double nouse ; //= left;
 	double resultat;
-	nouse=primary();
-	
-//	nouse=t.value;
-	cout << " nouse = " << nouse ;//<< " t.value = " << t.value << endl;
-//	nouse=sqrt(t.value);
-	resultat=sqrt(nouse);
-	
-	cout << "sqrt(proves) = " << resultat << endl;
-/*	cout  << " arrelquadrada string t = " << t << endl;
-	cout <<  " t.length() = " << t.length() /* s.length()*//* << endl;
-	istringstream(t >> proves;
-	cout << "prova = " << proves << endl;*/
+	nouse = primary();
+	cout << " nouse = " << nouse; // << " primary =" << primary();//<< " t.value = " << t.value << endl;
+	resultat=sqrt(nouse);	
+	cout << endl << " resultat = " << resultat << endl;
 	return nouse;
     case 'a': //case 'r'://si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
@@ -377,10 +351,12 @@ if (left!=1 && left!=0){
 }
 
 
-double sqrt( double val){ //arrel
+double sqrt1( double val){ //arrel
+	double prova;
 	if(val >1){
-		return (sqrt(val));
-	}
+		prova =sqrt(val);
+		cout << "prova = " << prova << endl;
+	}	
 	else{
 		cout << "\n Error!!!!!!!!!!!!! valor no vàlid" << endl;
 //		cout << "\n val = " << val << "\n sqrt(val) = " << sqrt(val) << endl;
