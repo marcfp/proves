@@ -142,12 +142,6 @@ void clean_up_mess()
 
 //------------------------------------------------------------------------------
 
-double arrelquadrada(float/*string*/ s)
-{
-	
-	cout  << " arrelquadrada string s = " << s << endl;
-	return (0);
-}
 double get_value(string s)// return the Value of a variable named s
 {
       for(const Variable& v: var_table)
@@ -199,13 +193,16 @@ void Token_stream::putback(Token t)
 
 //------------------------------------------------------------------------------
 const char name = 'a';
+
+//operacions extra
 const char let = 'L';
 const string decllet = "let";
 
 const char arrel = 'r';
 const string declsqrt = "sqrt";
 
-
+const char pot= 'P';
+const string declpot = "pow";
 // name token
 // declaration token
 // declaration keyword
@@ -266,12 +263,14 @@ Token Token_stream::get()
 					 return Token{let};
 			}
 			if(s==declsqrt){
-//					if(debug==1) cout << "introduida sqrt ? Arrel  s = " << s << endl;//faig arrel
-					cout << "faig arrel ?(get)" << endl;
+					if(debug==1)cout << "faig arrel ?(get)" << endl;
 					return Token{arrel};
 			}
-
-			//if(debug==1)cout << endl << "let = " << let << "surto token{name,s}" << " name = " << name << " s = " << s << endl << " ch ='" << ch << "'" << endl << "name = '" << name << "'" << endl << " s ='" << s << "'" << endl << " let ='" << let << "'" << endl << " number = '" << number << "'" << endl;
+			if(s==declpot){
+					if(debug==1)cout << "càlcul de número 'x' elevat a 'i'  potència  pow x^i";
+//					return Token{x,i}; 
+					return(Token{pot});
+			}
 			return Token{name,s};
 		}
 	        error("Bad token");
@@ -315,13 +314,38 @@ double primary()
 	double nouse ; //= left;
 	double resultat;
 	nouse = primary();
-	cout << " nouse = " << nouse; // << " primary =" << primary();//<< " t.value = " << t.value << endl;
-	resultat=sqrt(nouse);	
-	cout << endl << " resultat = " << resultat << endl;
-	return nouse;
+	cout << " Arrel quadrada de " << nouse << " " ; 
+	if(nouse>0){
+	// << " primary =" << primary();//<< " t.value = " << t.value << endl;
+		resultat=sqrt(nouse);	
+		if(debug ==2) cout << endl << " és " << resultat << endl;
+			return resultat;
+	}
+	else{
+		cout << "Arrel no real, conté parts imaginaries ?" << endl;
+		return(0);
+	}
     case 'a': //case 'r'://si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
+    case 'P':
+	if(debug==1)cout << "potencia ?" << endl;
+	try{
+                //      int i1 = narrow_cast<int>(left);
+                //      int i2 = narrow_cast<int>(primary());
+                        double d = primary();
+                        if(d==0) error("divide by zero");
+//			left=primary();
+//                      if(i2==0) error("% : divide by zero");
+//                        left = fmod(left,d);//i1 % i2;
+                        t = ts.get();
+                        break;
+	}
+        catch (exception& e){
+                        cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
+        }
+
+	return(0);
     default:
 //	if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
         error("primary expected");
@@ -351,11 +375,11 @@ if (left!=1 && left!=0){
 }
 
 
-double sqrt1( double val){ //arrel
+/*double sqrt1( double val){ //arrel
 	double prova;
 	if(val >1){
 		prova =sqrt(val);
-		cout << "prova = " << prova << endl;
+		if(debug==1)cout << "prova = " << prova << endl;
 	}	
 	else{
 		cout << "\n Error!!!!!!!!!!!!! valor no vàlid" << endl;
@@ -363,7 +387,7 @@ double sqrt1( double val){ //arrel
 	}
 
 return(1);
-}
+}*/
 
 // deal with *, /, and %
 double term()
@@ -474,8 +498,11 @@ double statement()
 {
   Token t = ts.get();
   switch (t.kind) {
+
          case let:
                  return declaration();
+	 case pot:
+		cout << "pow =" << pot ;
          default:
 		ts.putback(t);
                 return expression();
