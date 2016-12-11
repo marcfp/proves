@@ -215,7 +215,7 @@ Token Token_stream::get()
         full=false;
         return buffer;
     }
-
+//    cout << "Estic dins de Token_stream get" << endl;
     char ch;
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 //    cout << " ch=" << ch << endl;
@@ -260,11 +260,11 @@ Token Token_stream::get()
 			//cout << "ch = " << ch;
 			if(s==decllet){
 					//if(debug==1) cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "declkey=" << declkey << endl;
-					 return Token{let};
+					 return(Token{let});
 			}
 			if(s==declsqrt){
 					if(debug==1)cout << "faig arrel ?(get)" << endl;
-					return Token{arrel};
+					return(Token{arrel});
 			}
 			if(s==declpot){
 					if(debug==1)cout << "càlcul de número 'x' elevat a 'i'  potència  pow x^i";
@@ -326,15 +326,21 @@ double primary()
 		return(0);
 	}
     case 'a': //case 'r'://si 'a', recull valor!!!!
-//	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
+	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
     case 'P':
-	if(debug==1)cout << "potencia ?" << endl;
+	{
+	double i2;
+	if(debug==1)cout << "Càlcul de potenciaaaaaaaaaaaaaaaaaaaaaaa " << endl;
 	try{
-                //      int i1 = narrow_cast<int>(left);
-                //      int i2 = narrow_cast<int>(primary());
-                        double d = primary();
-                        if(d==0) error("divide by zero");
+//			double i1= t.value;
+                        double i1 = t.value;//left; //narrow_cast<int>(left);
+                        i2 =primary(); // carrego y, el segon número, de pow(x,y)
+			//cout << "i1 =" << i1;
+			cout  <<"i2 = " << i2;
+//                        double d = t.value;
+//			cout << "d = " << d << endl;
+//                      if(d==0) error("divide by zero");
 //			left=primary();
 //                      if(i2==0) error("% : divide by zero");
 //                        left = fmod(left,d);//i1 % i2;
@@ -342,10 +348,11 @@ double primary()
                         break;
 	}
         catch (exception& e){
-                        cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
+                  //      cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
         }
 
-	return(0);
+	return(t.value);
+	}
     default:
 //	if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
         error("primary expected");
@@ -375,19 +382,6 @@ if (left!=1 && left!=0){
 }
 
 
-/*double sqrt1( double val){ //arrel
-	double prova;
-	if(val >1){
-		prova =sqrt(val);
-		if(debug==1)cout << "prova = " << prova << endl;
-	}	
-	else{
-		cout << "\n Error!!!!!!!!!!!!! valor no vàlid" << endl;
-//		cout << "\n val = " << val << "\n sqrt(val) = " << sqrt(val) << endl;
-	}
-
-return(1);
-}*/
 
 // deal with *, /, and %
 double term()
@@ -436,6 +430,10 @@ double term()
 			cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
 		}
 	}
+/*	case 'P':
+	{
+		cout << "potencia term" << endl;
+	}*/
         default:
             ts.putback(t);     // put t back into the token stream
             return left;
@@ -493,7 +491,22 @@ cout << "var_name = " << var_name << "\n d =" << d << endl;
 return d;
 }
 
-
+double potencia()
+{
+cout << endl << "faig potencia ? he de recollir els valors ..." << endl;
+//Token t;
+Token t1  = ts.get();
+cout << "t1.value = " << t1.value;
+Token t2 = ts.get();
+cout << "t2.value = " << t2.value;
+//Token t3 = ts.get();
+//cout << "t3.value = " << t3.value;
+//Token t4 = ts.get();
+//cout << "t4.value = " << t4.value; 
+//double d= expression();
+//cout << " d = " << d << endl;
+return (t2.value);
+}
 double statement()
 {
   Token t = ts.get();
@@ -502,7 +515,14 @@ double statement()
          case let:
                  return declaration();
 	 case pot:
-		cout << "pow =" << pot ;
+		cout << "(statement)pow =" << pot << " " << t.value << " " << t.kind;
+//		Token t = ts.get();
+//		Token t2 = ts.get();
+//		cout << " t.value = " << t.value << endl;// << " t2.value = " << t2.value << endl;
+//		t=ts.get();
+//		cout << " t = " << t.value << endl;
+//		break;
+		return potencia();
          default:
 		ts.putback(t);
                 return expression();
@@ -518,7 +538,11 @@ void calculate()
 		try{
 	       		cout << prompt;          // print prompt
 	        	Token t = ts.get();
-       			while(t.kind == print) t = ts.get();
+       			while(t.kind == print){
+//						cout << " ts.get() = " << ts.get() << endl;
+						 t = ts.get();
+						//cout << "t = " << t << endl;
+			}
 		        if(t.kind == quit){
 //				keep_window_open();
 //				return (0);
