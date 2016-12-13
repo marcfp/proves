@@ -200,6 +200,8 @@ const string decllet = "let";
 const char arrel = 'r';
 const string declsqrt = "sqrt";
 
+const char pows='p';
+const string declpow = "pow";
 
 // name token
 // declaration token
@@ -246,12 +248,13 @@ Token Token_stream::get()
  	   default:
 		if(isalpha(ch)){ //si es let, val l, entro aquí.
 			string s;
-//			cout << "s(abans) = " <<  s << endl;
+			if(debug==1)cout << "s(abans) = " <<  s << endl;
 			s += ch;
-//			cout << "s(després) = " << s << endl;
+			if(debug==1)cout << "s(després) = " << s << endl;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))){
 					 s+=ch;
 					if(debug==1){
+						cout << endl << "carrega" << endl;
 						cout << endl << " ch = " << ch << endl << " s = " << s << endl << "decllet = " << decllet << endl << " s = " << s << endl;
 						cout << "s = " << s << endl;
 						}
@@ -259,15 +262,40 @@ Token Token_stream::get()
 			cin.putback(ch);
 			//cout << "ch = " << ch;
 			if(s==decllet){//let
-					if(debug==1) cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "decllet=" << decllet << endl;
+					if(debug==1) {
+							cout << endl << "decllet" << endl;
+							cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "decllet=" << decllet << endl;
+					}
 					 return Token{let};
 			}
 			if(s==declsqrt){//arrel
-					if(debug==1) cout << "faig arrel ?(get)" << endl;
+					if(debug==1){
+							cout << endl << "declsqrt" << endl;
+							 cout << "faig arrel ?(get)" << endl;
+					}
+			
 					return Token{arrel};
 			}
-
-			if(debug==1)cout << endl << "let = " << let << "surto token{name,s}" << " name = " << name << " s = " << s << endl << " ch ='" << ch << "'" << endl << "name = '" << name << "'" << endl << " s ='" << s << "'" << endl << " let ='" << let << "'" << endl << " number = '" << number << "'" << endl << " declsqrt=" << declsqrt << endl << " arrel = " << arrel << endl;
+			if(s==declpow) {
+					if(debug==1){
+							cout << endl << "declpow" << endl;
+							cout << "faig la potència?" << endl;
+							cout << "falta llegir les 2 variables per fer l'exponencial, com ho faig ?" << endl;
+					}
+					float i;
+					//llegir 
+					//expression 
+					//o
+					//primary
+					//o
+					//term	
+					//com ho faig ? com ho puc fer?
+					return (0); //Token{pows};
+			}
+			if(debug==1){ 
+					cout << endl << "ultim debug" << endl;
+					cout << endl << "let = " << let << "surto token{name,s}" << " name = " << name << " s = " << s << endl << " ch ='" << ch << "'" << endl << "name = '" << name << "'" << endl << " s ='" << s << "'" << endl << " let ='" << let << "'" << endl << " number = '" << number << "'" << endl << " declsqrt=" << declsqrt << endl << " arrel = " << arrel << endl;
+			}
 			return Token{name,s};
 		}
 	        error("Bad token");
