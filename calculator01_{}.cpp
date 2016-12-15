@@ -281,6 +281,10 @@ Token Token_stream::get()
 							cout << endl << "declpow" << endl;
 							cout << "faig la potència?" << endl;
 							cout << "falta llegir les 2 variables per fer l'exponencial, com ho faig ?" << endl;
+							return Token{pows};
+/*							Token t = ts.get();
+							cout << "t.value =" <<t.value << endl; 
+*/
 					}
 					float i;
 					//llegir 
@@ -352,6 +356,14 @@ double primary()
     case 'a': //si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
+
+    case 'p':
+	double valore;
+	double valorp;
+	valorp=primary();
+	valore=expression();
+	cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
+
     default:
 //	if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
         error("primary expected");
