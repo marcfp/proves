@@ -91,6 +91,7 @@ public:
     Token get();      // get a Token (get() is defined elsewhere)
     void putback(Token t);    // put a Token back
     void ignore(char c);
+    void putback2(Token t, Token t2);
 //    void clean_up_mess();
 private:
     bool full{false};        // is there a Token in the buffer?
@@ -191,7 +192,17 @@ void Token_stream::putback(Token t)
     full = true;      // buffer is now full
 }
 
-
+/*
+void Token_stream::putback2(Token t, Token t2)
+{
+   if (full) {
+		error("putback2() into a full buffer\n NO HI HA RES AL BUFFER??\n");
+	}
+	buffer=t;
+//	buffer=t2.get();
+	full=true;
+}
+*/
 //------------------------------------------------------------------------------
 const char name = 'a';
 const char let = 'L';
@@ -253,11 +264,12 @@ Token Token_stream::get()
 			if(debug==1)cout << "s(després) = " << s << endl;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))){
 					 s+=ch;
-					if(debug==1){
+/*					if(debug==1){
 						cout << endl << "carrega" << endl;
 						cout << endl << " ch = " << ch << endl << " s = " << s << endl << "decllet = " << decllet << endl << " s = " << s << endl;
 						cout << "s = " << s << endl;
 						}
+*/
 			}
 			cin.putback(ch);
 			//cout << "ch = " << ch;
@@ -276,15 +288,12 @@ Token Token_stream::get()
 			
 					return Token{arrel};
 			}
-			if(s==declpow) {
+			if(s==declpow) {//pow
 					if(debug==1){
 							cout << endl << "declpow" << endl;
 							cout << "faig la potència?" << endl;
-							cout << "falta llegir les 2 variables per fer l'exponencial, com ho faig ?" << endl;
+							cout << "falta llegir la segona variable per fer l'exponencial, com ho faig ?" << endl;
 							return Token{pows};
-/*							Token t = ts.get();
-							cout << "t.value =" <<t.value << endl; 
-*/
 					}
 					float i;
 					//llegir 
@@ -488,6 +497,17 @@ double expression()
 
 double define_name(string var, double val);
 
+double calcul_pow()
+{
+Token t= ts.get();
+//double p1 = expression();
+Token t2 = ts.get();
+double d=t2.value; //Read first value
+//Token t3 = ts.get();
+//Token t4 = ts.get();
+//double p2= expression();
+cout << "d (t2)=" << d << endl << "t2.value = " << t2.value << endl; // << "t3.value = " << t3.value;//"p1 = " << p1 << "p2 = " << p2 << endl;
+}
 double declaration()
 // assume we have seen "let”
 // handle : name = expression
@@ -518,6 +538,9 @@ double statement()
   switch (t.kind) {
          case let:
                  return declaration();
+	 case pows:
+		 cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
+		 return calcul_pow();
          default:
 		ts.putback(t);
                 return expression();
