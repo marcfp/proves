@@ -91,7 +91,7 @@ public:
     Token get();      // get a Token (get() is defined elsewhere)
     void putback(Token t);    // put a Token back
     void ignore(char c);
-    void putback2(Token t, Token t2);
+//    void putback2(Token t, Token t2);
 //    void clean_up_mess();
 private:
     bool full{false};        // is there a Token in the buffer?
@@ -244,6 +244,7 @@ Token Token_stream::get()
 		case '-': 
 		case '*': 
 		case '/':
+		case ',':
 	        	return Token(ch);        // let each character represent itself
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
@@ -500,13 +501,14 @@ double define_name(string var, double val);
 double calcul_pow()
 {
 Token t= ts.get();
+
 //double p1 = expression();
 Token t2 = ts.get();
 double d=t2.value; //Read first value
-//Token t3 = ts.get();
+Token t3 = ts.get();
 //Token t4 = ts.get();
 //double p2= expression();
-cout << "d (t2)=" << d << endl << "t2.value = " << t2.value << endl; // << "t3.value = " << t3.value;//"p1 = " << p1 << "p2 = " << p2 << endl;
+cout << "t.kind=" <<  t.kind << endl <<  "d (t2)=" << d << endl << "t2.value = " << t2.value << endl << "t2.kind =" << t2.kind << endl  << "t3.value = " << t3.value << endl << "t3.kindd =" << t3.kind << endl ;//"p1 = " << p1 << "p2 = " << p2 << endl;
 }
 double declaration()
 // assume we have seen "let”
@@ -540,8 +542,11 @@ double statement()
                  return declaration();
 	 case pows:
 		 cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
-		 return calcul_pow();
+		return 	calcul_pow();
+	//	cout << "ts.putback(t) = " << ts.putback(t) << endl;
+//		return (ts.putback(t)); 
          default:
+		cout << "passa ?" << endl ;
 		ts.putback(t);
                 return expression();
   }
