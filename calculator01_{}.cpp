@@ -375,7 +375,7 @@ double primary()
 	cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
 
     default:
-//	if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
+	if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
         error("primary expected");
     }
 }
@@ -500,15 +500,19 @@ double define_name(string var, double val);
 
 double calcul_pow()
 {
-Token t= ts.get();
-
-//double p1 = expression();
-Token t2 = ts.get();
+Token t= ts.get();//pow
+Token t2 = ts.get(); //valor1
 double d=t2.value; //Read first value
-Token t3 = ts.get();
-//Token t4 = ts.get();
-//double p2= expression();
-cout << "t.kind=" <<  t.kind << endl <<  "d (t2)=" << d << endl << "t2.value = " << t2.value << endl << "t2.kind =" << t2.kind << endl  << "t3.value = " << t3.value << endl << "t3.kindd =" << t3.kind << endl ;//"p1 = " << p1 << "p2 = " << p2 << endl;
+Token t3 = ts.get(); //coma 
+Token t4 = ts.get(); //valor2
+Token t5 = ts.get();
+for (int i=1; i<t4.value; i++) d=d*t2.value;
+if(debug==1){
+      cout <<  "d (t2)=" << d << "t2.kind=" <<  t2.kind << "(valor1) t2.value=" <<  t2.value << endl;
+      cout << "t4.kind = " << t4.kind << "(valor2) t4.value = " << t4.value << endl;
+      cout << " valor d = " << d << endl;
+}
+return(d);
 }
 double declaration()
 // assume we have seen "let”
@@ -541,12 +545,12 @@ double statement()
          case let:
                  return declaration();
 	 case pows:
-		 cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
+		// cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
 		return 	calcul_pow();
 	//	cout << "ts.putback(t) = " << ts.putback(t) << endl;
 //		return (ts.putback(t)); 
          default:
-		cout << "passa ?" << endl ;
+		//cout << "passa ?" << endl ;
 		ts.putback(t);
                 return expression();
   }
@@ -589,6 +593,7 @@ try
 	cout << "\npàgina 251 del llibre, 224 del pdf,  TEMA 7, punt DRILL 9"<< endl;
 	cout << " 9. Allow the user to use pow(x,i) to mean “Multiply x with itself i times”; for example,pow(2.5,3) is 2.5*2.5*2.5. Require i to be an integer using the technique we used for %." << endl;
 	calculate();
+	cout << "Fora calculate" << endl;
 	keep_window_open();
 	  return 0;
 }
