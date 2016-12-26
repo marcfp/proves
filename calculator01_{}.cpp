@@ -8,11 +8,15 @@
 		Declaration
 		Expression
 		Print
+		pow
+		let
 		Quit
+		surt
 	Print :
 		;
 	Quit:
-		q
+		quit
+		surt
 	Calculation Statement
 
 
@@ -26,6 +30,9 @@
 		Term * Primary
 		Term / Primary
 		Term % Primary
+		Term ! Primary
+		
+		
 	Primary :
 		Number
 		( Expression ) 
@@ -100,7 +107,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-const char number ='8'; //global!!
+const char number ='8'; //global!! //8 <- és número
 const char quit = 'e';
 const char print = ';';
 const string prompt = "|=>";
@@ -219,6 +226,8 @@ const string declsurt="surt";
 
 const char quit1='q';
 const string declquit="quit";
+const char exit1='e';
+const string declexit="exit";
 // name token
 // declaration token
 // declaration keyword
@@ -251,6 +260,7 @@ Token Token_stream::get()
 		case '/':
 		case ',':
 		case '#':
+		case '_':
 	        	return Token(ch);        // let each character represent itself
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
@@ -281,12 +291,16 @@ Token Token_stream::get()
 			cin.putback(ch);
 			//cout << "ch = " << ch;
 			if(s==declsurt){
-			      cout << "SURT?" << endl;
+			      if(debug==1)cout << "SURT?" << endl;
 			      return Token{surt};
 			}
 			if(s==declquit){
-			      cout << "QUIT?" << endl;
+			      if(debug==1)cout << "QUIT?" << endl;
 			      return Token{quit1};
+			}
+			if(s==declexit){
+			      if(debug==1)cout << "EXIT?" << endl;
+			      return Token{exit1};
 			}
 			if(s==decllet){//let
 					/*if(debug==1) {
@@ -551,13 +565,13 @@ double declaration()
 {
 Token t = ts.get();
 //cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
-///cout << "t.kind = " << t.kind << endl << "t.value = " << t.value << endl << "t.name = " << t.name << endl;
+cout << "t.kind = " << t.kind << endl << "t.value = " << t.value << endl << "t.name = " << t.name << endl;
 if (t.kind != name) error ("name expected in declaration");
 string var_name = t.name;
 
 
 Token t2 = ts.get();
-if (t2.kind != '=') error("= missing in declaration of ", var_name);
+if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
 //cout << "si?" << endl;
 double d = expression();
 //cout << " d= " << d << endl;
@@ -599,11 +613,15 @@ void calculate()
 		        if(t.kind == quit1){
 //				keep_window_open();
 //				return (0);
-				if(debug==1)cout << "AQUI ara hauria de fer el \"quit\"" << endl;
+				if(debug==1)cout << "AQUI ara hauria de sortir per  \"QUIT\"" << endl;
 				return;
 	        	}
 			if(t.kind== surt){
-			   if(debug==1)cout << "AQUI ara hauria de sortir" << endl;
+			   if(debug==1)cout << "AQUI ara hauria de sortir per \"SURT\"" << endl;
+			   return;
+			}
+			if(t.kind== exit1){
+			  if(debug==1)cout << "AQUI ara hauria de sortir per \"EXIT\"" << endl;
 			   return;
 			}
 			if(debug==1)cout << "t.kind = " << t.kind << endl;
@@ -626,10 +644,10 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	cout << "\npàgina 225 del pdf,  TEMA 7, punt Review 1"<< endl;
-	cout << "Review1. What is the purpose of working on the program after the first version works? Give a list of reasons." << endl;
+	if(debug==1)cout << "\npàgina 225 del pdf,  TEMA 7, Exercises 1"<< endl;
+	if(debug==1)cout << "Exercises" << endl << "1. Allow underscores in the calculator’s variable names." << endl;
 	calculate();
-	cout << "Fora calculate" << endl;
+	if(debug==1)cout << "Fora calculate" << endl;
 	keep_window_open();
 	  return 0;
 }
