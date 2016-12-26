@@ -101,7 +101,7 @@ private:
 //------------------------------------------------------------------------------
 
 const char number ='8'; //global!!
-const char quit = 'q';
+const char quit = 'e';
 const char print = ';';
 const string prompt = "|=>";
 const char /*string*/ result = '='; //used to indicate that what follows is a result
@@ -201,12 +201,12 @@ void Token_stream::putback2(Token t, Token t2)
 	buffer=t;
 //	buffer=t2.get();
 	full=true;
-}
+} 
 */
 //------------------------------------------------------------------------------
 const char name = 'a';
-const char let = 'L';
-const string decllet = "let";
+const char let = '#';
+const string decllet = "#";
 
 const char arrel = 'r';
 const string declsqrt = "sqrt";
@@ -214,6 +214,11 @@ const string declsqrt = "sqrt";
 const char pows='p';
 const string declpow = "pow";
 
+const char surt='s';
+const string declsurt="surt";
+
+const char quit1='q';
+const string declquit="quit";
 // name token
 // declaration token
 // declaration keyword
@@ -245,6 +250,7 @@ Token Token_stream::get()
 		case '*': 
 		case '/':
 		case ',':
+		case '#':
 	        	return Token(ch);        // let each character represent itself
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
@@ -274,6 +280,14 @@ Token Token_stream::get()
 			}
 			cin.putback(ch);
 			//cout << "ch = " << ch;
+			if(s==declsurt){
+			      cout << "SURT?" << endl;
+			      return Token{surt};
+			}
+			if(s==declquit){
+			      cout << "QUIT?" << endl;
+			      return Token{quit1};
+			}
 			if(s==decllet){//let
 					/*if(debug==1) {
 							cout << endl << "decllet" << endl;
@@ -292,9 +306,10 @@ Token Token_stream::get()
 			}
 			if(s==declpow) {//pow
 					if(debug==1){
-							cout << endl << "declpow" << endl;
+							/*cout << endl << "declpow" << endl;
 							cout << "faig la potència?" << endl;
 							cout << "falta llegir la segona variable per fer l'exponencial, com ho faig ?" << endl;
+							*/
 							
 					}
 					return Token{pows};
@@ -581,11 +596,17 @@ void calculate()
 	       		cout << prompt;          // print prompt
 	        	Token t = ts.get();
        			while(t.kind == print) t = ts.get();
-		        if(t.kind == quit){
+		        if(t.kind == quit1){
 //				keep_window_open();
 //				return (0);
+				if(debug==1)cout << "AQUI ara hauria de fer el \"quit\"" << endl;
 				return;
 	        	}
+			if(t.kind== surt){
+			   if(debug==1)cout << "AQUI ara hauria de sortir" << endl;
+			   return;
+			}
+			if(debug==1)cout << "t.kind = " << t.kind << endl;
 			ts.putback(t);
    		     	cout << result << statement() << endl; //expression() << endl;
 		}
@@ -603,10 +624,10 @@ try
 {
 	//predefined names :
 	define_name("pi", 3.1415926535);
-	define_name("e", 2.7182818284);
+	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	cout << "\npàgina 251 del llibre, 224 del pdf,  TEMA 7, punt DRILL 9"<< endl;
-	cout << "10. Change the “declaration keyword” from let to #.11. Change the “quit keyword” from quit to exit. That will involve defining a string for quit just as we did for let in §7.8.2." << endl;
+	cout << "\npàgina 225 del pdf,  TEMA 7, punt Review 1"<< endl;
+	cout << "Review1. What is the purpose of working on the program after the first version works? Give a list of reasons." << endl;
 	calculate();
 	cout << "Fora calculate" << endl;
 	keep_window_open();
