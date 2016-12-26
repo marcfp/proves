@@ -260,9 +260,9 @@ Token Token_stream::get()
  	   default:
 		if(isalpha(ch)){ //si es let, val l, entro aquí.
 			string s;
-			if(debug==1)cout << "s(abans) = " <<  s << endl;
+			//if(debug==1)cout << "s(abans) = " <<  s << endl;
 			s += ch;
-			if(debug==1)cout << "s(després) = " << s << endl;
+			//if(debug==1)cout << "s(després) = " << s << endl;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))){
 					 s+=ch;
 /*					if(debug==1){
@@ -275,18 +275,19 @@ Token Token_stream::get()
 			cin.putback(ch);
 			//cout << "ch = " << ch;
 			if(s==decllet){//let
-					if(debug==1) {
+					/*if(debug==1) {
 							cout << endl << "decllet" << endl;
 							cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "decllet=" << decllet << endl;
 					}
+					*/
 					 return Token{let};
 			}
 			if(s==declsqrt){//arrel
-					if(debug==1){
+					/*if(debug==1){
 							cout << endl << "declsqrt" << endl;
 							 cout << "faig arrel ?(get)" << endl;
 					}
-			
+					*/
 					return Token{arrel};
 			}
 			if(s==declpow) {//pow
@@ -294,9 +295,10 @@ Token Token_stream::get()
 							cout << endl << "declpow" << endl;
 							cout << "faig la potència?" << endl;
 							cout << "falta llegir la segona variable per fer l'exponencial, com ho faig ?" << endl;
-							return Token{pows};
+							
 					}
-					float i;
+					return Token{pows};
+					//float i;
 					//llegir 
 					//expression 
 					//o
@@ -304,14 +306,16 @@ Token Token_stream::get()
 					//o
 					//term	
 					//com ho faig ? com ho puc fer?
-					return (0); //Token{pows};
+					//return (0); //Token{pows};
 			}
-			if(debug==1){ 
+			/*if(debug==1){ 
 					cout << endl << "ultim debug" << endl;
 					cout << endl << "let = " << let << "surto token{name,s}" << " name = " << name << " s = " << s << endl << " ch ='" << ch << "'" << endl << "name = '" << name << "'" << endl << " s ='" << s << "'" << endl << " let ='" << let << "'" << endl << " number = '" << number << "'" << endl << " declsqrt=" << declsqrt << endl << " arrel = " << arrel << endl;
 			}
+			*/
 			return Token{name,s};
 		}
+		//cout << "ch =" << ch << endl;
 	        error("Bad token");
 	
     }
@@ -358,24 +362,25 @@ double primary()
 		return (0);
 	}
 	else {
-		if(debug==1)cout << " valor = " << valor; 
+		//if(debug==1)cout << " valor = " << valor; 
 		resultat=sqrt(valor);	
-		cout << endl << " El resultat de l'arrel de "<< valor << " és " ; // << resultat << endl;
+		//cout << endl << " El resultat de l'arrel de "<< valor << " és " ; // << resultat << endl;
 		return (resultat);
 	}
     case 'a': //si 'a', recull valor!!!!
 //	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
 
-    case 'p':
+    /*case 'p': // forçar pow(x,i) i integer ? :w
+     * 
 	double valore;
 	double valorp;
 	valorp=primary();
 	valore=expression();
 	cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
-
+*/
     default:
-	if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
+	//if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
         error("primary expected");
     }
 }
@@ -500,20 +505,30 @@ double define_name(string var, double val);
 
 double calcul_pow()
 {
-Token t= ts.get();//pow
-Token t2 = ts.get(); //valor1
-double d=t2.value; //Read first value
-Token t3 = ts.get(); //coma 
-Token t4 = ts.get(); //valor2
-Token t5 = ts.get();
-for (int i=1; i<t4.value; i++) d=d*t2.value;
-if(debug==1){
-      cout <<  "d (t2)=" << d << "t2.kind=" <<  t2.kind << "(valor1) t2.value=" <<  t2.value << endl;
-      cout << "t4.kind = " << t4.kind << "(valor2) t4.value = " << t4.value << endl;
-      cout << " valor d = " << d << endl;
+
+  try{
+    Token t= ts.get();//pow
+    Token t2 = ts.get(); //valor1
+
+    double d=t2.value; //Read first value
+    Token t3 = ts.get(); //coma 
+
+    Token t4 = ts.get(); //valor2 //forçar integer
+    float i=(int)t4.value;
+  
+    Token t5 = ts.get();//)
+  
+    if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
+    for (int j=1; j<t4.value; j++) d=d*t2.value;
+  
+    return(d);
+  }	
+  catch(exception& e){
+    cout << "Error de conversió" << endl;
+    return(0);
+  }
 }
-return(d);
-}
+
 double declaration()
 // assume we have seen "let”
 // handle : name = expression
@@ -532,7 +547,7 @@ if (t2.kind != '=') error("= missing in declaration of ", var_name);
 double d = expression();
 //cout << " d= " << d << endl;
 define_name(var_name,d);
-if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
+//if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
 //set_value(var_name,d);
 return d;
 }
@@ -591,7 +606,7 @@ try
 	define_name("e", 2.7182818284);
 	define_name("k", 1000);
 	cout << "\npàgina 251 del llibre, 224 del pdf,  TEMA 7, punt DRILL 9"<< endl;
-	cout << " 9. Allow the user to use pow(x,i) to mean “Multiply x with itself i times”; for example,pow(2.5,3) is 2.5*2.5*2.5. Require i to be an integer using the technique we used for %." << endl;
+	cout << "10. Change the “declaration keyword” from let to #.11. Change the “quit keyword” from quit to exit. That will involve defining a string for quit just as we did for let in §7.8.2." << endl;
 	calculate();
 	cout << "Fora calculate" << endl;
 	keep_window_open();
