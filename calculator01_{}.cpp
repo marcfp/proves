@@ -485,14 +485,22 @@ double term()
 		//int i1 = narrow_cast<int>(left); //no incloc narrow_cast, mirar-ho bé ... com fer-ho
 		//int i2 = narrow_cast<int>(primary());
 		try{
-		//	int i1 = narrow_cast<int>(left);
-		//	int i2 = narrow_cast<int>(primary());
-			double d = primary();
+			 
+		  //pàgina 208 del llibre pdf pregunta 7. What does narrow_cast do?
+		    int i1 = narrow_cast<int>(left);
+		    int i2 = narrow_cast<int>(primary());
+		    if (i2 == 0) error("%: divide by zero");
+		    left = i1 % i2;
+		    t = ts.get();
+		    break;
+		   
+		/*	double d = primary();
 			if(d==0) error("divide by zero");
 //			if(i2==0) error("% : divide by zero");
 			left = fmod(left,d);//i1 % i2;
 			t = ts.get();
 			break;
+		*/	
 		}
 		catch (exception& e){
 			cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
@@ -542,15 +550,25 @@ double calcul_pow()
     double d=t2.value; //Read first value
     Token t3 = ts.get(); //coma 
 
-    Token t4 = ts.get(); //valor2 //forçar integer
-    float i=(int)t4.value;
+    
+    //Token t4 = ts.get(); //valor2 //forçar integer
+    //float i=(int)t4.value;
+    try{
+      Token t4=ts.get(); //valor2 //forçar integer ?
+      int i= (int)t4.value;     
+      if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
+      for (int j=1; j<i; j++) d=d*t2.value;
+      Token t5 = ts.get();//)  
+      
+      return(d);
+    }
+    catch(exception& e){
+      cout << "no és un enter ?" << endl;
+    }
   
-    Token t5 = ts.get();//)
-  
-    if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
-    for (int j=1; j<t4.value; j++) d=d*t2.value;
-  
-    return(d);
+    
+    return(0);
+    
   }	
   catch(exception& e){
     cout << "Error de conversió" << endl;
