@@ -185,9 +185,25 @@ bool is_declared(string var)
 double define_name(string var, double val)
   // add (var,val) to var_table
   {
-	if (is_declared(var)) error(var," declared twice");
-        var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
-
+	if (is_declared(var)){
+			      //error(var," declared twice");
+	  		      char c='1';
+			      do{
+				cout << "Var name already exists, do you want overwrite value ?(s,S,n,N)" ;
+				cin >> c;
+			      }while(c!='s' && c!='n' && c!='S' && c!='N');
+			      if(c!='s' && c!='S'){
+					  error(var," declared twice");
+			      }
+			      else{
+					  var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
+			    }
+	
+	
+	}
+	else{
+	      var_table.push_back(Variable(var,val));
+	}
         return val;
   }
 
@@ -665,8 +681,8 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 225-226 del pdf,  TEMA 7, Exercises 2"<< endl;
-	if(debug==1)cout << "Exercises" << endl << "2. Provide an assignment operator, =, so that you can change the value of a variable after youintroduce it using let. Discuss why that can be useful and how it can be a source of problems." << endl;
+	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 3"<< endl;
+	if(debug==1)cout << "Exercises" << endl << "3. Provide named constants that you really can’t change the value of. Hint: You have to add a member to Variable that distinguishes between constants and variables and check for it in set_value(). If you want to let the user define constants (rather than just having pi and e defined as constants), you’ll have to add a notation to let the user express that, for example, const pi =3.14;." << endl;
 	calculate();
 	if(debug==1)cout << "Fora calculate" << endl;
 	keep_window_open();
