@@ -9,7 +9,7 @@
 		Expression
 		Print
 		pow
-		let
+		let -> #
 		Quit
 		surt
 	Print :
@@ -182,6 +182,7 @@ bool is_declared(string var)
 
         return false;
   }
+
 double define_name(string var, double val)
   // add (var,val) to var_table
   {
@@ -218,17 +219,6 @@ void Token_stream::putback(Token t)
     full = true;      // buffer is now full
 }
 
-/*
-void Token_stream::putback2(Token t, Token t2)
-{
-   if (full) {
-		error("putback2() into a full buffer\n NO HI HA RES AL BUFFER??\n");
-	}
-	buffer=t;
-//	buffer=t2.get();
-	full=true;
-} 
-*/
 //------------------------------------------------------------------------------
 const char name = 'a';
 const char let = '#';
@@ -242,11 +232,13 @@ const string declpow = "pow";
 
 const char surt='s';
 const string declsurt="surt";
-
 const char quit1='q';
 const string declquit="quit";
 const char exit1='e';
 const string declexit="exit";
+
+const char decldecl='d';
+const string decldecls="declara";
 // name token
 // declaration token
 // declaration keyword
@@ -355,6 +347,9 @@ Token Token_stream::get()
 					//term	
 					//com ho faig ? com ho puc fer?
 					//return (0); //Token{pows};
+			}
+			if (s==decldecls) {
+			  cout << " Declara VARIABLE? (crear clase i metodes pk no es pugui sobreescriure?)" << endl;
 			}
 			/*if(debug==1){ 
 					cout << endl << "ultim debug" << endl;
@@ -647,11 +642,12 @@ void calculate()
 	       		cout << prompt;          // print prompt
 	        	Token t = ts.get();
        			while(t.kind == print) t = ts.get();
+			
 		        if(t.kind == quit1){
 //				keep_window_open();
 //				return (0);
 				if(debug==1)cout << "AQUI ara hauria de sortir per  \"QUIT\"" << endl;
-				return;
+				return; 
 	        	}
 			if(t.kind== surt){
 			   if(debug==1)cout << "AQUI ara hauria de sortir per \"SURT\"" << endl;
@@ -683,6 +679,14 @@ try
 	define_name("k", 1000);
 	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 3"<< endl;
 	if(debug==1)cout << "Exercises" << endl << "3. Provide named constants that you really can’t change the value of. Hint: You have to add a member to Variable that distinguishes between constants and variables and check for it in set_value(). If you want to let the user define constants (rather than just having pi and e defined as constants), you’ll have to add a notation to let the user express that, for example, const pi =3.14;." << endl;
+	/*
+	 * 
+	 http://www.cplusplus.com/doc/tutorial/classes/
+	 http://www.cplusplus.com/doc/tutorial/templates/
+	 http://www.cplusplus.com/doc/tutorial/classes2/
+	 http://www.cplusplus.com/doc/tutorial/inheritance/
+	 http://www.cplusplus.com/doc/tutorial/polymorphism/
+	 */
 	calculate();
 	if(debug==1)cout << "Fora calculate" << endl;
 	keep_window_open();
