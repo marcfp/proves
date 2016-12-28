@@ -136,8 +136,10 @@ void Token_stream::ignore(char c)
           full=false;
           //ara busca introduccions
           char ch=0;
-          while(cin>>ch)
+          while(cin>>ch){
+		  //cout << " c=" <<  endl;
                   if(ch==c) return;
+	  }
   }
 
 
@@ -153,6 +155,7 @@ void clean_up_mess()
 
 double get_value(string s)// return the Value of a variable named s
 {
+      cout << "s = " << s<< endl;
       for(const Variable& v: var_table)
                 if(v.name == s) return v.value;
         error("get: undefined variable ",s);//, s);
@@ -169,7 +172,7 @@ for (Variable& v : var_table)
 		return;
 }
 error("set: undefined variable ",s);//, s);
-}
+} 	
 
 bool is_declared(string var)
   // is var already in var_table ?
@@ -215,7 +218,7 @@ const char name = 'a';
 const char let = '#';
 const string decllet = "#";
 
-const char arrel = 'r';
+const char arrel = 'r';	
 const string declsqrt = "sqrt";
 
 const char pows='p';
@@ -260,7 +263,7 @@ Token Token_stream::get()
 		case '/':
 		case ',':
 		case '#':
-		case '_':
+		//case '_':
 	        	return Token(ch);        // let each character represent itself
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
@@ -279,7 +282,7 @@ Token Token_stream::get()
 			//if(debug==1)cout << "s(abans) = " <<  s << endl;
 			s += ch;
 			//if(debug==1)cout << "s(després) = " << s << endl;
-			while(cin.get(ch) && (isalpha(ch) || isdigit(ch))){
+			while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')){ // comparar aquí si ch == _ (underscore), no ?
 					 s+=ch;
 /*					if(debug==1){
 						cout << endl << "carrega" << endl;
@@ -303,11 +306,11 @@ Token Token_stream::get()
 			      return Token{exit1};
 			}
 			if(s==decllet){//let
-					/*if(debug==1) {
+					if(debug==1) {
 							cout << endl << "decllet" << endl;
 							cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "decllet=" << decllet << endl;
 					}
-					*/
+					
 					 return Token{let};
 			}
 			if(s==declsqrt){//arrel
@@ -397,7 +400,7 @@ double primary()
 		return (resultat);
 	}
     case 'a': //si 'a', recull valor!!!!
-//	cout << "get_value(t.kind) = " << get_value(t.name) << endl;
+	if(debug==1)cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
 
     /*case 'p': // forçar pow(x,i) i integer ? :w
@@ -441,7 +444,7 @@ double sqrt1( double val){ //arrel
 	double prova;
 	if(val >1){
 		prova =sqrt(val);
-		cout << "prova = " << prova << endl;
+		if(debug==1)cout << "prova = " << prova << endl;
 	}	
 	else{
 		cout << "\n Error!!!!!!!!!!!!! valor no vàlid" << endl;
@@ -592,10 +595,10 @@ Token t2 = ts.get();
 if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
 //cout << "si?" << endl;
 double d = expression();
-//cout << " d= " << d << endl;
+cout << " d= " << d << endl;
 define_name(var_name,d);
-//if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
-//set_value(var_name,d);
+if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
+set_value(var_name,d);
 return d;
 }
 
@@ -662,8 +665,8 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 225 del pdf,  TEMA 7, Exercises 1"<< endl;
-	if(debug==1)cout << "Exercises" << endl << "1. Allow underscores in the calculator’s variable names." << endl;
+	if(debug==1)cout << "\npàgina 225-226 del pdf,  TEMA 7, Exercises 2"<< endl;
+	if(debug==1)cout << "Exercises" << endl << "2. Provide an assignment operator, =, so that you can change the value of a variable after youintroduce it using let. Discuss why that can be useful and how it can be a source of problems." << endl;
 	calculate();
 	if(debug==1)cout << "Fora calculate" << endl;
 	keep_window_open();
