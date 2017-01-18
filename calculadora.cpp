@@ -59,9 +59,35 @@ using namespace std;
 
 #define debug 1
 //------------------------------------------------------------------------------
+//class Variable;
 
-/*error: no matching function for call to ‘Variable::Variable(std::string&, double&)’*/
-class Variable{
+class Symbol_Table{
+  
+public:
+  string constant;
+  string name;
+  double value;
+  double val;
+  
+  double get_value(string s);
+  void set_value(string s, double d);
+  bool is_declared(string var);
+  double define_name(string var, double val);
+  double define_name_const(string var, double val);
+  
+  
+  /*Variable*/
+  Symbol_Table(string nm, double val)
+		:name(nm), value(val){ }
+  /*Variable*/
+  Symbol_Table(string constat1, string nm, double val)
+		:constant(constat1), name(nm), value(val){ }
+	    
+};
+
+/*#####################Cambiat per Symbol_Table########################*/
+/*class Variable
+{
 public:
 	string constant;
 	string name;
@@ -72,14 +98,13 @@ public:
 	Variable(string constat1, string nm, double val)
 		:constant(constat1), name(nm), value(val){ }
 };
-
+*/
 class Token {
 public:
     char kind;        // what kind of token
     double value;     // for numbers: a value
     string name;
-   // Token(char ch) : kind{ch} { }
-//    Token() {}
+   
     Token(char ch)    // make a Token from a char
         :kind{ch} {}
     Token(char ch, double val)     // make a Token from a char and a double
@@ -109,8 +134,9 @@ const char number ='8'; //global!! //8 <- és número
 const char quit = 'e';
 const char print = ';';
 const string prompt = "|=>";
-const char /*string*/ result = '='; //used to indicate that what follows is a result
-vector<Variable> var_table;
+const char  result = '='; //used to indicate that what follows is a result
+//vector<Variable> var_table; //cambiat per Symbol_Table
+vector<Symbol_Table> var_table;
 
 
 Token_stream ts;        // provides get() and putback()
@@ -154,7 +180,7 @@ void clean_up_mess()
 double get_value(string s)// return the Value of a variable named s
 {
       cout << "s = " << s<< endl;
-      for(const Variable& v: var_table)
+      for(const /*Variable*/ Symbol_Table& v: var_table)
                 if(v.name == s) return v.value;
         error("get: undefined variable ",s);//, s);
 
@@ -163,7 +189,7 @@ double get_value(string s)// return the Value of a variable named s
 void set_value(string s, double d)
 // set the Variable named s to d
 {
-for (Variable& v : var_table)
+for (/*Variable*/Symbol_Table& v : var_table)
 	if (v.name == s) {
 		if(debug==1)cout << "Estic dins del setter Variable 2" << endl;
 		v.value = d;
@@ -175,7 +201,7 @@ error("set: undefined variable ",s);//, s);
 void set_value(string c, string s, double d)
 // set the Variable named s to d
 {
-for (Variable& v : var_table)
+for (/*Variable*/Symbol_Table& v : var_table)
 	if (v.name == s) {
 		if(debug==1)cout << "Estic dins del setter Variable 3" << endl;
 		v.value = d;
@@ -188,7 +214,7 @@ error("set: undefined variable ",s);//, s);
 bool is_declared(string var)
   // is var already in var_table ?
   {
-	for (const Variable& v : var_table)
+	for (const /*Variable*/Symbol_Table& v : var_table)
         	if (v.name == var) return true;
 
         return false;
@@ -208,13 +234,13 @@ double define_name(string var, double val)
 					  error(var," declared twice");
 			      }
 			      else{
-					  var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
+					  var_table.push_back(/*Variable*/Symbol_Table(var,val)); //falta el setter ... pagina 218
 			    }
 	
 	
 	}
 	else{
-	      var_table.push_back(Variable(var,val));
+	      var_table.push_back(/*Variable*/Symbol_Table(var,val));
 	}
         return val;
   }
@@ -226,7 +252,7 @@ double define_name_const(string var, double val)
 		error(var," declared twice");
 			      }
 	else{
-		var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
+		var_table.push_back(/*Variable*/Symbol_Table(var,val)); //falta el setter ... pagina 218
 	}
 	return val;
   }
@@ -268,7 +294,7 @@ const string declconstat1="declara";
 // declaration token
 // declaration keyword
 
-Token Token_stream::get()
+Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibreria isspace(ch) -> cert si espai
 //lectura de dades des del teclat i composició del Token
 {
     if (full) {       // do we already have a Token ready?
@@ -278,7 +304,7 @@ Token Token_stream::get()
     }
 
     char ch;
-    cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
+    cin >> ch;    // note that >> skips whitespace (spsmace, newline, tab, etc.)
 //    cout << " ch=" << ch << endl;
     switch (ch) {
 		case quit:
@@ -454,9 +480,6 @@ int factorial(int left)
 {
 //	if(debug)cout  << " dins de factorial ?\n" ;
 if (left!=1 && left!=0){
-		/*cout << "\nfactorial  de 1 ";
-		left=1;
-		return(1);*/
 //		if(debug) cout << "\n factorial de  " << left << " * factorial(" << left-1 << ") = " << left*factorial(left-1) ;
                 return( left* factorial(left-1));
 
@@ -726,8 +749,8 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 3"<< endl;
-	if(debug==1)cout << "Exercises" << endl << "4. The get_value(), set_value(), is_declared(), and define_name() functions all operate on the variable var_table. Define a class called Symbol_table with a member var_table of type vector<Variable> and member functions get(), set(), is_declared(), and declare(). Rewrite the calculator to use a variable of type Symbol_table." << endl;
+	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 5"<< endl;
+	if(debug==1)cout << "Exercises" << endl << "5. Modify Token_stream::get() to return Token(print) when it sees a newline. This implies looking for whitespace characters and treating newline ('\n') specially. You might find the standard library function isspace(ch), which returns true if ch is a whitespace character, useful." << endl;
 	/*
 	 * 
 	 http://www.cplusplus.com/doc/tutorial/classes/
