@@ -299,6 +299,8 @@ const char linea='f';
 // name token
 // declaration token
 // declaration keyword
+const char help='h';
+const string declhelp="help";
 
 Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibreria isspace(ch) -> cert si espai
 //lectura de dades des del teclat i composició del Token
@@ -312,11 +314,11 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
     char ch;
     cin >> ch;    // note that >> skips whitespace (spsmace, newline, tab, etc.)
    
-    cout << " ch(abans switch)=" << ch << endl;
-    if(isspace(ch)=='\n') { 
+   // cout << " ch(abans switch)=" << ch << endl;
+    /*if(isspace(ch)=='\n') { 
 	cout << endl << "espai detectat" << endl;
 	//return Token(print);
-    }
+    }*/
     /*
      if(isspace(ch)){
 	cout << endl << "És espai " << endl;
@@ -352,26 +354,27 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 	    case '5': case '6': case '7': case '8': case '9':
 	        {
 //		    cout << "ch = " << ch << endl;
-		    cout << " número " << endl;
+		    
 		    
 	            cin.putback(ch);         // put digit back into the input stream
 	            double val;
 	            cin >> val;              // read a floating-point number
-	             
+	             //cout << " Token(número,val) = " ;
+		    cout  << "val (numeros) = " << val; 
 //		    cout << "val = " << val << endl << " number = " << number << endl;
 	            return Token(number,val);   // let '8' represent "a number"
 	        }	
  	   default:
 	   {
-		if(debug==1)cout << "default" << endl;
-		if(isalpha(ch) || ch==';'){ //si es let, val l, entro aquí.
+		//if(debug==1)cout << "default" << endl;
+	      if(isalpha(ch) || ch==';'|| ch!='\n' ){ //si es let, val l, entro aquí.
 			string s;
 			//if(debug==1)cout << "s(abans) = " <<  s << endl;
 			s += ch;
 			//if(debug==1)cout << "s(després) = " << s << endl;
 			
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')){ // comparar aquí si ch == _ (underscore), no ?
-					cout << "ch =" << ch << endl << " s= " << s << endl;
+				//	cout << "ch =" << ch << endl << " s= " << s << endl;
 					s+=ch;
 					/*if (isspace(ch)){
 					   cout << endl << "isspace ?" << endl;
@@ -392,6 +395,10 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			}
 			cin.putback(ch);
 			//cout << "ch = " << ch;
+			double val;
+	            cin >> val;              // read a floating-point number
+	             //cout << " Token(número,val) = " ;
+		    cout  << "val (default)= " << val; 
 			if(s==declsurt){
 			      if(debug==1)cout << "SURT?" << endl;
 			      return Token{surt};
@@ -450,6 +457,10 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			if (s==decllinea){
 					if(debug==1)cout << endl << "Fi de línea \"\\n\"" << endl;
 					return Token{linea};
+			}
+			if (s==declhelp){
+					if(debug==1)cout << endl << "ajuda" << endl;
+					return Token{help};
 			}
 			return Token{name,s};
 		}
@@ -526,7 +537,11 @@ double primary()
 	valore=expression();
 	cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
 */
-    
+    case 'h':
+	cout << endl << "ajuda primary expected" << endl;
+	//break;
+	return (0);
+	
     default:
 	//if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
         error("primary expected");
@@ -772,7 +787,9 @@ void calculate()
 	       		cout << prompt;          // print prompt
 	        	Token t = ts.get();
        			while(t.kind == print || t.kind == linea) t = ts.get();
-			
+			if(t.kind == help){
+			  cout << "Necessites ajuda ??" << endl << "Encara l'he d'implementar" << endl;
+			}
 		        if(t.kind == quit1){
 //				keep_window_open();
 //				return (0);
