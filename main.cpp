@@ -542,6 +542,7 @@ double primary()
     default:
 	//if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
 //        cout << endl << "default primary" << endl;
+        cout << endl << "primary (t.kind) = " <<t.kind << endl;
         error("primary expected");
     }
 }
@@ -865,7 +866,7 @@ try
 	 http://www.cplusplus.com/doc/tutorial/polymorphism/
 	 */
 	calculate();
-	if(debug==1)cout << "Fora calculate" << endl;
+	if(debug==1)cout << "Fora calculate(exit no demana caracter final, surt i quit si)" << endl; 
 	keep_window_open();
 	  return 0;
 }
