@@ -316,25 +316,6 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
     char ch;
     cin >> ch;    // note that >> skips whitespace (spsmace, newline, tab, etc.)
    
-    //cout << " ch(abans switch)=" << ch << endl << " isspace(ch) =" << isspace(ch) << endl;
-  /*  if(isspace(ch)){ //=='\n') { 
-    //if(ch=='\0'){
-	cout << endl << "espai detectat" << endl;
-	//return
-	cout << "Token(print) = " ; //<< Token{print} << endl;
-    }
-    else{
-	cout << endl <<  "núm. llegit??" << endl;
-    }
-    /*
-     if(isspace(ch)){
-	cout << endl << "És espai " << endl;
-	//ch=';';
-	}
-	else{
-		cout << endl << "No espai " << endl << " i val = "<< isspace(ch) << " ." << endl;
-	}
-	*/
     switch (ch) {      	
 		case quit:
 		case print:    // for "print"
@@ -357,14 +338,9 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 	    case '0': case '1': case '2': case '3': case '4':
 	    case '5': case '6': case '7': case '8': case '9':
 	        {
-//		    cout << "ch = " << ch << endl;
-//		    cout << " número " << endl;
-		    
 	            cin.putback(ch);         // put digit back into the input stream
 	            double val;
 	            cin >> val;              // read a floating-point number
-//	            cout << val;
-//		    cout << "val = " << val << endl << " number = " << number << endl;
 	            return Token(number,val);   // let '8' represent "a number"
 	        }	
  	   default:
@@ -377,24 +353,7 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			//if(debug==1)cout << "s(després) = " << s << endl;
 			
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')){ // comparar aquí si ch == _ (underscore), no ?
-//					cout << "ch =" << ch << endl << " s= " << s << endl;
 					s+=ch;
-					/*if (isspace(ch)){
-					   cout << endl << "isspace ?" << endl;
-					   ch='\n';
-					}
-					/*
-					 * Modificar Token_stream :: get () per tornar Token (impressió) quan es veu una nova línia. 
-					 * Això implica buscar espais en blanc i el tractament de nova línia ('\ n') especialment. 
-					 * És possible trobar la isspace funció de la biblioteca estàndard (ch), que retorna veritable 
-					 * si ch és un caràcter d'espai en blanc, útil. //no ho entenc
-					*/
-/*					if(debug==1){
-						cout << endl << "carrega" << endl;
-						cout << endl << " ch = " << ch << endl << " s = " << s << endl << "decllet = " << decllet << endl << " s = " << s << endl;
-						cout << "s = " << s << endl;
-						}
-*/
 			}
 			cin.putback(ch);
 			//cout << "ch = " << ch;
@@ -434,29 +393,12 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 							*/
 							
 					}
-					return Token{pows};
-					//float i;
-					//llegir 
-					//expression 
-					//o
-					//primary
-					//o
-					//term	
-					//com ho faig ? com ho puc fer?
-					//return (0); //Token{pows};
+					return Token{pows};					
 			}
 			if (s==declconstat1) {
 					if(debug==1)cout << endl << " Declara VARIABLE? (crear clase i metodes pk no es pugui sobreescriure?)" << endl;
 					return Token{constat};
 			}						
-			/*if (s==filinea){
-					if(debug==1)cout << endl << "Ha trobat final de linea " << endl;
-					return Token{linea};
-			}*/
-			/*if (s==decllinea){
-					if(debug==1)cout << endl << "Fi de línea \"\\n\"" << endl;
-					return Token{linea};
-			}*/
 			if(s==declhelp){
 					if(debug==1)cout << endl << "ajuda de la calculadora" << endl;
 					return Token{help};
@@ -471,12 +413,6 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 }
 
 
-/*
-void Token_stream::nova_linea(char c)
-{
-    cout << endl << "nova linea" << endl;
-}
-*/
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -526,16 +462,6 @@ double primary()
     case 'a': //si 'a', recull valor!!!!
 	if(debug==1)cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
-    /*case '\n': // NO FUNCIONA
-	cout << endl << "això és una nova linea" << endl;*/ //NO FUNCIONA
-    /*case 'p': // forçar pow(x,i) i integer ? :w
-     * 
-	double valore;
-	double valorp;
-	valorp=primary();
-	valore=expression();
-	cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
-*/
     case 'h':
       cout << endl << "això hauria de ser l'ajuda" << endl;
       return (0);
@@ -811,7 +737,7 @@ void calculate()
 	while (cin) 
 		try{
 	       		cout << prompt;          // print prompt
-	        	Token t = ts.get();
+	        	Token t = ts.get();//recupera caracter llegit del teclat.
        			while(t.kind == print /*|| t.kind == linea*/) t = ts.get();
 			
 		        if(t.kind == quit1){
@@ -856,7 +782,7 @@ try
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
 	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 5"<< endl;
-	if(debug==1)cout << "Exercises" << endl << "5. Modify Token_stream::get() to return Token(print) when it sees a newline. This implies looking for whitespace characters and treating newline ('\n') specially. You might find the standard library function isspace(ch), which returns true if ch is a whitespace character, useful." << endl;
+	if(debug==1)cout << "Exercises" << endl << "4. The get_value(), set_value(), is_declared(), and define_name() functions all operate on the variable var_table. Define a class called Symbol_table with a member var_table of type vector<Variable> and member functions get(), set(), is_declared(), and declare(). Rewrite the calculator to use a variable of type Symbol_table.5. Modify Token_stream::get() to return Token(print) when it sees a newline. This implies looking for whitespace characters and treating newline ('\n') specially. You might find the standard library function isspace(ch), which returns true if ch is a whitespace character, useful." << endl;
 	/*
 	 * 
 	 http://www.cplusplus.com/doc/tutorial/classes/
