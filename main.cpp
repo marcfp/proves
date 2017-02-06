@@ -364,15 +364,18 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			}
 			cin.putback(ch);
 			//cout << "ch = " << ch;
-			if(s==declsurt){
+			//if(s==declsurt){
+			if(s.compare(declsurt)==0){
 			      if(debug==1)cout << "SURT?" << endl;
 			      return Token{surt};
 			}
-			if(s==declquit){
+			//if(s==declquit){
+			if(s.compare(declquit)==0){
 			      if(debug==1)cout << "QUIT?" << endl;
 			      return Token{quit1};
 			}
-			if(s==declexit){
+			//if(s==declexit){
+			if(s.compare(declexit)==0){
 			      if(debug==1)cout << "EXIT?" << endl;
 			      return Token{exit1};
 			}
@@ -757,18 +760,23 @@ void calculate()
 	        	Token t = ts.get();//recupera caracter llegit del teclat.
        			while(t.kind == print /*|| t.kind == linea*/) t = ts.get();
 			
-		        if(t.kind == quit1){
-//				keep_window_open();
+		        if(t.kind == quit1){//Demana caracter, pk ?
+				keep_window_open();
 //				return (0);
 				//if(debug==1)cout << "AQUI ara hauria de sortir per  \"QUIT\"" << endl;
 				return; 
 	        	}
-			if(t.kind== surt){
+			if(t.kind== surt){//Demana caracter, pk ?
+				keep_window_open();
 			   //if(debug==1)cout << "AQUI ara hauria de sortir per \"SURT\"" << endl;
 			   return;
 			}
-			if(t.kind== exit1){
+			int e;
+			if(t.kind== exit1){ //no demana caracter, pk ?
 			  //if(debug==1)cout << "AQUI ara hauria de sortir per \"EXIT\"" << endl;
+				cout << "entrar e" << endl;
+				cin >> e;
+				keep_window_open();
 			   return;
 			}
 			/*if(t.kind == help){
@@ -810,7 +818,7 @@ try
 	 */
 	calculate();
 	if(debug==1)cout << "Fora calculate(exit no demana caracter final, surt i quit si)" << endl; 
-	keep_window_open();
+	//keep_window_open(); //només agafa quit i surt ? pk ? 
 	  return 0;
 }
 catch (exception& e){
