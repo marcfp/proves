@@ -61,7 +61,8 @@ using namespace std;
 //------------------------------------------------------------------------------
 //class Variable;
 
-/*class Symbol_Table{
+
+class Symbol_Table{
   
 public:
   string constant;
@@ -77,16 +78,17 @@ public:
   
   
   /*Variable*/
-  /*Symbol_Table(string nm, double val)
+  Symbol_Table(string nm, double val)
 		:name(nm), value(val){ }
   /*Variable*/
-  /*Symbol_Table(string constat1, string nm, double val)
+  Symbol_Table(string constat1, string nm, double val)
 		:constant(constat1), name(nm), value(val){ }
 	    
-};*/
+};
 
 /*#####################Cambiat per Symbol_Table########################*/
-class Variable
+
+/*class Variable
 {
 public:
 	string constant;
@@ -97,7 +99,7 @@ public:
 		:name(nm), value(val){ }
 	Variable(string constat1, string nm, double val)
 		:constant(constat1), name(nm), value(val){ }
-};
+};*/
 
 class Token {
 public:
@@ -136,8 +138,8 @@ const char quit = 'e';
 const char print = ';';
 const string prompt = "|=>";
 const char  result = '='; //used to indicate that what follows is a result
-vector<Variable> var_table; //cambiat per Symbol_Table
-//vector<Symbol_Table> var_table;
+//vector<Variable> var_table; //cambiat per Symbol_Table
+vector<Symbol_Table> var_table;
 
 
 Token_stream ts;        // provides get() and putback()
@@ -181,7 +183,7 @@ void clean_up_mess()
 double get_value(string s)// return the Value of a variable named s
 {
       if(debug==1)cout << "s = " << s << endl;
-      for(const Variable /*Symbol_Table*/& v: var_table)
+      for(const /*Variable */Symbol_Table& v: var_table)
                 if(v.name == s) return v.value;
         error("get: undefined variable ",s);//, s);
 
@@ -190,7 +192,7 @@ double get_value(string s)// return the Value of a variable named s
 void set_value(string s, double d)
 // set the Variable named s to d
 {
-for (Variable/*Symbol_Table*/& v : var_table)
+for (/*Variable*/Symbol_Table& v : var_table)
 	if (v.name == s) {
 		if(debug==1)cout << "Estic dins del setter Variable 2" << endl;
 		v.value = d;
@@ -202,7 +204,7 @@ error("set: undefined variable ",s);//, s);
 void set_value(string c, string s, double d)
 // set the Variable named s to d
 {
-for (Variable/*Symbol_Table*/& v : var_table)
+for (/*Variable*/Symbol_Table& v : var_table)
 	if (v.name == s) {
 		if(debug==1)cout << "Estic dins del setter Variable 3" << endl;
 		v.value = d;
@@ -215,7 +217,7 @@ error("set: undefined variable ",s);//, s);
 bool is_declared(string var)
   // is var already in var_table ?
   {
-	for (const Variable/*Symbol_Table*/& v : var_table)
+	for (const /*Variable*/Symbol_Table& v : var_table)
         	if (v.name == var) return true;
 
         return false;
@@ -235,13 +237,13 @@ double define_name(string var, double val)
 					  error(var," declared twice");
 			      }
 			      else{
-					  var_table.push_back(Variable/*Symbol_Table*/(var,val)); //falta el setter ... pagina 218
+					  var_table.push_back(/*Variable*/Symbol_Table(var,val)); //falta el setter ... pagina 218
 			    }
 	
 	
 	}
 	else{
-	      var_table.push_back(Variable/*Symbol_Table*/(var,val));
+	      var_table.push_back(/*Variable*/Symbol_Table(var,val));
 	}
         return val;
   }
@@ -253,7 +255,7 @@ double define_name_const(string var, double val)
 		error(var," declared twice");
 			      }
 	else{
-		var_table.push_back(Variable/*Symbol_Table*/(var,val)); //falta el setter ... pagina 218
+		var_table.push_back(/*Variable*/Symbol_Table(var,val)); //falta el setter ... pagina 218
 	}
 	return val;
   }
@@ -315,7 +317,12 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 
     char ch;
     cin >> ch;    // note that >> skips whitespace (spsmace, newline, tab, etc.)
-   
+    if(isspace(ch)==' '){
+     cout << endl << "no isspace(ch) ="<< isspace(ch) << endl; 
+    }
+    else{
+     cout  << endl << "no isspace(ch) ="<< isspace(ch) << endl; 
+    }
     switch (ch) {      	
 		case quit:
 		case print:    // for "print"
@@ -370,19 +377,23 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			      return Token{exit1};
 			}
 			if(s==decllet){//let
-					/*if(debug==1) {
+					if(debug==1) {
+							/*
 							cout << endl << "decllet" << endl;
 							cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "decllet=" << decllet << endl;
-					}*/
+							*/
+					}
 					
 					 return Token{let};
 			}
 			if(s==declsqrt){//arrel
-					/*if(debug==1){
-							cout << endl << "declsqrt" << endl;
+					if(debug==1){
+							/*
+							 cout << endl << "declsqrt" << endl;
 							 cout << "faig arrel ?(get)" << endl;
+							 */
 					}
-					*/
+					
 					return Token{arrel};
 			}
 			if(s==declpow) {//pow
@@ -464,6 +475,12 @@ double primary()
 	return get_value(t.name);
     case 'h':
       cout << endl << "això hauria de ser l'ajuda" << endl;
+      cout << endl << "per fer arrel : sqrt(valor);" << endl;
+      cout << endl << "per definir varialbes : let variable = valor" << endl;
+      cout << endl << "per definir variables constants : # let variable = valor" << endl;
+    //qu  cout << endl << "Per tancar ajuda, escriu \";\"" << endl;
+      /*cout << endl << "això hauria de ser l'ajuda" << endl;
+      */
       return (0);
     default:
 	//if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
@@ -782,7 +799,7 @@ try
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
 	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 5"<< endl;
-	if(debug==1)cout << "Exercises" << endl << "4. The get_value(), set_value(), is_declared(), and define_name() functions all operate on the variable var_table. Define a class called Symbol_table with a member var_table of type vector<Variable> and member functions get(), set(), is_declared(), and declare(). Rewrite the calculator to use a variable of type Symbol_table.5. Modify Token_stream::get() to return Token(print) when it sees a newline. This implies looking for whitespace characters and treating newline ('\n') specially. You might find the standard library function isspace(ch), which returns true if ch is a whitespace character, useful." << endl;
+	if(debug==1)cout << "Exercises" << endl << "5. Modify Token_stream::get() to return Token(print) when it sees a newline. This implies looking for whitespace characters and treating newline ('\n') specially. You might find the standard library function isspace(ch), which returns true if ch is a whitespace character, useful." << endl;
 	/*
 	 * 
 	 http://www.cplusplus.com/doc/tutorial/classes/
