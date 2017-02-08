@@ -165,7 +165,14 @@ void Token_stream::ignore(char c)
           char ch=0;
           while(cin>>ch){
 		  //cout << " c=" <<  endl;
-                  if(ch==c) return;
+                  if(ch==c){
+		      cout << endl << "ch->" << ch << "<- \n c->" << c << endl;
+		      return; //aquiiii!!!!!!!!!
+		  }
+		  else{
+		      cout << endl << "else ignore" << endl << "ch->" << ch << "<- \n c->" << c << endl;
+		      return ;
+		  }
 	  }
   }
 
@@ -294,13 +301,16 @@ const string declexit="exit";
 const char constat='c';
 const string declconstat1="declara";
 
+
+const string intro="\n";
 //const char linea='l'; //linea
 //const string decllinea="\n";
 //const string filinea=";";
-//const char linea='f';
+//const char linea='f';	
 
 const char help='h';
 const string declhelp="help";
+
 
 // name token
 // declaration token
@@ -309,6 +319,7 @@ const string declhelp="help";
 Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibreria isspace(ch) -> cert si espai
 //lectura de dades des del teclat i composició del Token
 {
+    //if(debug==1)cout << endl << "Token_stream::get()" << endl;
     if (full) {       // do we already have a Token ready?
         // remove token from buffer
         full=false;
@@ -316,14 +327,35 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
     }
 
     char ch;
-    cin >> ch;    // note that >> skips whitespace (spsmace, newline, tab, etc.)
-    if(isspace(ch)==' '){
-     cout << endl << "no isspace(ch) ="<< isspace(ch) << endl; 
+    int i=0;
+    //char c;
+    char* entrada;
+    cin >> noskipws >> ch;    // note that >> skips whitespace (spsmace, newline, tab, etc.)
+    //if(ch=='\n'/*.isspace()*/)cout << endl << " has pitjat intro aquí ? " << endl;
+      //cin.get()) cout << endl << " has pitjat intro aquí ? " << endl;
+    /*
+    sprintf(entrada,"%c ", ch);
+    cout << endl << "entrada = " << entrada << endl;
+    if(entrada=="\n") cout << endl << "aqui hi ha un intro?" << endl;
+    /*
+    while (c)
+    {
+      c=ch[i];
+      if (isspace(c)) c='\n';
+      putchar (c);
+      i++;
+    }
+    */
+    /*
+    if(isspace(ch)!='\0'){ //'\0'){
+     cout << endl << " isspace(ch) ->"<< isspace(ch) << "<-"<< endl; 
     }
     else{
      cout  << endl << "no isspace(ch) ="<< isspace(ch) << endl; 
     }
+    */
     switch (ch) {      	
+		case '\n':
 		case quit:
 		case print:    // for "print"
 		case result: 
@@ -369,15 +401,24 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			      if(debug==1)cout << "SURT?" << endl;
 			      return Token{surt};
 			}
+			else{
+			 cout << "no surt correcte" << endl; 
+			}
 			//if(s==declquit){
 			if(s.compare(declquit)==0){
 			      if(debug==1)cout << "QUIT?" << endl;
 			      return Token{quit1};
 			}
+			else{
+			 cout << "no quit correcte" << endl; 
+			}
 			//if(s==declexit){
 			if(s.compare(declexit)==0){
 			      if(debug==1)cout << "EXIT?" << endl;
 			      return Token{exit1};
+			}
+			else{
+			 cout << "no exit correcte" << endl; 
 			}
 			if(s==decllet){//let
 					if(debug==1) {
@@ -416,6 +457,10 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			if(s==declhelp){
 					if(debug==1)cout << endl << "ajuda de la calculadora" << endl;
 					return Token{help};
+			}
+			if(s==intro){
+				      if(debug==1) cout << endl << "s'Ha pitjat \"intro\"" << endl;
+				      return Token('a');
 			}
 			return Token{name,s};
 		}
@@ -485,6 +530,10 @@ double primary()
       /*cout << endl << "això hauria de ser l'ajuda" << endl;
       */
       return (0);
+      
+    case '\n':
+      //cout << endl << "Has pitjat intro" << endl;
+      return (0); //(t.value);
     default:
 	//if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
 //        cout << endl << "default primary" << endl;
@@ -745,7 +794,7 @@ double statement()
 	  default:
 		  //cout << endl <<  "default statement" << endl ;
 		  ts.putback(t);
-		  return expression();
+		    return expression();
     }
   }
 
@@ -756,6 +805,7 @@ void calculate()
 
 	while (cin) 
 		try{
+			
 	       		cout << prompt;          // print prompt
 	        	Token t = ts.get();//recupera caracter llegit del teclat.
        			while(t.kind == print /*|| t.kind == linea*/) t = ts.get();
