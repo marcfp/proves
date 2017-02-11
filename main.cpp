@@ -166,11 +166,13 @@ void Token_stream::ignore(char c)
           while(cin>>ch){
 		  //cout << " c=" <<  endl;
                   if(ch==c){
-		      cout << endl << "ch->" << ch << "<- \n c->" << c << endl;
+		      cout << endl << "ch->" << ch << "<- \n c->" << c << "<-" << endl;
 		      return; //aquiiii!!!!!!!!!
 		  }
 		  else{
-		      cout << endl << "else ignore" << endl << "ch->" << ch << "<- \n c->" << c << endl;
+		      cout << endl << "else ignore" << endl << "ch->" << ch << "<- \n c->" << c << "<-" << endl;
+		      if(isspace(ch)) cout << endl << "espai?" << endl;
+		      else cout << endl << "NO HI HA ESPAI?" << endl;
 		      return ;
 		  }
 	  }
@@ -354,7 +356,8 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
      cout  << endl << "no isspace(ch) ="<< isspace(ch) << endl; 
     }
     */
-    switch (ch) {      	
+    switch (ch) {   
+		case ' ':
 		case '\n':
 		case quit:
 		case print:    // for "print"
@@ -530,7 +533,8 @@ double primary()
       /*cout << endl << "això hauria de ser l'ajuda" << endl;
       */
       return (0);
-      
+    case ' ':
+	return(0);
     case '\n':
       //cout << endl << "Has pitjat intro" << endl;
       return (0); //(t.value);
@@ -746,18 +750,12 @@ return d;
 Token t = ts.get();
 Token t1 = ts.get();
 Token t2 = ts.get();
-
 if(debug==1)cout << "t.kind(declaration_constants) = " << t.kind << endl << " constat (declaration_constants)= " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
 //if( t.kind != constat ) error ("constant expected in declaration");
-
-
 //cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
 if(debug==1)cout << "t1.kind = " << t1.kind << endl ; //<< "t1.value = " << t1.value << endl << "t1.name = " << t1.name << endl;
 //if (t.kind != constat || t1.kind != name) error ("name expected in declaration or constant expected in declaration");
 string var_name = t1.name;
-
-
-
 if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
 //cout << "si?" << endl;
 double d = expression();
@@ -856,8 +854,8 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 5"<< endl;
-	if(debug==1)cout << "Exercises" << endl << "5. Modify Token_stream::get() to return Token(print) when it sees a newline. This implies looking for whitespace characters and treating newline ('\n') specially. You might find the standard library function isspace(ch), which returns true if ch is a whitespace character, useful." << endl;
+	if(debug==1)cout << "\npàgina 226 del pdf, 253 llibre TEMA 7, Exercises 5 i 6"<< endl;
+	if(debug==1)cout << "Exercises" << endl << "check 5, and 6. Part of what every program should do is to provide some way of helping its user. Have the calculator print out some instructions for how to use the calculator if the user presses the H key (both upper- and lowercase)." << endl; 
 	/*
 	 * 
 	 http://www.cplusplus.com/doc/tutorial/classes/
