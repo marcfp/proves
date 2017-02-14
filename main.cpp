@@ -152,7 +152,7 @@ Token_stream::Token_stream()
 }
 
 
-void Token_stream::ignore(char c)
+/*void Token_stream::ignore(char c)
   //c representa el tipus de Token
   {
           //primera mirada al buffer?:
@@ -166,17 +166,37 @@ void Token_stream::ignore(char c)
           while(cin>>ch){
 		  //cout << " c=" <<  endl;
                   if(ch==c){
-		      cout << endl << "ch->" << ch << "<- \n c->" << c << "<-" << endl;
+		      cout << endl << "ch->" << ch << "<- \n c->" << c << endl;
 		      return; //aquiiii!!!!!!!!!
 		  }
 		  else{
-		      cout << endl << "else ignore" << endl << "ch->" << ch << "<- \n c->" << c << "<-" << endl;
-		      if(isspace(ch)) cout << endl << "espai?" << endl;
-		      else cout << endl << "NO HI HA ESPAI?" << endl;
+		      cout << endl << "else ignore" << endl << "ch->" << ch << "<- \n c->" << c << endl;
 		      return ;
 		  }
 	  }
   }
+
+*/
+
+
+
+void Token_stream::ignore(char c)
+  //c representa el tipus de Token
+  {
+          //primera mirada al buffer?:
+          if(full && c==buffer.kind){
+                  full=false;
+                  return;
+          }
+          full=false;
+          //ara busca introduccions
+          char ch=0;
+          while(cin>>ch){
+		  //cout << " c=" <<  endl;
+                  if(ch==c) return;
+	  }
+  }
+
 
 
 
@@ -356,12 +376,18 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
      cout  << endl << "no isspace(ch) ="<< isspace(ch) << endl; 
     }
     */
-    switch (ch) {   
-		case ' ':
+    switch (ch) {      	
+		case '#'://let
+		  cout << endl << "Token stream::get # " << endl;
+		  return Token{let};
+		case 'c'://constat:
+		  cout << endl << "Token stream::get c " << endl;
+		  return Token{let};
 		case '\n':
+		  return Token(ch);        // let each character represent itself	    
 		case quit:
 		case print:    // for "print"
-		case result: 
+		case result: //resultat
 		case '%':
 		case '!': 
 		case '{': 
@@ -373,9 +399,13 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 		case '*': 
 		case '/':
 		case ',':
-		case '#':
-		  case constat:
-	        	return Token(ch);        // let each character represent itself	    
+		  
+		
+//		case 'e': //case quit fa el mateix!!
+		case 'q':
+		case 's':
+		//case 'c': //constat:
+		  return Token(ch);        // let each character represent itself	    
 	    case '.':
 	    case '0': case '1': case '2': case '3': case '4':
 	    case '5': case '6': case '7': case '8': case '9':
@@ -388,7 +418,7 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
  	   default:
 	   {
 		//if(debug==1)cout << "default get" << endl;
-		if(isalpha(ch)){ //si es let, val l, entro aquí.
+		if(isalpha(ch)|| ch==';'){ //si es let, val l, entro aquí.
 			string s;
 			//if(debug==1)cout << "s(abans) = " <<  s << endl;
 			s += ch;
@@ -399,41 +429,50 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			}
 			cin.putback(ch);
 			//cout << "ch = " << ch;
-			//if(s==declsurt){
+			//if(s.compare(surt)==0){
 			if(s.compare(declsurt)==0){
+			      cout /*<< "declsurt = " << declsurt << endl*/ << " surt = " << surt << endl;
 			      if(debug==1)cout << "SURT?" << endl;
 			      return Token{surt};
 			}
 			else{
-			 cout << "no surt correcte" << endl; 
+			 if(debug==1)cout << "no surt correcte" << endl; 
 			}
-			//if(s==declquit){
+			//if(s.compare(quit1)==0){
 			if(s.compare(declquit)==0){
+			      cout /*<< "declquit = " << declquit << endl*/ << " quit1 = " << quit1 << endl;
 			      if(debug==1)cout << "QUIT?" << endl;
 			      return Token{quit1};
 			}
 			else{
-			 cout << "no quit correcte" << endl; 
+			 if(debug==1)cout << "no quit correcte" << endl; 
 			}
-			//if(s==declexit){
+			//if(s.compare(exit1)==0){
+			
 			if(s.compare(declexit)==0){
+			      cout << /*"declexit = " << declexit << endl <<*/ " exit1 = " << exit1 << endl;
 			      if(debug==1)cout << "EXIT?" << endl;
 			      return Token{exit1};
 			}
 			else{
-			 cout << "no exit correcte" << endl; 
+			 if(debug==1)cout << "no exit correcte" << endl; 
 			}
-			if(s==decllet){//let
+			if(s.compare(decllet)==0){
+			//if(s.compare(decllet)==0){//let
 					if(debug==1) {
-							/*
+							
 							cout << endl << "decllet" << endl;
 							cout << endl << "surto token{let}" << endl<< " let = " << let << endl << " ch =" << ch << endl << " s = " << s << endl << "decllet=" << decllet << endl;
-							*/
+							
 					}
 					
 					 return Token{let};
 			}
-			if(s==declsqrt){//arrel
+			else{
+			  if(debug==1)cout << "no let " << endl;
+			}
+
+			if(s.compare(declsqrt)==0){//arrel
 					if(debug==1){
 							/*
 							 cout << endl << "declsqrt" << endl;
@@ -443,28 +482,47 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 					
 					return Token{arrel};
 			}
-			if(s==declpow) {//pow
+			else{
+			  if(debug==1)cout << "no arrel " << endl;
+			}
+			if(s.compare(declpow)==0) {//pow
 					if(debug==1){
 							/*cout << endl << "declpow" << endl;
 							cout << "faig la potència?" << endl;
 							cout << "falta llegir la segona variable per fer l'exponencial, com ho faig ?" << endl;
-							*/
-							
+							*/					
 					}
 					return Token{pows};					
 			}
-			if (s==declconstat1) {
+			else{
+			  if(debug==1)cout << "no pow " << endl;
+			}
+			/*if (s.compare(decllet)==0){
+					if(debug==1)cout << endl << " Declara VARIABLE let?" << endl;
+					return Token{let};
+			}
+			else{
+			  if(debug==1)cout << "no let " << endl;
+			}*/
+			if (s.compare(declconstat1)==0) {
 					if(debug==1)cout << endl << " Declara VARIABLE? (crear clase i metodes pk no es pugui sobreescriure?)" << endl;
 					return Token{constat};
-			}						
-			if(s==declhelp){
+			}
+			else{
+			  if(debug==1)cout << "no constant " << endl;
+			}
+			if(s.compare(declhelp)==0){
 					if(debug==1)cout << endl << "ajuda de la calculadora" << endl;
 					return Token{help};
 			}
-			if(s==intro){
-				      if(debug==1) cout << endl << "s'Ha pitjat \"intro\"" << endl;
-				      return Token('a');
+			else{
+			  if(debug==1)cout << "no ajuda " << endl;
 			}
+			/*if(s.compare(intro)==0){
+				      if(debug==1) cout << endl << "s'Ha pitjat \"intro\"" << endl;
+				      break;
+				      //return Token('a');
+			}*/
 			return Token{name,s};
 		}
 		//cout << "ch =" << ch << endl;
@@ -480,7 +538,8 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 //------------------------------------------------------------------------------
 
 double expression();    // declaration so that primary() can call expression()
-
+double declaration(); //declaration pk primary ho pugui cridar?
+double declaration_constants(); //declaration_constants pk primary ho pugui cridar?
 //------------------------------------------------------------------------------
 // deal with numbers and parentheses
 double primary()
@@ -516,7 +575,7 @@ double primary()
 		return (0);
 	}
 	else {
-		//if(debug==1)cout << " valor = " << valor; 
+		//if(debug==1)cout << " valor = " << valor; '	
 		resultat=sqrt(valor);	
 		//cout << endl << " El resultat de l'arrel de "<< valor << " és " ; // << resultat << endl;
 		return (resultat);
@@ -533,11 +592,16 @@ double primary()
       /*cout << endl << "això hauria de ser l'ajuda" << endl;
       */
       return (0);
-    case ' ':
-	return(0);
+      
     case '\n':
       //cout << endl << "Has pitjat intro" << endl;
-      return (0); //(t.value);
+      return (primary()); //(t.value);//per retornar el valor fins al moment
+    case let:
+      cout << endl << "let(#) primary" << endl << "t.kind = " << t.kind << endl;
+      return declaration();
+    case constat:
+      cout << endl << "constant let(#) primary" << endl << "t.kind = " << t.kind << endl;
+      return declaration_constants();
     default:
 	//if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
 //        cout << endl << "default primary" << endl;
@@ -718,7 +782,32 @@ double calcul_pow()
 
 double statement();
 
+
 double declaration()
+// assume we have seen "let”
+// handle : name = expression
+// declare a variable called "name ” with the initial value "expression”
+{
+Token t = ts.get();
+//cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
+cout << "t.kind = " << t.kind << endl << "t.value = " << t.value << endl << "t.name = " << t.name << endl;
+if (t.kind != name) error ("name expected in declaration");
+string var_name = t.name;
+
+
+Token t2 = ts.get();
+if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
+//cout << "si?" << endl;
+double d = expression();
+cout << " d= " << d << endl;
+define_name(var_name,d);
+if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
+set_value(var_name,d);
+return d;
+}
+
+
+/*double declaration()
 // assume we have seen "let”
 // handle : name = expression
 // declare a variable called "name ” with the initial value "expression”
@@ -739,10 +828,10 @@ define_name(var_name,d);
 if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
 set_value(var_name,d);
 return d;
-}
+}*/
 
-/*
-  double declaration_constants()
+
+/*  double declaration_constants()
 // assume we have seen "let”
 // handle : name = expression
 // declare a variable called "name ” with the initial value "expression”
@@ -750,12 +839,18 @@ return d;
 Token t = ts.get();
 Token t1 = ts.get();
 Token t2 = ts.get();
+
 if(debug==1)cout << "t.kind(declaration_constants) = " << t.kind << endl << " constat (declaration_constants)= " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
 //if( t.kind != constat ) error ("constant expected in declaration");
+
+
 //cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
 if(debug==1)cout << "t1.kind = " << t1.kind << endl ; //<< "t1.value = " << t1.value << endl << "t1.name = " << t1.name << endl;
 //if (t.kind != constat || t1.kind != name) error ("name expected in declaration or constant expected in declaration");
 string var_name = t1.name;
+
+
+
 if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
 //cout << "si?" << endl;
 double d = expression();
@@ -766,6 +861,36 @@ set_value(var_name,d);
 return d;
 }
 */
+
+
+double declaration_constants()
+// assume we have seen "let”
+// handle : name = expression
+// declare a variable called "name ” with the initial value "expression”
+{
+Token t = ts.get();
+if(debug==1)cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
+//if( t.kind != constat ) error ("constant expected in declaration");
+
+Token t1 = ts.get();
+//cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
+if(debug==1)cout << "t1.kind = " << t1.kind << endl ; //<< "t1.value = " << t1.value << endl << "t1.name = " << t1.name << endl;
+//if (t.kind != constat || t1.kind != name) error ("name expected in declaration or constant expected in declaration");
+string var_name = t1.name;
+
+
+Token t2 = ts.get();
+if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
+//cout << "si?" << endl;
+double d = expression();
+cout << " d= " << d << endl;
+define_name_const(var_name,d);
+if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
+set_value(var_name,d);
+return d;
+}
+
+
 void ajuda()
 {
  cout << endl << "estic dins la  funció ajuda" << endl; 
@@ -777,7 +902,7 @@ double statement()
     //if(debug==1)cout << endl <<  "t.kind = " << t.kind << endl;
     switch (t.kind) {
 	  case constat:
-		  return 0 ; //declaration_constants();
+		  return declaration_constants();
 	  case let:
 		  return declaration();
 	  case pows:
@@ -786,13 +911,13 @@ double statement()
 	  //	cout << "ts.putback(t) = " << ts.putback(t) << endl;
   //		return (ts.putback(t)); 
 	  case help:
-		cout << endl << " aquí recullo l'ajuda" << endl;
+		if(debug==1)cout << endl << " aquí recullo l'ajuda" << endl;
 		ajuda();
 		
 	  default:
 		  //cout << endl <<  "default statement" << endl ;
 		  ts.putback(t);
-		    return expression();
+		  return expression();
     }
   }
 
@@ -854,8 +979,8 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 226 del pdf, 253 llibre TEMA 7, Exercises 5 i 6"<< endl;
-	if(debug==1)cout << "Exercises" << endl << "check 5, and 6. Part of what every program should do is to provide some way of helping its user. Have the calculator print out some instructions for how to use the calculator if the user presses the H key (both upper- and lowercase)." << endl; 
+	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 5"<< endl;
+	if(debug==1)cout << "Exercises" << endl << "5. Modify Token_stream::get() to return Token(print) when it sees a newline. This implies looking for whitespace characters and treating newline ('\n') specially. You might find the standard library function isspace(ch), which returns true if ch is a whitespace character, useful." << endl;
 	/*
 	 * 
 	 http://www.cplusplus.com/doc/tutorial/classes/
