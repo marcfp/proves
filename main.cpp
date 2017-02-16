@@ -1,4 +1,5 @@
-
+//bug : Constant no es poden redefinir, correcte, però si uso el # per redefinir, es pot sobreescriure les variables, com ho puc arreglar ?
+//bug : exitant en lloc d'exit, surt del programa sense demanar res, en canvi en els altres dos (quit i surt) surt demanant confirmació ?
 //
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
@@ -69,9 +70,11 @@ class Variable{
 public:
 	string name;
 	double value;
-	
+	int constant=0;
 	Variable(string nm, double val)
 		:name(nm), value(val){ }
+	Variable(string nm, int constnt)
+		:name(nm), constant(constnt){ }
 
 };
 
@@ -161,23 +164,47 @@ double get_value(string s)// return the Value of a variable named s
         error("get: undefined variable ",s);//, s);
 
 }
+//double 
+double set_constant(string s,double c)
+{
+for(const Variable& v: var_table)
+		if(v.name == s) return c; //v.value=d;//return (1);		  
+		//else v.constant=0;
+	//return v.constant;
+return 0;;
+}   
+double get_constant(string s)//return if variable is constant or notation
+{
+    for(const Variable& v: var_table)
+		if(v.name == s) {
+		    
+		    return v.constant;		  
+		}
+	return 0;
+      //error("no ºhi ha valor constant a " ,s);
+}
 
 void set_value(string s, double d, int i)
 // set the Variable named s to d
 {
-for (Variable& v : var_table)
+  //if(i==1) cout << endl << "constant, no pots sobreescriure"<< endl;
+  //else
+  double valor; //=get_value(s);
+  for (Variable& v : var_table)
 	if (v.name == s) {
-//		cout << "Estic dins del setter Variable" << endl;
-		if(i==0){
-		    v.value = d;
+		cout << endl << "Estic dins del setter Variable, get_value(s) ="<< get_value(s) << " valor ="  << valor << " d= " << d << "get_constant(s)=" << get_constant(s) <<endl;
+		if(get_constant(s)!=1 && d!=get_constant(s)){
+		      v.value = d;
+		      //set_constant(s);
 		}
 		else {
-		  cout << endl << "no es pot SOBREESCRIURE" << endl;
+		  cout << endl << "es pot SOBREESCRIURE?" << endl;
+		  v.value = d;
 		}
 		
 		return;
-}
-error("set: undefined variable ",s);//, s);
+      }
+      error("set: undefined variable ",s);//, s);
 } 	
 
 bool is_declared(string var)
@@ -213,7 +240,29 @@ double define_name(string var, double val)
 	}
         return val;
   }
-
+double define_constant(string var, double val)
+{
+  	if (is_declared(var)){
+			      //error(var," declared twice");
+	  		      char c='1';
+			      do{
+				cout << "Var name already exists, do you want overwrite IF IT IS A CONSTANT VALUE ?(s,S,n,N)" ;
+				cin >> c;
+			      }while(c!='s' && c!='n' && c!='S' && c!='N');
+			      if(c!='s' && c!='S'){
+					  error(var," declared twice");
+			      }
+			      else{
+					  var_table.push_back(Variable(var,val)); //falta el setter ... pagina 218
+			    }
+	
+	
+	}
+	else{
+	      var_table.push_back(Variable(var,val));
+	}
+        return val;
+}
 // The putback() member function puts its argument back into the Token_stream's buffer:
 void Token_stream::putback(Token t)
 {
@@ -623,11 +672,13 @@ double const_declaration()
       else{
 	Token t2 = ts.get();
 	if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
-
+	//Token t3 = ts.get();
 	double d = expression();
 	cout << " d= " << d << endl;
 	define_name(var_name,d);
 	if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
+	//;
+	define_constant(var_name,set_constant(var_name,1));
 	set_value(var_name,d,1);
 	return d;
       }
@@ -644,16 +695,28 @@ cout << "t.kind = " << t.kind << endl << "t.value = " << t.value << endl << "t.n
 if (t.kind != name) error ("name expected in declaration");
 string var_name = t.name;
 
-
-Token t2 = ts.get();
-if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
+//buscar amb el nom si hi ha constant=1, si és 1, és constant, no puc redefinir, fora, sinó, redefinir.
+if(get_constant(var_name)!=0){
+  //
+  cout << endl << "ÉS CONSTANT?! NO ES POT CANVIAR?" << endl;
+}
+else{
+  cout << endl << "és variable" << endl;
+  Token t2 = ts.get();
+  if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
 //cout << "si?" << endl;
-double d = expression();
-cout << " d= " << d << endl;
-define_name(var_name,d);
-if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
-set_value(var_name,d,0);
-return d;
+//Token t3 = ts.get();
+  double d = expression();
+  cout << " d= " << d << endl;
+  define_name(var_name,d);
+  if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
+//aqui???
+//if(
+  cout << endl <<  " get_constant(var_name)= " << get_constant(var_name) << endl;
+  set_value(var_name,d,0);
+  return d;
+}
+return 0;
 }
 
 
@@ -702,8 +765,8 @@ void calculate()
 			   return;
 			}
 			if(t.kind== exit1){
-			  if(debug==1)cout << "AQUI ara hauria de sortir per \"EXIT\"" << t.kind << endl;
-			   return;
+			  if(debug==1)cout << "AQUI ara hauria de sortir per \"EXIT\"" << endl;
+			    return;
 			}
 			if(debug==1)cout << "t.kind = " << t.kind << endl;
 			ts.putback(t);
@@ -725,7 +788,10 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 3"<< endl;
+	if(debug==1){
+	    cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 3"<< endl;
+	  
+	}
 	if(debug==1)cout << "Exercises" << endl << "3. Provide named constants that you really can’t change the value of. Hint: You have to add a member to Variable that distinguishes between constants and variables and check for it in set_value(). If you want to let the user define constants (rather than just having pi and e defined as constants), you’ll have to add a notation to let the user express that, for example, const pi =3.14;." << endl;
 	/*
 	 * 
@@ -748,7 +814,6 @@ catch (exception& e){
 catch (...) {
     cerr << "Oops: unknown exception!\n";
     keep_window_open("~~");
-    return (2);
 }
 
 //------------------------------------------------------------------------------
