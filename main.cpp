@@ -1,5 +1,3 @@
-//bug : Constant no es poden redefinir, correcte, però si uso el # per redefinir, es pot sobreescriure les variables, com ho puc arreglar ?
-//bug : exitant en lloc d'exit, surt del programa sense demanar res, en canvi en els altres dos (quit i surt) surt demanant confirmació ?
 //
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
@@ -190,15 +188,18 @@ void set_value(string s, double d, int i)
   //if(i==1) cout << endl << "constant, no pots sobreescriure"<< endl;
   //else
   double valor; //=get_value(s);
+  
   for (Variable& v : var_table)
 	if (v.name == s) {
-		cout << endl << "Estic dins del setter Variable, get_value(s) ="<< get_value(s) << " valor ="  << valor << " d= " << d << "get_constant(s)=" << get_constant(s) <<endl;
+	  if(i==1) v.constant=i;
+		//if(debug==1)cout << endl << "Estic dins del setter Variable, get_value(s) ="<< get_value(s) << " valor ="  << valor << " d= " << d << "get_constant(s)=" << get_constant(s) <<endl;
 		if(get_constant(s)!=1 && d!=get_constant(s)){
 		      v.value = d;
 		      //set_constant(s);
+		     // v.constant=i;
 		}
 		else {
-		  cout << endl << "es pot SOBREESCRIURE?" << endl;
+		  //cout << endl << "es pot SOBREESCRIURE?" << endl;
 		  v.value = d;
 		}
 		
@@ -246,7 +247,7 @@ double define_constant(string var, double val)
 			      //error(var," declared twice");
 	  		      char c='1';
 			      do{
-				cout << "Var name already exists, do you want overwrite IF IT IS A CONSTANT VALUE ?(s,S,n,N)" ;
+				cout << "Var name exists, do you want write IT AS IS A CONSTANT VALUE ?(s,S,n,N)" ;
 				cin >> c;
 			      }while(c!='s' && c!='n' && c!='S' && c!='N');
 			      if(c!='s' && c!='S'){
@@ -311,7 +312,7 @@ Token Token_stream::get()
     cin >> ch;    // note that >> skips whitespace (space, newline, tab, etc.)
 //    cout << " ch=" << ch << endl;
     switch (ch) {
-		case quit:
+		//case quit:
 		case print:    // for "print"
 		case result: 
 		case '%':
@@ -366,6 +367,8 @@ Token Token_stream::get()
 			      return Token{quit1};
 			}
 			if(s==declexit){
+			      cout << "s = " << s << endl << "declexit = " << declexit << endl;
+			//if(s.compare(declexit)==0){
 			      if(debug==1)cout << "EXIT?" << endl;
 			      return Token{exit1};
 			}
@@ -766,6 +769,7 @@ void calculate()
 			}
 			if(t.kind== exit1){
 			  if(debug==1)cout << "AQUI ara hauria de sortir per \"EXIT\"" << endl;
+			  cout << "t.kind(calculate) = " << t.kind << "exit1 = " << exit1 << endl;
 			    return;
 			}
 			if(debug==1)cout << "t.kind = " << t.kind << endl;
@@ -792,7 +796,7 @@ try
 	    cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 3"<< endl;
 	  
 	}
-	if(debug==1)cout << "Exercises" << endl << "3. Provide named constants that you really can’t change the value of. Hint: You have to add a member to Variable that distinguishes between constants and variables and check for it in set_value(). If you want to let the user define constants (rather than just having pi and e defined as constants), you’ll have to add a notation to let the user express that, for example, const pi =3.14;." << endl;
+	if(debug==1)cout << "tema 7 Exercises" << endl << "s'ha de començar el 4, però he trobat un bug amb exit, que surt si troba una e!!!" << endl;
 	/*
 	 * 
 	 http://www.cplusplus.com/doc/tutorial/classes/
