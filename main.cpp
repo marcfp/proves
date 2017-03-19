@@ -1,4 +1,3 @@
-
 //
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
@@ -473,6 +472,9 @@ void ajuda(){
  
  
 }
+
+double calcul_pow();
+double sqrt1( double val);
 // deal with numbers and parentheses
 double primary()
 {
@@ -500,24 +502,35 @@ double primary()
 	return - primary();
     case '+':case '=': 
 	return primary();
-    case 'r'://càlcul d'arrel
-        cout << endl << "càlcul d'arrel " << endl;
+    case '%':
+    case '!': 
+    case '}': 
+    case ')': 
+    case '*': 
+    case '/':
+    case ',':
+    case '#':
+       	return expression();
+    case 'r':
 	double valor; 
 	double resultat;
-	valor = expression(); //si em posen alguna cosa dins de l'arrel, s'ha de calcular!!! //primary();
+	valor = primary();
 	if(valor <0) {
 		cout << " D'aquest valor, " << valor << ", NO es pot calcular l'arrel REAL" << endl;
 		return (0);
 	}
 	else {
 		//if(debug==1)cout << " valor = " << valor; 
-		resultat=sqrt(valor);	
+		cout << endl << "sqrt1 primary " << endl;
+		resultat=sqrt1(valor);	
 		//cout << endl << " El resultat de l'arrel de "<< valor << " és " ; // << resultat << endl;
 		return (resultat);
 	}
     case 'a': //si 'a', recull valor!!!!
 	if(debug==1)cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
+//    case 'p':
+//	cout << endl << "càlcul de potència a primary" << endl;
     case 'h':
 	ajuda();
       return 0;
@@ -529,8 +542,12 @@ double primary()
 	valore=expression();
 	cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
 */
+    case pows:
+		// cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
+		return 	calcul_pow();
+    
     default:
-	//if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
+	if(debug==1)cout << /*"t.value = " << t.value << endl <<*/ "t.kind =" << t.kind << endl;
         error("primary expected");
     }
 }
@@ -555,11 +572,12 @@ if (left!=1 && left!=0){
 }
 
 
-/*double sqrt1( double val){ //arrel
+double sqrt1( double val){ //arrel
 	double prova;
 	if(val >1){
 		prova =sqrt(val);
 		if(debug==1)cout << "prova = " << prova << endl;
+		return sqrt(val);
 	}	
 	else{
 		cout << "\n Error!!!!!!!!!!!!! valor no vàlid" << endl;
@@ -568,7 +586,7 @@ if (left!=1 && left!=0){
 
 return(1);
 }
-*/
+
 // deal with *, /, and %
 double term()
 {
@@ -578,10 +596,11 @@ double term()
 
     while(true) {
         switch (t.kind) {
-	  case 'p':
-	cout << endl << "càlcul de potència a term" << endl;
+	  
+	  //case 'p':
+	//cout << endl << "càlcul de potència a term" << endl;
 	case '!':
-
+//	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
 	    valor=left;
 	    left=factorial(left);
 	    cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
@@ -601,7 +620,9 @@ double term()
             }
 	case '%':
 	{
-
+		//pagina 209 del llibre pdf, mirar narrow_cast
+		//int i1 = narrow_cast<int>(left); //no incloc narrow_cast, mirar-ho bé ... com fer-ho
+		//int i2 = narrow_cast<int>(primary());
 		try{
 			 
 		  //pàgina 208 del llibre pdf pregunta 7. What does narrow_cast do?
@@ -610,7 +631,15 @@ double term()
 		    if (i2 == 0) error("%: divide by zero");
 		    left = i1 % i2;
 		    t = ts.get();
-		    break;		 
+		    break;
+		   
+		/*	double d = primary();
+			if(d==0) error("divide by zero");
+//			if(i2==0) error("% : divide by zero");
+			left = fmod(left,d);//i1 % i2;
+			t = ts.get();
+			break;
+		*/	
 		}
 		catch (exception& e){
 			cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
@@ -655,18 +684,17 @@ double calcul_pow()
 
   try{
     Token t= ts.get();//pow
-    Token t2 = ts.get(); //expression();//ts.get(); //valor1 i expressi´o!! el mateix amb l'arrel ?
-    if(debug==1)cout << endl << " t2.kind=" << t2.kind << endl << " t2.value=" << t2.value << endl << " t2.name=" << t2.name << " linea 658" << endl;
-/*
- */
+    Token t2 = ts.get(); //valor1
 
-    double d= t2.value; //Read first value //expression();//ts.get(); //valor1 i expressi´o!! el mateix amb l'arrel ?
+    double d=t2.value; //Read first value
     Token t3 = ts.get(); //coma 
 
+    
+    //Token t4 = ts.get(); //valor2 //forçar integer
+    //float i=(int)t4.value;
     try{
-      Token t4=ts.get(); //valor2 //forçar integer ?	
-      int i= (int)t4.value;     //Read first value //expression();//ts.get(); //valor1 i expressi´o!! el mateix amb l'arrel ?
-      if(debug==1)cout << endl << " t4.kind=" << t4.kind << endl << " t4.value=" << t4.value << endl << " t4.name=" << t4.name << " linea 668" << endl;
+      Token t4=ts.get(); //valor2 //forçar integer ?
+      int i= (int)t4.value;     
       if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
       for (int j=1; j<i; j++) d=d*t2.value;
       Token t5 = ts.get();//)  
@@ -717,7 +745,8 @@ double declaration_constants()
 // declare a variable called "name ” with the initial value "expression”
 {
 Token t = ts.get();
-cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl;
+cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
+//if( t.kind != constat ) error ("constant expected in declaration");
 
 Token t1 = ts.get();
 //cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
@@ -746,11 +775,9 @@ double statement()
 		 return declaration_constants();
          case let:
                  return declaration();
-	 case pows://calculo la potencia
+	 case pows:
 		// cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
 		return 	calcul_pow();
-		//calcul_pow();
-		//return expression();
 	//	cout << "ts.putback(t) = " << ts.putback(t) << endl;
 //		return (ts.putback(t)); 
          default:
@@ -805,26 +832,15 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 8 (no deixa fer càlculs quan es calcula una potencia, en canvi amb l'arrel si..."<< endl;
-	if(debug==1)cout << "Exercises" << endl << "bug a pow i sqrt, solucionarlo!!! no deixa pow(3,2)*2;dóna primary expected ... repassar-ho 8. The grammar in §7.6.4 is incomplete (we did warn you against overreliance on comments); it does not define sequences of statements, such as 4+4; 5–6;, and it does not incorporate the grammar changes outlined in §7.8. Fix that grammar. Also add whatever you feel is needed to  that comment as the first comment of the calculator program and its overall comment." << endl;
-	/*bugs trobats :
-	sqrt(pow(3,2)) <- falla, hauria de buscar per expressions dins de la funció sqrt
-	pow(2,2)+1 <- falla, no suma, retorna resultats, pero no ho fa com una sola operació, hauria de buscar expressions dins de la funció sqrt ?
-	|=>pow(sqrt(9),2)
-	  i = 9
-	  d=2.08774e-317
-	  =0
-	  |=>primary expected
-	  ;
-	  |=>sqrt(9)
-	  =3
-	  |=>pow(3,2)
-	  i = 2
-	  d=3
-	  =9
-	  |=>
-	/*	 
-	 http://www.cplusplus.com/doc/tutorial/classes/	 http://www.cplusplus.com/doc/tutorial/templates/ 	 http://www.cplusplus.com/doc/tutorial/classes2/ 	 http://www.cplusplus.com/doc/tutorial/inheritance/ 	 http://www.cplusplus.com/doc/tutorial/polymorphism/
+	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 8 "<< endl;
+	if(debug==1)cout << "Exercises" << endl << "8. The grammar in §7.6.4 is incomplete (we did warn you against overreliance on comments); it does not define sequences of statements, such as 4+4; 5–6;, and it does not incorporate the grammar changes outlined in §7.8. Fix that grammar. Also add whatever you feel is needed to  that comment as the first comment of the calculator program and its overall comment." << endl;
+	/*
+	 * 
+	 http://www.cplusplus.com/doc/tutorial/classes/
+	 http://www.cplusplus.com/doc/tutorial/templates/
+	 http://www.cplusplus.com/doc/tutorial/classes2/
+	 http://www.cplusplus.com/doc/tutorial/inheritance/
+	 http://www.cplusplus.com/doc/tutorial/polymorphism/
 	 */
 	calculate();
 	if(debug==1)cout << "Fora calculate" << endl;
