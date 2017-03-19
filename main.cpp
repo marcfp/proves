@@ -500,10 +500,11 @@ double primary()
 	return - primary();
     case '+':case '=': 
 	return primary();
-    case 'r':
+    case 'r'://càlcul d'arrel
+        cout << endl << "càlcul d'arrel " << endl;
 	double valor; 
 	double resultat;
-	valor = primary();
+	valor = expression(); //si em posen alguna cosa dins de l'arrel, s'ha de calcular!!! //primary();
 	if(valor <0) {
 		cout << " D'aquest valor, " << valor << ", NO es pot calcular l'arrel REAL" << endl;
 		return (0);
@@ -654,14 +655,18 @@ double calcul_pow()
 
   try{
     Token t= ts.get();//pow
-    Token t2 = ts.get(); //valor1
+    Token t2 = ts.get(); //expression();//ts.get(); //valor1 i expressi´o!! el mateix amb l'arrel ?
+    if(debug==1)cout << endl << " t2.kind=" << t2.kind << endl << " t2.value=" << t2.value << endl << " t2.name=" << t2.name << " linea 658" << endl;
+/*
+ */
 
-    double d=t2.value; //Read first value
+    double d= t2.value; //Read first value //expression();//ts.get(); //valor1 i expressi´o!! el mateix amb l'arrel ?
     Token t3 = ts.get(); //coma 
 
     try{
-      Token t4=ts.get(); //valor2 //forçar integer ?
-      int i= (int)t4.value;     
+      Token t4=ts.get(); //valor2 //forçar integer ?	
+      int i= (int)t4.value;     //Read first value //expression();//ts.get(); //valor1 i expressi´o!! el mateix amb l'arrel ?
+      if(debug==1)cout << endl << " t4.kind=" << t4.kind << endl << " t4.value=" << t4.value << endl << " t4.name=" << t4.name << " linea 668" << endl;
       if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
       for (int j=1; j<i; j++) d=d*t2.value;
       Token t5 = ts.get();//)  
@@ -741,9 +746,11 @@ double statement()
 		 return declaration_constants();
          case let:
                  return declaration();
-	 case pows:
+	 case pows://calculo la potencia
 		// cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
 		return 	calcul_pow();
+		//calcul_pow();
+		//return expression();
 	//	cout << "ts.putback(t) = " << ts.putback(t) << endl;
 //		return (ts.putback(t)); 
          default:
