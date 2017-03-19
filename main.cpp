@@ -1,3 +1,4 @@
+
 //
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
@@ -516,8 +517,6 @@ double primary()
     case 'a': //si 'a', recull valor!!!!
 	if(debug==1)cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
-    case 'p':
-	cout << endl << "càlcul de potència a primary" << endl;
     case 'h':
 	ajuda();
       return 0;
@@ -555,7 +554,7 @@ if (left!=1 && left!=0){
 }
 
 
-double sqrt1( double val){ //arrel
+/*double sqrt1( double val){ //arrel
 	double prova;
 	if(val >1){
 		prova =sqrt(val);
@@ -568,7 +567,7 @@ double sqrt1( double val){ //arrel
 
 return(1);
 }
-
+*/
 // deal with *, /, and %
 double term()
 {
@@ -578,12 +577,10 @@ double term()
 
     while(true) {
         switch (t.kind) {
-	  //case ' ':
-	  //   cout << endl << "espai pitjat" << endl;
 	  case 'p':
 	cout << endl << "càlcul de potència a term" << endl;
 	case '!':
-//	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
+
 	    valor=left;
 	    left=factorial(left);
 	    cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
@@ -603,9 +600,7 @@ double term()
             }
 	case '%':
 	{
-		//pagina 209 del llibre pdf, mirar narrow_cast
-		//int i1 = narrow_cast<int>(left); //no incloc narrow_cast, mirar-ho bé ... com fer-ho
-		//int i2 = narrow_cast<int>(primary());
+
 		try{
 			 
 		  //pàgina 208 del llibre pdf pregunta 7. What does narrow_cast do?
@@ -614,15 +609,7 @@ double term()
 		    if (i2 == 0) error("%: divide by zero");
 		    left = i1 % i2;
 		    t = ts.get();
-		    break;
-		   
-		/*	double d = primary();
-			if(d==0) error("divide by zero");
-//			if(i2==0) error("% : divide by zero");
-			left = fmod(left,d);//i1 % i2;
-			t = ts.get();
-			break;
-		*/	
+		    break;		 
 		}
 		catch (exception& e){
 			cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
@@ -672,9 +659,6 @@ double calcul_pow()
     double d=t2.value; //Read first value
     Token t3 = ts.get(); //coma 
 
-    
-    //Token t4 = ts.get(); //valor2 //forçar integer
-    //float i=(int)t4.value;
     try{
       Token t4=ts.get(); //valor2 //forçar integer ?
       int i= (int)t4.value;     
@@ -728,8 +712,7 @@ double declaration_constants()
 // declare a variable called "name ” with the initial value "expression”
 {
 Token t = ts.get();
-cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
-//if( t.kind != constat ) error ("constant expected in declaration");
+cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl;
 
 Token t1 = ts.get();
 //cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
@@ -816,14 +799,25 @@ try
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
 	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 8 (no deixa fer càlculs quan es calcula una potencia, en canvi amb l'arrel si..."<< endl;
-	if(debug==1)cout << "Exercises" << endl << "bug a pow!!! no deixa pow(3,2)*2;dóna primary expected ... repassar-ho 8. The grammar in §7.6.4 is incomplete (we did warn you against overreliance on comments); it does not define sequences of statements, such as 4+4; 5–6;, and it does not incorporate the grammar changes outlined in §7.8. Fix that grammar. Also add whatever you feel is needed to  that comment as the first comment of the calculator program and its overall comment." << endl;
-	/*
-	 * 
-	 http://www.cplusplus.com/doc/tutorial/classes/
-	 http://www.cplusplus.com/doc/tutorial/templates/
-	 http://www.cplusplus.com/doc/tutorial/classes2/
-	 http://www.cplusplus.com/doc/tutorial/inheritance/
-	 http://www.cplusplus.com/doc/tutorial/polymorphism/
+	if(debug==1)cout << "Exercises" << endl << "bug a pow i sqrt, solucionarlo!!! no deixa pow(3,2)*2;dóna primary expected ... repassar-ho 8. The grammar in §7.6.4 is incomplete (we did warn you against overreliance on comments); it does not define sequences of statements, such as 4+4; 5–6;, and it does not incorporate the grammar changes outlined in §7.8. Fix that grammar. Also add whatever you feel is needed to  that comment as the first comment of the calculator program and its overall comment." << endl;
+	/*bugs trobats :
+	sqrt(pow(3,2)) <- falla, hauria de buscar per expressions dins de la funció sqrt
+	pow(2,2)+1 <- falla, no suma, retorna resultats, pero no ho fa com una sola operació, hauria de buscar expressions dins de la funció sqrt ?
+	|=>pow(sqrt(9),2)
+	  i = 9
+	  d=2.08774e-317
+	  =0
+	  |=>primary expected
+	  ;
+	  |=>sqrt(9)
+	  =3
+	  |=>pow(3,2)
+	  i = 2
+	  d=3
+	  =9
+	  |=>
+	/*	 
+	 http://www.cplusplus.com/doc/tutorial/classes/	 http://www.cplusplus.com/doc/tutorial/templates/ 	 http://www.cplusplus.com/doc/tutorial/classes2/ 	 http://www.cplusplus.com/doc/tutorial/inheritance/ 	 http://www.cplusplus.com/doc/tutorial/polymorphism/
 	 */
 	calculate();
 	if(debug==1)cout << "Fora calculate" << endl;
