@@ -16,8 +16,9 @@
 	Quit:
 		quit
 		surt
+		exit
 	Calculation Statement
-	Expression :
+	Expression :pow(
 		Term
 		Expression + Term
 		Expression - Term
@@ -35,6 +36,8 @@
 		- Primary
 		+ Primary
 		sqrt Primary
+		pow(base, exponent)
+		help
 	Number :
 		Floating-point-literal
 -------------------------------------------------------------
@@ -179,7 +182,7 @@ void clean_up_mess()
 
 double get_value(string s)// return the Value of a variable named s
 {
-      cout << "s = " << s<< endl;
+      if(debug==1)cout << "s = " << s<< endl;
       for(const /*Variable*/ Symbol_Table& v: var_table)
                 if(v.name == s) return v.value;
         error("get: undefined variable ",s);//, s);
@@ -216,7 +219,6 @@ bool is_declared(string var)
   {
 	for (const /*Variable*/Symbol_Table& v : var_table)
         	if (v.name == var) return true;
-
         return false;
   }
 
@@ -235,9 +237,7 @@ double define_name(string var, double val)
 			      }
 			      else{
 					  var_table.push_back(/*Variable*/Symbol_Table(var,val)); //falta el setter ... pagina 218
-			    }
-	
-	
+			    }	
 	}
 	else{
 	      var_table.push_back(/*Variable*/Symbol_Table(var,val));
@@ -250,7 +250,7 @@ double define_name_const(string var, double val)
   {
 	if (is_declared(var)){
 		error(var," declared twice");
-			      }
+	    }
 	else{
 		var_table.push_back(/*Variable*/Symbol_Table(var,val)); //falta el setter ... pagina 218
 	}
@@ -323,7 +323,7 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 	return (ch);
 		case quit:
 		case print:    // for "print"
-		case result: 
+		case result: 		
 		case '%':
 		case '!': 
 		case '{': 
@@ -399,31 +399,21 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 					 return Token{let};
 			}
 			if(s==declsqrt){//arrel
-					/*if(debug==1){
+					if(debug==1){
 							cout << endl << "declsqrt" << endl;
-							 cout << "faig arrel ?(get)" << endl;
+							 cout << "càlcul de l'arrel " << endl;
 					}
-					*/
+					
 					return Token{arrel};
 			}
 			if(s==declpow) {//pow
 					if(debug==1){
-							/*cout << endl << "declpow" << endl;
-							cout << "faig la potència?" << endl;
-							cout << "falta llegir la segona variable per fer l'exponencial, com ho faig ?" << endl;
-							*/
-							
+							cout << endl << "declpow" << endl;
+							cout << "faig la potència?és a declpow" << endl;
+							//cout << "falta llegir la segona variable per fer l'exponencial, com ho faig ?" << endl;						
 					}
 					return Token{pows};
-					//float i;
-					//llegir 
-					//expression 
-					//o
-					//primary
-					//o
-					//term	
-					//com ho faig ? com ho puc fer?
-					//return (0); //Token{pows};
+					
 			}
 			if (s==declconstat1) {
 					if(debug==1)cout << endl << " Declara VARIABLE? (crear clase i metodes pk no es pugui sobreescriure?)" << endl;
@@ -448,29 +438,21 @@ double expression();    // declaration so that primary() can call expression()
 //------------------------------------------------------------------------------
 void ajuda(){
  cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "per calcular l'arrel :" << endl; 
- cout << endl << "\tsqrt(valor)" << endl; 
- cout << endl << "per calcular el factorial :" << endl; 
- cout << endl << " valor! on valor és un número enter" << endl; 
- cout << endl << "per calcular la potencia :" << endl; 
- cout << endl << "\t pow(valor)" << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- cout << endl << "ajuda del programa ...." << endl; 
- 
- 
+ cout << endl << "\tper calcular el factorial : \"valor!\" on valor és un número enter" << endl; 
+ cout << endl << "\tper calcular la potència : \"pow(base, exponent)\"" << endl;		
+ cout << endl << "\tper calcular l'arrel quadrada : \"sqrt(valor o expressió)\"" << endl;		
+ cout << endl << "per definir variables :" << endl << "\t \"declara variable=valor\"" << endl;
+ cout << endl << "\tper calcular el residu d'una divisió : \"valor % (valor o expressió)\"" << endl;
+ cout << endl << "per sortir pots sortir amb les següents comandes :" << endl;
+ cout << endl << "\t \"quit\"" << endl;
+ cout << endl << "\t \"surt\"" << endl;
+ cout << endl << "\t \"exit\"" << endl;
+ cout << endl << "operacions bàsiques : " << endl;
+ cout << endl << "\tper multiplicar : \"valor * (valor o expressió)\"" << endl;
+ cout << endl << "\tper dividir : \"valor * (valor o expressió)\"" << endl;
+ cout << endl << "\tper sumar : \"valor + (valor o expressió)\"" << endl;		
+ cout << endl << "\tper restar : \" valor - (valor o expressió)\"" << endl;				
+ cout << endl << "\tper mostrar l'ajuda : \"ajuda\"" << endl;		
 }
 
 double calcul_pow();
@@ -480,27 +462,33 @@ double primary()
 {
     Token t = ts.get();
     switch (t.kind) {
-       //case ' ':
-	//     cout << endl << "espai pitjat" << endl;
     case '{':
 	{
             double d = expression();
             t = ts.get();
             if (t.kind != '}') error("'}' expected");
+	    //if(debug==1)cout << " case '{'" << endl << "t.kind = "<< t.kind << endl;
             return d;
         }
     case'(':    // handle '(' expression ')'
         {
             double d = expression();
             t = ts.get();
-            if (t.kind != ')') error("')' expected");
+            if (t.kind != ')' ){ //&& t.kind!=',' && t.kind!=';'){
+	      //cout << endl << "tpow.kind = " << t.kind << endl;
+	      error("')' expected");
+	    }
+	    //if(debug==1)cout << " case '('" << endl << "t.kind = "<< t.kind << endl;
             return d;
         }
     case number:             // we use '8' to represent a number
+      //if(debug==1)cout << " case 'number'" << endl << "t.kind = "<< t.kind << endl;
         return t.value;  // return the number's value
     case '-':
+      //if(debug==1)cout << " case '-'" << endl << "t.kind = "<< t.kind << endl;
 	return - primary();
     case '+':case '=': 
+      //if(debug==1)cout << " case '+'" << endl << "t.kind = "<< t.kind << endl;
 	return primary();
     case '%':
     case '!': 
@@ -510,44 +498,41 @@ double primary()
     case '/':
     case ',':
     case '#':
+    //case pows:
+      //if(debug==1)cout << " case '%,!,},),*,/,#'" << endl << "t.kind = "<< t.kind << endl;
        	return expression();
     case 'r':
 	double valor; 
 	double resultat;
 	valor = primary();
+	//if(debug==1)cout << " case 'r'" << endl << "t.kind = "<< t.kind << endl;
 	if(valor <0) {
 		cout << " D'aquest valor, " << valor << ", NO es pot calcular l'arrel REAL" << endl;
 		return (0);
 	}
 	else {
 		//if(debug==1)cout << " valor = " << valor; 
-		cout << endl << "sqrt1 primary " << endl;
+		//if(debug==1)cout << endl << "sqrt1 primary " << endl;
 		resultat=sqrt1(valor);	
 		//cout << endl << " El resultat de l'arrel de "<< valor << " és " ; // << resultat << endl;
 		return (resultat);
 	}
     case 'a': //si 'a', recull valor!!!!
-	if(debug==1)cout << "get_value(t.kind) = " << get_value(t.name) << endl;
+	//if(debug==1)cout << " case 'a'" << endl << "t.kind = "<< t.kind << endl;
+	//if(debug==1)cout << "get_value(t.kind) = " << get_value(t.name) << endl;
 	return get_value(t.name);
-//    case 'p':
-//	cout << endl << "càlcul de potència a primary" << endl;
     case 'h':
+	//if(debug==1)cout << " case 'h'" << endl << "t.kind = "<< t.kind << endl;
 	ajuda();
       return 0;
-    /*case 'p': // forçar pow(x,i) i integer ? :w
-     * 
-	double valore;
-	double valorp;
-	valorp=primary();
-	valore=expression();
-	cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
-*/
-    case pows:
+//	case pows:
 		// cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
-		return 	calcul_pow();
-    
+//	return 	expression();/*calcul_pow();*/
+    case 'p':
+	return calcul_pow();
     default:
-	if(debug==1)cout << /*"t.value = " << t.value << endl <<*/ "t.kind =" << t.kind << endl;
+	//if(debug==1)cout << /*"t.value = " << t.value << endl <<*/ "t.kind =" << t.kind << endl;
+	//if(debug==1)cout << " case default" << endl << "t.kind = "<< t.kind << endl;
         error("primary expected");
     }
 }
@@ -603,7 +588,7 @@ double term()
 //	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
 	    valor=left;
 	    left=factorial(left);
-	    cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
+	    if(debug==1)cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
 	    t = ts.get(); 
  	    break;
         case '*':
@@ -745,13 +730,13 @@ double declaration_constants()
 // declare a variable called "name ” with the initial value "expression”
 {
 Token t = ts.get();
-cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
+if(debug==1)cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
 //if( t.kind != constat ) error ("constant expected in declaration");
 
 Token t1 = ts.get();
 //cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
 
-cout << "t1.kind = " << t1.kind << endl ; //<< "t1.value = " << t1.value << endl << "t1.name = " << t1.name << endl;
+if(debug==1)cout << "t1.kind = " << t1.kind << endl ; //<< "t1.value = " << t1.value << endl << "t1.name = " << t1.name << endl;
 //if (t.kind != constat || t1.kind != name) error ("name expected in declaration or constant expected in declaration");
 string var_name = t.name; //t1.name;
 if ((t1.kind != '=')&&(t1.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
@@ -832,8 +817,10 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 8 "<< endl;
-	if(debug==1)cout << "Exercises" << endl << "8. The grammar in §7.6.4 is incomplete (we did warn you against overreliance on comments); it does not define sequences of statements, such as 4+4; 5–6;, and it does not incorporate the grammar changes outlined in §7.8. Fix that grammar. Also add whatever you feel is needed to  that comment as the first comment of the calculator program and its overall comment." << endl;
+	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 9, falta acceptar les operacions ... mirar d'afegir token a les operacions de +,- i * i / ??? "<< endl;
+	if(debug==1)cout << "Exercises" << endl << "9. Suggest three improvements (not mentioned in this chapter) to the calculator. Implement one of them.(OPERACIONS amb potències, no en funciona cap!(+,-,*,/))" << endl;
+	if(debug==1) cout << endl << "• Our primary study is programming.• Our output is programs/systems.• A programming language is (only) a tool." << endl;
+	
 	/*
 	 * 
 	 http://www.cplusplus.com/doc/tutorial/classes/
