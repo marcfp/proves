@@ -356,14 +356,18 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 		if(isalpha(ch)){ //si es let, val l, entro aquí.
 			string s;
 			//if(debug==1)cout << "s(abans) = " <<  s << endl;
+			//ch='(' quan faig pow 
+			/*if(ch=='(') {
+			    //cin.putback(ch);
+			    cout << endl << "(ch =='(')=1!!! " << endl;
+			}*/
+			cout << endl << "ch = " << ch << endl << "al calcular potencia, es llegeix un ( de més ... mirar per a què passa això, en sqrt no passa, per exemple ... pk ?" ;
 			s += ch;
 			//if(debug==1)cout << "s(després) = " << s << endl;
 			while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')){ // comparar aquí si ch == _ (underscore), no ?
 					 s+=ch;
 /*					if(debug==1){
-						cout << endl << "carrega" << endl;
-						cout << endl << " ch = " << ch << endl << " s = " << s << endl << "decllet = " << decllet << endl << " s = " << s << endl;
-						cout << "s = " << s << endl;
+						cout << endl << "carrega" << endl; 						cout << endl << " ch = " << ch << endl << " s = " << s << endl << "decllet = " << decllet << endl << " s = " << s << endl; 						cout << "s = " << s << endl;
 						}
 */
 			}
@@ -376,8 +380,7 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			if(s==declsurt){
 			      if(debug==1)cout << "SURT?" << endl;
 			      return Token{surt};
-			}
-			
+			}			
 			if(s==declquit){
 			      if(debug==1)cout << "QUIT?" << endl;
 			      return Token{quit1};
@@ -402,19 +405,18 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 					if(debug==1){
 							cout << endl << "declsqrt" << endl;
 							 cout << "càlcul de l'arrel " << endl;
-					}
-					
+					}					
 					return Token{arrel};
 			}
 			if(s==declpow) {//pow
 					if(debug==1){
 							cout << endl << "declpow" << endl;
-							cout << "faig la potència?és a declpow" << endl;
+							cout << "surto Token{pows}" << endl;
 							//cout << "falta llegir la segona variable per fer l'exponencial, com ho faig ?" << endl;						
 					}
 					return Token{pows};
 					
-			}
+			}			
 			if (s==declconstat1) {
 					if(debug==1)cout << endl << " Declara VARIABLE? (crear clase i metodes pk no es pugui sobreescriure?)" << endl;
 					return Token{constat};
@@ -422,8 +424,7 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			return Token{name,s};
 		}
 		//cout << "ch =" << ch << endl;
-	        error("Bad token");
-	
+	        error("Bad token");	
     }
 }
 
@@ -455,7 +456,7 @@ void ajuda(){
  cout << endl << "\tper mostrar l'ajuda : \"ajuda\"" << endl;		
 }
 
-double calcul_pow();
+double calcul_pow(int i);
 double sqrt1( double val);
 // deal with numbers and parentheses
 double primary()
@@ -529,7 +530,8 @@ double primary()
 		// cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
 //	return 	expression();/*calcul_pow();*/
     case 'p':
-	return calcul_pow();
+	
+	return calcul_pow(0);
     default:
 	//if(debug==1)cout << /*"t.value = " << t.value << endl <<*/ "t.kind =" << t.kind << endl;
 	//if(debug==1)cout << " case default" << endl << "t.kind = "<< t.kind << endl;
@@ -581,50 +583,35 @@ double term()
 
     while(true) {
         switch (t.kind) {
-	  
-	  //case 'p':
-	//cout << endl << "càlcul de potència a term" << endl;
-	case '!':
-//	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
-	    valor=left;
-	    left=factorial(left);
-	    if(debug==1)cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
-	    t = ts.get(); 
+	  case '!':
+//	  	  if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
+		  valor=left;
+		  left=factorial(left);
+		  if(debug==1)cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
+		  t = ts.get(); 
  	    break;
         case '*':
-            left *= primary();
-            t = ts.get();
+		  left *= primary();
+		  t = ts.get();
             break;
         case '/':
             {
-                double d = primary();
-                if (d == 0) error("divide by zero");
+		double d = primary();
+		if (d == 0) error("divide by zero");
                 left /= d;
                 t = ts.get();
-                break;
+             break;
             }
 	case '%':
 	{
-		//pagina 209 del llibre pdf, mirar narrow_cast
-		//int i1 = narrow_cast<int>(left); //no incloc narrow_cast, mirar-ho bé ... com fer-ho
-		//int i2 = narrow_cast<int>(primary());
 		try{
 			 
-		  //pàgina 208 del llibre pdf pregunta 7. What does narrow_cast do?
 		    int i1 = narrow_cast<int>(left);
 		    int i2 = narrow_cast<int>(primary());
 		    if (i2 == 0) error("%: divide by zero");
 		    left = i1 % i2;
 		    t = ts.get();
 		    break;
-		   
-		/*	double d = primary();
-			if(d==0) error("divide by zero");
-//			if(i2==0) error("% : divide by zero");
-			left = fmod(left,d);//i1 % i2;
-			t = ts.get();
-			break;
-		*/	
 		}
 		catch (exception& e){
 			cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
@@ -655,6 +642,9 @@ double expression()
             left -= term();    // evaluate Term and subtract or change sign
             t = ts.get();
             break;
+	case pows:
+	  cout << endl << "expression" << endl;
+	   break;
         default:
             ts.putback(t);     // put t back into the token stream
             return left;       // finally: no more + or -: return the answer
@@ -664,34 +654,33 @@ double expression()
 
 double define_name(string var, double val);
 
-double calcul_pow()
+double calcul_pow(int i)
 {
-
+cout << endl << " i =" << i << endl;
   try{
     Token t= ts.get();//pow
     Token t2 = ts.get(); //valor1
-
-    double d=t2.value; //Read first value
+    double d=0; //Read first value
     Token t3 = ts.get(); //coma 
-
     
-    //Token t4 = ts.get(); //valor2 //forçar integer
-    //float i=(int)t4.value;
     try{
+      
       Token t4=ts.get(); //valor2 //forçar integer ?
+      //cout << endl << "t4.value = " << t.value << endl << "t.name =" << t.name << endl <<"t.kind=" << t.kind << endl;
       int i= (int)t4.value;     
-      if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
+      //if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
+      d=t2.value;
       for (int j=1; j<i; j++) d=d*t2.value;
       Token t5 = ts.get();//)  
-      
-      //return(d);
+      //cout << endl << "t5.value = " << t.value << endl << "t.name =" << t.name << endl <<"t.kind=" << t.kind << endl;  
+      return(d);
     }
     catch(exception& e){
       cout << "no és un enter ?" << endl;
     }
   
     
-    return(d);
+    return(d);//t2.value);
     
   }	
   catch(exception& e){
@@ -707,15 +696,10 @@ double declaration()
 // declare a variable called "name ” with the initial value "expression”
 {
 Token t = ts.get();
-//cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
-cout << "t.kind = " << t.kind << endl << "t.value = " << t.value << endl << "t.name = " << t.name << endl;
 if (t.kind != name) error ("name expected in declaration");
 string var_name = t.name;
-
-
 Token t2 = ts.get();
 if ((t2.kind != '=')&&(t2.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
-//cout << "si?" << endl;
 double d = expression();
 cout << " d= " << d << endl;
 define_name(var_name,d);
@@ -730,22 +714,14 @@ double declaration_constants()
 // declare a variable called "name ” with the initial value "expression”
 {
 Token t = ts.get();
-if(debug==1)cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
-//if( t.kind != constat ) error ("constant expected in declaration");
-
+//if(debug==1)cout << "t.kind = " << t.kind << endl << " constat = " <<constat << endl; //<< " t.value = " << t.value << "t.name = " << t.name;
 Token t1 = ts.get();
-//cout << "DEBUGt.kind = " << t.kind << endl << " name =" << name << endl; //kind value i name
-
-if(debug==1)cout << "t1.kind = " << t1.kind << endl ; //<< "t1.value = " << t1.value << endl << "t1.name = " << t1.name << endl;
+//if(debug==1)cout << "t1.kind = " << t1.kind << endl ; //<< "t1.value = " << t1.value << endl << "t1.name = " << t1.name << endl;
 //if (t.kind != constat || t1.kind != name) error ("name expected in declaration or constant expected in declaration");
 string var_name = t.name; //t1.name;
 if ((t1.kind != '=')&&(t1.kind != '_')) error("_ or = missing in declaration of ", var_name);//aqui és on es llegeix el '_', és aquí on l'he de permetre.
-
-//Token t2 = ts.get();
-
-//cout << "si?" << endl;
 double d = expression();
-cout << " d= " << d << endl;
+//if(debug==1)cout << " d= " << d << endl;
 define_name_const(var_name,d);
 if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
 set_value(var_name,d);
@@ -759,14 +735,8 @@ double statement()
 	 case constat:
 		 return declaration_constants();
          case let:
-                 return declaration();
-	 case pows:
-		// cout << "statement pow" << endl << "t.kind = "<< t.kind << endl;
-		return 	calcul_pow();
-	//	cout << "ts.putback(t) = " << ts.putback(t) << endl;
-//		return (ts.putback(t)); 
-         default:
-		//cout << "passa ?" << endl ;
+                 return declaration();	
+         default:	
 		ts.putback(t);
                 return expression();
   }
@@ -784,8 +754,6 @@ void calculate()
        			while(t.kind == print) t = ts.get();
 			
 		        if(t.kind == quit1){
-//				keep_window_open();
-//				return (0);
 				if(debug==1)cout << "AQUI ara hauria de sortir per  \"QUIT\"" << endl;
 				return; 
 	        	}
@@ -797,12 +765,10 @@ void calculate()
 			  if(debug==1)cout << "AQUI ara hauria de sortir per \"EXIT\"" << endl;
 			   return;
 			}
-			//if(debug==1)cout << "t.kind = " << t.kind << endl;
 			ts.putback(t);
    		     	cout << result << statement() << endl; //expression() << endl;
 		}
 		catch(exception& e){ //si hi ha error d'introducció, surt aquí ...
-//			cout << endl << "surto aqui, oi, pel let ??" << endl ;
 			cerr << e.what() << endl;
 			clean_up_mess();
 		}
@@ -817,20 +783,9 @@ try
 	define_name("pi", 3.1415926535);
 	define_name("ne", 2.7182818284);
 	define_name("k", 1000);
-	if(debug==1)cout << "\npàgina 226 del pdf,  TEMA 7, Exercises 9, falta acceptar les operacions ... mirar d'afegir token a les operacions de +,- i * i / ??? "<< endl;
 	if(debug==1)cout << "Exercises" << endl << "9. Suggest three improvements (not mentioned in this chapter) to the calculator. Implement one of them.(OPERACIONS amb potències, no en funciona cap!(+,-,*,/))" << endl;
 	if(debug==1) cout << endl << "• Our primary study is programming.• Our output is programs/systems.• A programming language is (only) a tool." << endl;
-	
-	/*
-	 * 
-	 http://www.cplusplus.com/doc/tutorial/classes/
-	 http://www.cplusplus.com/doc/tutorial/templates/
-	 http://www.cplusplus.com/doc/tutorial/classes2/
-	 http://www.cplusplus.com/doc/tutorial/inheritance/
-	 http://www.cplusplus.com/doc/tutorial/polymorphism/
-	 */
 	calculate();
-	if(debug==1)cout << "Fora calculate" << endl;
 	keep_window_open();
 	  return 0;
 }
@@ -843,4 +798,4 @@ catch (...) {
     cerr << "Oops: unknown exception!\n";
     keep_window_open("~~");
     return (2);
-}
+  }
