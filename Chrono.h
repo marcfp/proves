@@ -33,7 +33,7 @@ namespace Chrono{
 	bool operator==(const Date& a, const Date& b);
 	bool operator!=(const Date& a, const Date& b);
 	ostream& operator << (ostream & os, const Date& d);
-	istream& operator >>(istream& is, Date&dd);
+	istream& operator >> (istream& is, Date&dd);
 
 	Day day_of_week(const Date& d);	//day of the week of d
 	Date next_Sunday(const Date d); //next Sunday after d

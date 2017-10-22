@@ -7,7 +7,7 @@ namespace Chrono {
 	Date::Date(int yy, Month mm, int dd)
 		:y{yy}, m{mm}, d{dd}
 	{
-	if(!is_date(yy,mm,dd) throw Invalid{};
+		if(!is_date(yy,mm,dd) throw Invalid{};
 	}
 	
 	const Date& default_date()
