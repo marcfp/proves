@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+
+//#include "name_pairs.h"
+
 using namespace std;
 
 class Name_Pairs {
@@ -10,6 +13,7 @@ class Name_Pairs {
     void set_values (string, double);
   //  void get_values(Name_pairs);
 };
+
 
 void Name_Pairs::set_values (string nom, double edat) {
   name = nom;
