@@ -18,7 +18,34 @@ void Name_Pairs::set_age(double edat_entrada)
 	age=edat_entrada;
 }
 
+void Name_Pairs::print()
+{
+//for(int i=0;i<namepairs.size();i++) cout << "Posició " << i << " conté : " << namepairs[i].name << ", " << namepairs[i].age << endl;
+for(int i=0; i<this.size;i++) cout << "Posició " << i << " conté : " << this[i].name << ", " << this[i].age << endl;
+
+
+}
+
 bool ordena (Name_Pairs i, Name_Pairs j) { return (i.age<j.age); } 
+
+void llegir (vector<Name_Pairs> &namepairs, Name_Pairs &tem)
+{
+ while ( tem.age!='0' && tem.name!="0"){
+                cout << "Entra el nom \t : ";
+                string nom;
+                cin >> nom;             //carrega a la variable
+                tem.set_nom(nom);  //carrega a la clase
+                cout << "Entra l'edat \t : ";
+                double age;
+                cin >> age;             //carrega a la variable
+                tem.set_age(age); //carrega a la clase
+                namepairs.push_back(tem); //carrega al vector
+        }
+
+
+
+
+}
 
 int main () {
 
@@ -27,20 +54,11 @@ int main () {
 	
 	cout << "\nPer acabar el programa entra \" 0\" i surtiràs de l'introducció de dades i et mostraré tot el que has introduit\n" ;
 	//falta fer metode de lectura	
-	while ( tem.age!='0' && tem.name!="0"){
-		cout << "Entra el nom \t : ";
-		string nom;
-		cin >> nom;		//carrega a la variable
-		tem.set_nom(nom);  //carrega a la clase
-		cout << "Entra l'edat \t : ";
-		double age;
-		cin >> age;		//carrega a la variable
-		tem.set_age(age); //carrega a la clase
-		namepairs.push_back(tem); //carrega al vector
-	}
-
+	llegir(namepairs, tem);
+	
 	cout << endl << "Sense ordenar"<< endl;
 	//falta fer metode print
+	//namepairs.print();
 	for(int i=0;i<namepairs.size();i++) cout << "Posició " << i << " conté : " << namepairs[i].name << ", " << namepairs[i].age << endl;
 	cout << endl << "Ordenat" << endl;
 	//funció d'ordenació.
