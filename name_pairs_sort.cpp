@@ -18,15 +18,15 @@ void Name_Pairs::set_age(double edat_entrada)
 	age=edat_entrada;
 }
 
-void Name_Pairs::print()
-{
-//for(int i=0;i<namepairs.size();i++) cout << "Posició " << i << " conté : " << namepairs[i].name << ", " << namepairs[i].age << endl;
-for(int i=0; i<this.size;i++) cout << "Posició " << i << " conté : " << this[i].name << ", " << this[i].age << endl;
-
-
-}
-
 bool ordena (Name_Pairs i, Name_Pairs j) { return (i.age<j.age); } 
+
+void print (vector<Name_Pairs> &namepairs)
+{
+
+	for(int i=0; i<namepairs.size();i++){
+		cout << " i = " << i << " namepairs[i].name = " << namepairs[i].name << ", namepairs[i].age =" << namepairs[i].age << endl;
+	}
+}
 
 void llegir (vector<Name_Pairs> &namepairs, Name_Pairs &tem)
 {
@@ -53,20 +53,21 @@ int main () {
 	Name_Pairs tem;
 	
 	cout << "\nPer acabar el programa entra \" 0\" i surtiràs de l'introducció de dades i et mostraré tot el que has introduit\n" ;
-	//falta fer metode de lectura	
+	
 	llegir(namepairs, tem);
 	
 	cout << endl << "Sense ordenar"<< endl;
-	//falta fer metode print
-	//namepairs.print();
-	for(int i=0;i<namepairs.size();i++) cout << "Posició " << i << " conté : " << namepairs[i].name << ", " << namepairs[i].age << endl;
+
+	print(namepairs);
 	cout << endl << "Ordenat" << endl;
-	//funció d'ordenació.
+
+		//funció d'ordenació.
+
 	sort(namepairs.begin(), namepairs.end(), ordena);
-	//falta fer mètode print
-	cout << "namepairs.size()= " << namepairs.size() << endl; //<< "\n namepairs.end() =" << namepairs.end() << endl;
-	for(int i=0;i<namepairs.size();i++) cout << "Posició " << i << " conté : " << namepairs[i].name << ", " << namepairs[i].age << endl; 
-	
+
+		//cout << "namepairs.size()= " << namepairs.size() << endl; 
+
+	print(namepairs);
   return (0);
 
 }
