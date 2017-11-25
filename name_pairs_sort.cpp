@@ -23,14 +23,17 @@ bool ordena (Name_Pairs i, Name_Pairs j) { return (i.age<j.age); }
 void print (vector<Name_Pairs> &namepairs)
 {
 
-	for(int i=0; i<namepairs.size();i++){
-		cout << " i = " << i << " namepairs[i].name = " << namepairs[i].name << ", namepairs[i].age =" << namepairs[i].age << endl;
+	if(namepairs.size()>0){
+		for(int i=0; i<namepairs.size();i++){
+			cout << " i = " << i << " namepairs[i].name = " << namepairs[i].name << ", namepairs[i].age =" << namepairs[i].age << endl;
+		}
 	}
+	else cout << endl << "No hi ha RES per imprimir" << endl;
 }
 
 void llegir (vector<Name_Pairs> &namepairs, Name_Pairs &tem)
 {
- while ( tem.age!='0' && tem.name!="0"){
+ while ( tem.age!=0 && tem.name!="0"){
                 cout << "Entra el nom \t : ";
                 string nom;
                 cin >> nom;             //carrega a la variable
@@ -52,7 +55,7 @@ int main () {
 	vector<Name_Pairs> namepairs;
 	Name_Pairs tem;
 	
-	cout << "\nPer acabar el programa entra \" 0\" i surtiràs de l'introducció de dades i et mostraré tot el que has introduit\n" ;
+	cout << "\nPer acabar el programa entra \"0\", en el nom o edat i surtiràs de l'introducció de dades i et mostraré tot el que hagis introduit\n" ;
 	
 	llegir(namepairs, tem);
 	
