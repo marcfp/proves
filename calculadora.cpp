@@ -288,6 +288,10 @@ const string declquit="quit";
 const char exit1='e';
 const string declexit="exit";
 
+const char ajuda='h';
+const string declajuda="ajuda";
+const string declhelp="help";
+
 const char constat='c';
 const string declconstat1="declara";
 // name token
@@ -402,7 +406,11 @@ Token Token_stream::get() //buscar espais i retorns de carro '\n' amb la llibrer
 			if (s==declconstat1) {
 					if(debug==1)cout << endl << " Declara VARIABLE? (crear clase i metodes pk no es pugui sobreescriure?)" << endl;
 					return Token{constat};
-			}						
+			}
+			if(s==declajuda || s==declhelp) {
+					if(debug==1) cout << endl << endl << endl << endl << endl << "AJUDA ?" << endl << endl << endl << endl;
+					return Token{ajuda}; 
+			}
 			return Token{name,s};
 		}
 		//cout << "ch =" << ch << endl;
@@ -597,7 +605,14 @@ double expression()
 }
 
 double define_name(string var, double val);
-
+double print_ajuda()
+{
+	cout << endl<< endl << endl << endl << endl << "Funció ajuda" << endl << endl << endl << endl << endl << endl<< endl;
+	cout << "per declara una variable escriure : # variable = valor ;" << endl << " Per exemple # x = 3 ;" << endl;
+	cout << "per calcular l'arrel d'un nombre escriure : sqrt(valor);" << endl << " Per exemple sqrt(25);" << endl;
+	cout << "per sortir del programa has d'escriure : quit ó exit"  << endl;
+	return (0);
+} 
 double calcul_pow()
 {
 
@@ -697,6 +712,8 @@ double statement()
 		return 	calcul_pow();
 	//	cout << "ts.putback(t) = " << ts.putback(t) << endl;
 //		return (ts.putback(t)); 
+	 case ajuda:
+		return print_ajuda();
          default:
 		//cout << "passa ?" << endl ;
 		ts.putback(t);
