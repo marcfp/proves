@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void Name_Pairs::read_names(){
+void Name_Pairs::read_names(){// return int per printar ?
 	string nome;
 	string zero="0";
 	while(nome.compare(zero)!=0) {
@@ -15,8 +15,8 @@ void Name_Pairs::read_names(){
 		cout << endl << "Introdueix el nom : " ;
 		cin >> nome;
 		set_nom(nome);
+	
 	}
-
 };
 void Name_Pairs::set_nom(string nome){
 	name.push_back(nome);
@@ -26,7 +26,7 @@ void Name_Pairs::set_age(double edat){
 	age.push_back(edat);
 }
 
-void Name_Pairs::read_ages(){
+void Name_Pairs::read_ages(){ //return int per printar ?
 	double edat;
 	cout << endl << "Llegeix edats" << endl;
 	while(edat!=-1){
