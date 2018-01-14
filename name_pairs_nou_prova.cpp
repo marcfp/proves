@@ -55,10 +55,15 @@ void Name_Pairs::print(){
 	}
 }
 
+bool ordena (double a, double b) { return a<b; }
 void Name_Pairs::sort(){
 	cout << endl << "Ordena els vectors" << endl;
-
-
+//	sort(age.begin(), age.end());//,ordena(age.begin(), age.end());
+	vector<double>::iterator it_age = age.begin(); //escriu el primer element entrat 
+//com ho puc fer per recorrer i ordenar els valors ?
+	
+	cout << endl << "age.begin = " << *it_age << endl;
+	
 }
 
 int main () {
