@@ -28,11 +28,16 @@ void Name_Pairs::set_age(double edat){
 
 void Name_Pairs::read_ages(){ //return int per printar ?
 	double edat;
-	cout << endl << "Llegeix edats" << endl;
-	while(edat!=-1){
-		cout << endl << "Introdueix l'edat : " ;
+
+	cout << endl << endl << endl << endl  << "Llegeix edats" << endl << endl << endl << endl;
+	double val = name.size();
+	vector<string>::iterator it_nom = name.begin();
+	while(val >1){ 
+		cout << endl << "Introdueix l'edat  de "<< *it_nom << " : " ;
+		it_nom++;
 		cin >> edat;
 		set_age(edat);
+		val--;
 	}
 	
 };	
@@ -41,17 +46,19 @@ void Name_Pairs::print(){
 //https://www.youtube.com/watch?v=ZTH328L5V-U
 	vector<string>::iterator it_nom = name.begin();
 	cout << endl << "Escriure dades" << endl;
-	for(; it_nom != name.end(); it_nom++){
-		cout << "Nom = " << *it_nom << endl;
-	}
 	vector<double>::iterator it_age = age.begin();
-	for(; it_age != age.end(); it_age++){
+
+	for(; it_nom != name.end()-1; it_nom++){
+		cout << "Nom = " << *it_nom << endl;
 		cout << "edat = " << *it_age << endl;
+		it_age++;
 	}
 }
 
 void Name_Pairs::sort(){
 	cout << endl << "Ordena els vectors" << endl;
+
+
 }
 
 int main () {
@@ -61,12 +68,15 @@ int main () {
 
 
 //bucle per comparar valor diferent a 0, tant de nom com d'edat 
-	
+	cout << "Llegeix dades, primer es llegeixen els noms, després es llegeixen les edats, per finalitzar els nom, escriu 0, es llegiran el mateix nombre d'edats" << endl;	
 	np.read_names();
 	np.read_ages();
 
 	np.print();
-		np.sort();
+
+	np.sort();
+
+	np.print();
   return (0);
 
 }

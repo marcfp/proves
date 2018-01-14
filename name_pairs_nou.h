@@ -4,8 +4,8 @@ using namespace std;
 class Name_Pairs {
   public:
     //setters
-    void set_nom(vector<string>);
-    void set_age(vector<double>);
+    void set_nom(string);
+    void set_age(double);
     
    void print();
     
