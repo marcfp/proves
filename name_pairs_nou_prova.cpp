@@ -2,10 +2,14 @@
 #include <vector>
 #include <algorithm>
 #include <string.h>
+//#include <functional>
+
 
 #include "name_pairs_nou.h"
 
 using namespace std;
+
+bool myfunction (const double& i,const double& j) { return i<j; }
 
 void Name_Pairs::read_names(){// return int per printar ?
 	string nome;
@@ -57,8 +61,10 @@ void Name_Pairs::print(){
 
 bool ordena (double a, double b) { return a<b; }
 void Name_Pairs::sort(){
+//https://es.stackoverflow.com/questions/41478/ordenar-dos-vectores-con-sort
 	cout << endl << "Ordena els vectors" << endl;
 //	sort(age.begin(), age.end());//,ordena(age.begin(), age.end());
+//	sort(age.begin(), age.end(), myfunction);
 	vector<double>::iterator it_age = age.begin(); //escriu el primer element entrat 
 	vector<double>::iterator it_age_fi = age.end()-1;
 //com ho puc fer per recorrer i ordenar els valors ?
@@ -67,6 +73,8 @@ void Name_Pairs::sort(){
 //	sort(age.begin(), age.end());
 //	sort(begin(age), end(age));
 //	sort(it_age, it_age_fi);	
+//	sort( it_age, it_age_fi, myfunction);
+//	sort(age.rbegin(), age.rend());
 }
 
 int main () {
