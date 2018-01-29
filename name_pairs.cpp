@@ -49,10 +49,15 @@ void Name_Pairs::print(){
 	cout << endl << "Escriure dades(ordenadas alfabéticament A .. Z)" << endl;
 	vector<double>::iterator it_age = age.begin();
 
-	for(; it_nom != name.end()-1; it_nom++){
-		cout << "Nom = " << *it_nom << endl;
-		cout << "edat = " << *it_age << endl;
-		it_age++;
+	if(name.size()>1){// si existeix alguna cosa ....
+		for(; it_nom != name.end()-1; it_nom++){ //-1 erase last input 0
+			cout << "Nom = " << *it_nom << endl;
+			cout << "edat = " << *it_age << endl;
+			it_age++;
+		}
+	}
+	else{
+		cout << endl << "No hi ha res a mostrar" << endl;
 	}
 }
 
@@ -91,11 +96,13 @@ int main () {
 	cout << "Llegeix dades, primer es llegeixen els noms, després es llegeixen les edats, per finalitzar els nom, escriu 0, es llegiran el mateix nombre d'edats" << endl;	
 	np.read_names();
 	np.read_ages();
-
+	
+	cout << endl << "Dades introduides sense ordenar " << endl;
 	np.print();
 //	cout << endl << "Ordena" << endl;
 	np.sort();
-//	cout << endl << "Ordenació feta" << endl;
+
+	cout << endl << "Dades introuides irdenades alfabéticament" << endl;
 	np.print();
 
   return (0);
