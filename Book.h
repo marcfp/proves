@@ -54,6 +54,9 @@ class Book {
 	string autor;
 	Date date;
 
+	int getsIsdn(){
+		return(this->isdn);
+	}
 	void getIsdn(){
 		cout << endl << "get Isdan of book " << endl;
 		cout << endl << this->isdn << endl;
@@ -70,18 +73,22 @@ class Book {
 		cout << endl << this->title << endl;
 	}
 	void setTitle(){
-		string c;
+		char titol[512];
 		cout << endl << "set Tittle of book " << endl;
 		cout << endl << "input Title of the Book" << endl;
-		cin >> c;
-		this->title = c;
+		cin.getline(titol,512);
+		cout << endl << "titol llegit = " << titol << endl;
+		this->title = titol;
+		cout << endl << "carrego titol a this->title = " << this->title << endl;
 	}
 	void setAutor(){
-		string c;
+		char autor[512];
+		cin.clear();
 		cout << endl << "set Autor of book" << endl;
 		cout << endl << "input Autor of book " << endl;
-		cin >> c;
-		this->autor = c;
+		cin.ignore(512,'\n');
+		cin.getline(autor,512);
+		this->autor = autor;
 	}
 	void getAutor(){
 		cout << endl << "get Autor of book" << endl;

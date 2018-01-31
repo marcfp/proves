@@ -30,6 +30,17 @@ int main () {
 	book.setTitle();
 	book.getTitle();
 	cout << endl << "fora" << endl;
+//	cout << endl << "Introdueix llibres (per sortir introduir Isdn '-1'" << endl;
+	do{
+		cout << endl << "Introdueix llibres (per sortir introduir Isdn '-1'" << endl;
+		book.setIsdn();
+		if(book.getsIsdn()==-1) break;
+		
+	        book.setAutor();
+	        book.getAutor();
+	        book.setTitle();
+	        book.getTitle();
+	}while(book.getsIsdn() !=-1);
 	//book.
   return (0);
 
