@@ -29,6 +29,10 @@ int main () {
 	book.getAutor();
 	book.setTitle();
 	book.getTitle();
+	book.date.setYear();
+//	book.setChecked();
+//	book.getChecked();
+//	book.date.setMonth();
 	cout << endl << "fora" << endl;
 //	cout << endl << "Introdueix llibres (per sortir introduir Isdn '-1'" << endl;
 	do{
@@ -40,6 +44,11 @@ int main () {
 	        book.getAutor();
 	        book.setTitle();
 	        book.getTitle();
+		book.date.setYear();
+		book.setChecked();
+		book.getChecked();
+//		book.date.setMonth();
+//		book.date.setDay();
 	}while(book.getsIsdn() !=-1);
 	//book.
   return (0);
