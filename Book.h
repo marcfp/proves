@@ -12,14 +12,16 @@ string days[] = {"Diu", "Dll", "Dmt", "Dmc", "Dj", "Dv",
                       "Dss"};
 
 class Date{
-	    // Private Members
-    private:
+// Private Members
+//    private:
+	//ha de ser public per accedir des del pare ?
+	public:
         string month;
         string day;
         int date;
         int year;
     // Public Members
-    public:
+  //  public:
         // Default Constructor
         Date() { 
                 const int BASE_YEAR = 1900;
@@ -35,14 +37,12 @@ class Date{
 
         //void printDate(void) { 
 	int printDate(){
-            std::cout <<
-			//return (
-			  "Data actual :  " 
-                      << this->day << ", " << this->date << " de "
-                      << this->month  << " del " << this->year; //);
+		this -> day = this -> day;
+		this -> date = this -> date;
+		this -> month = this -> month;
+		this -> year = this -> year;
 		return (0);
         }
-
         // Destructor
         ~Date() {}
 };
@@ -50,22 +50,43 @@ class Book {
   public:
     //setters
 	int64_t isdn;
-	std::string title;
-	std::string autor;
+	string title;
+	string autor;
 	Date date;
-//	Date copyrightdate; // = new Date(30,1,2018);
-/*	unsigned int dia, mes;
-	int ano;
-	
-	do{
-		cout << "\n Introdueix el dia : " ;
-		cin >> dia;
-		cout << "\n Intrudueix el mes : " ;
-		cin >> mes;
-		cout << "\n Introdueix l'any : " ;
-		cin >> ano;
-	}while (!esCorrecta(dia, mes, ano));
-*/
+
+	void getIsdn(){
+		cout << endl << "get Isdan of book " << endl;
+		cout << endl << this->isdn << endl;
+	}
+	void setIsdn(){
+		int isdn;
+		cout << endl << "set Isdn of book " << endl;
+		cout << endl << "input Isdn of the Book" << endl;
+		cin >> isdn;
+		this->isdn = isdn;
+	}	
+	void getTitle(){
+		cout << endl << "get Title of book " << endl;
+		cout << endl << this->title << endl;
+	}
+	void setTitle(){
+		string c;
+		cout << endl << "set Tittle of book " << endl;
+		cout << endl << "input Title of the Book" << endl;
+		cin >> c;
+		this->title = c;
+	}
+	void setAutor(){
+		string c;
+		cout << endl << "set Autor of book" << endl;
+		cout << endl << "input Autor of book " << endl;
+		cin >> c;
+		this->autor = c;
+	}
+	void getAutor(){
+		cout << endl << "get Autor of book" << endl;
+		cout << endl << this->autor << endl;
+	}
 };
 
 
