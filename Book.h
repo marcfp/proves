@@ -1,6 +1,8 @@
 #include <iostream>
 #include <ctime>
 #include <string>
+#include <sstream>
+
 
 using namespace std;
 string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
@@ -129,7 +131,7 @@ class Date{
 class Book {
   public:
     //setters
-	int64_t isdn;
+	string isdn;
 	string title;
 	string autor;
 	Date date;
@@ -153,19 +155,28 @@ class Book {
 		
 	}
 
-	int getsIsdn(){
+	string getsIsdn(){
 		return(this->isdn);
 	}
 	void getIsdn(){
 		cout << endl << "get Isdan of book " << endl;
 		cout << endl << this->isdn << endl;
 	}
+	
+	string IntToString (int a)
+	{
+	    ostringstream temp;
+	    temp<<a;
+	    return temp.str();
+	}	
+
 	void setIsdn(){
-		int isdn;
+		string isdn;
 		cout << endl << "set Isdn of book " << endl;
 		cout << endl << "input Isdn of the Book" << endl;
 		cin >> isdn;
-		this->isdn = isdn;
+		this->isdn = isdn; //IntToString(isdn);
+	//	this->isdn = to_string(isdn);
 	}	
 	void getTitle(){
 		cout << endl << "get Title of book " << endl;

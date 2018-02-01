@@ -12,10 +12,12 @@ using namespace std;
 
 
 int main () {
+	//vector<Book> book;
 	Book book;
 
 	cout << endl << endl << "Books" << endl << endl;
-	book.isdn=123412341;
+	/*
+	book.isdn="123412341";
 	cout << endl << "ISDN book = " << book.isdn << endl ;
 	cout << endl << "book.ttile = " << book.title << endl;
 	cout << endl << "book.autor = " << book.autor << endl;
@@ -23,6 +25,7 @@ int main () {
 	cout << endl << "book.date.date = " << book.date.date << endl;
 	cout << endl << "book.date.month = " << book.date.month << endl;
 	cout << endl << "book.date.year = " << book.date.year << endl;
+	
 	book.setIsdn();
 	book.getIsdn();
 	book.setAutor();
@@ -30,15 +33,13 @@ int main () {
 	book.setTitle();
 	book.getTitle();
 	book.date.setYear();
-//	book.setChecked();
-//	book.getChecked();
-//	book.date.setMonth();
 	cout << endl << "fora" << endl;
-//	cout << endl << "Introdueix llibres (per sortir introduir Isdn '-1'" << endl;
+	*/
 	do{
 		cout << endl << "Introdueix llibres (per sortir introduir Isdn '-1'" << endl;
+	//	book.
 		book.setIsdn();
-		if(book.getsIsdn()==-1) break;
+		if(book.getsIsdn()=="-1") break;
 		
 	        book.setAutor();
 	        book.getAutor();
@@ -47,10 +48,7 @@ int main () {
 		book.date.setYear();
 		book.setChecked();
 		book.getChecked();
-//		book.date.setMonth();
-//		book.date.setDay();
-	}while(book.getsIsdn() !=-1);
-	//book.
+	}while(book.getsIsdn() !="-1");
   return (0);
 
 }
