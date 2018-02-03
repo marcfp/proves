@@ -39,8 +39,8 @@ int main () {
 		cout << endl << "Introdueix llibres (per sortir introduir Isdn '-1'" << endl;
 	//	book.
 		book.setIsdn();
-		if(book.getsIsdn()=="-1") break;
-		
+		if(book.getsIsdn()=="0") break;
+		cout << endl << "book.getsIsdn () ==" << book.getsIsdn() << endl;
 	        book.setAutor();
 	        book.getAutor();
 	        book.setTitle();
@@ -48,7 +48,7 @@ int main () {
 		book.date.setYear();
 		book.setChecked();
 		book.getChecked();
-	}while(book.getsIsdn() !="-1");
+	}while(book.getsIsdn() !="0");
   return (0);
 
 }

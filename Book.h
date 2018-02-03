@@ -138,7 +138,7 @@ class Book {
 	bool checked;
 
 	void setChecked (){
-		bool check=-1;
+		int check=-1;
 		while (check<0 || check>1) {
 			cout << endl << "S'ha deixat el llibre ?(1 si, 0 no)" << endl;
 			cin >> check;
@@ -147,7 +147,8 @@ class Book {
 	}
 
 	int getChecked(){
-		return(this->checked);
+		cout << "checked = " << this->checked;
+		return (this->checked);
 	}	
 
 	void getAny(){
@@ -159,8 +160,7 @@ class Book {
 		return(this->isdn);
 	}
 	void getIsdn(){
-		cout << endl << "get Isdan of book " << endl;
-		cout << endl << this->isdn << endl;
+		cout << endl << "get Isdn of book " << this->isdn << endl;
 	}
 	
 	string IntToString (int a)
@@ -171,12 +171,21 @@ class Book {
 	}	
 
 	void setIsdn(){
-		string isdn;
+		int isdn1=-1;
+		int isdn2=-1;
+		int isdn3=-1;
+		char isdn4='-1';
+
+		string tot;
 		cout << endl << "set Isdn of book " << endl;
-		cout << endl << "input Isdn of the Book" << endl;
-		cin >> isdn;
-		this->isdn = isdn; //IntToString(isdn);
-	//	this->isdn = to_string(isdn);
+		cout << endl << "input Isdn of the Book number-number-number-letter/number" << endl;
+		while(isdn1==-1 || isdn2==-1 || isdn3==-1 || isdn4=='-1'){		
+			cin >> isdn1 >>  isdn2 >>  isdn3 >>  isdn4 ;
+			tot =  to_string(isdn1) +  to_string(isdn2) +  to_string(isdn3) + isdn4;
+		//	cout << endl << "isdn1 entrat = " << isdn1 << "isdn2 ="<< isdn2 << "isdn3 entrat = " << isdn3 << "isdn4 entrat=" << isdn4 << endl ;
+		//	cout << endl << "tot = " << tot << endl;;
+		}
+		this->isdn = tot;
 	}	
 	void getTitle(){
 		cout << endl << "get Title of book " << endl;
