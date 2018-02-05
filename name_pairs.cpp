@@ -65,7 +65,7 @@ void Name_Pairs::print(){
 ostream & operator << (ostream & os,  Name_Pairs& np) //print
 {
 
-	if(np.name.size()==0) {
+	if(np.name.size()-1==0) {
 		return os <<  "no hi ha res a mostrar" ;
 	}
 	else{
