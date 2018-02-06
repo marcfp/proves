@@ -148,7 +148,7 @@ class Book {
 
 	int getChecked(){
 		cout << "checked = " << this->checked;
-		return (this->checked);
+		return ((int)this->checked);
 	}	
 
 	void getAny(){
@@ -174,22 +174,29 @@ class Book {
 		int isdn1=-1;
 		int isdn2=-1;
 		int isdn3=-1;
-		char isdn4='-1';
-
+		string isdn4="-1";
+		bool correcte=false;
 		string tot;
 		cout << endl << "set Isdn of book " << endl;
-		cout << endl << "input Isdn of the Book number-number-number-letter/number" << endl;
-		while(isdn1==-1 || isdn2==-1 || isdn3==-1 || isdn4=='-1'){		
+		cout << endl << "input Isdn of the Book like : \"number number number (letter or number)\"" << endl;
+		while(correcte==false){
 			cin >> isdn1 >>  isdn2 >>  isdn3 >>  isdn4 ;
 			tot =  to_string(isdn1) +  to_string(isdn2) +  to_string(isdn3) + isdn4;
-		//	cout << endl << "isdn1 entrat = " << isdn1 << "isdn2 ="<< isdn2 << "isdn3 entrat = " << isdn3 << "isdn4 entrat=" << isdn4 << endl ;
-		//	cout << endl << "tot = " << tot << endl;;
+			if(isdn1!=-1 && isdn2!=-1 && isdn3!=-1 && isdn4!="-1") correcte=true;
+			else{
+				cout << "ISDN " << tot << " entrat per sortir, surtint del programa" << endl;
+				break;
+			}
 		}
+//		cout << "isdn entrat = " << tot << endl;
 		this->isdn = tot;
 	}	
-	void getTitle(){
+/*	void getTitle(){
 		cout << endl << "get Title of book " << endl;
 		cout << endl << this->title << endl;
+	}*/
+	string getTitle(){
+		return (this->title);
 	}
 	void setTitle(){
 		char titol[512];
@@ -209,10 +216,67 @@ class Book {
 		cin.getline(autor,512);
 		this->autor = autor;
 	}
-	void getAutor(){
+/*	void getAutor(){
 		cout << endl << "get Autor of book" << endl;
 		cout << endl << this->autor << endl;
+	}*/
+	string getAutor(){
+		return (this->autor);
 	}
+/*	ostream & operator << (ostream & os,  Book& book) //print
+	{
+		cout << endl << "Imprimeix" << endl;
+        	//if(np.name.size()-1==0) {
+if(book.getsIsdn()
+                	return os <<  "no hi ha res a mostrar" ;
+         	}
+	        else{
+        	         for(int i=0; i <= np.name.size()-2;i++){
+                	         os << "nom = " << np.name[i] << " , edat = " << np.age[i] << endl;
+                 	}
+         	}
+
+	}
+ 
+	ostream & operator == (Book & np1) //, Book & np2) // iguals?
+	{
+		cout << endl << "iguals " << endl;
+	}*/
+
 };
 
+ ostream & operator << (ostream & os,  Book& book) //print
+         {
+                 cout << endl << "Imprimeix ISDN ="<< book.getsIsdn() << endl ;
+		cout << "title = " << book.getTitle() << endl;
+		cout << "autor = " << book.getAutor() << endl;
+		 
+                 //if(np.name.size()-1==0) {
+ /*if(book.getsIsdn()
+                         return os <<  "no hi ha res a mostrar" ;
+                 }
+                 else{
+                          for(int i=0; i <= np.name.size()-2;i++){
+                                  os << "nom = " << np.name[i] << " , edat = " << np.age[i] << endl;
+                         }
+                 }
+ */
+         }
+ 
+         ostream & operator == (Book & book1, Book & book2) // iguals?
+         {
+                 cout << endl << "Són iguals els isdn? " << endl;
+		 string b1=book1.getsIsdn();
+		string b2=book2.getsIsdn();
+		if(b1.compare(b2) !=0) cout << "Els isdn són diferents" << endl;
+		else cout << " L'isdn és el mateix dels dos llibres "<< endl;
+         }
 
+	ostream & operator != (Book & book1, Book & book2) // iguals?
+        {
+                cout << endl << "Són diferents els isdn? " << endl;
+                string b1=book1.getsIsdn();
+                string b2=book2.getsIsdn();
+                if(b1.compare(b2) !=0) cout << "Els isdn són diferents" << endl;
+                else cout << " L'isdn és el mateix dels dos llibres "<< endl;
+        }      
