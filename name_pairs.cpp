@@ -141,8 +141,8 @@ void Name_Pairs::sort()
 
 
 int main () {
-	Name_Pairs np;
-
+	Name_Pairs np,np1;
+	int mida;
 	cout << endl << endl << "NAME-PAIRS_NOU" << endl << endl;
 
 	cout << "Llegeix dades, primer es llegeixen els noms, després es llegeixen les edats, per finalitzar els nom, escriu 0, es llegiran el mateix nombre d'edats" << endl;	
@@ -151,6 +151,7 @@ int main () {
 	
 	cout << endl << "Dades introduides sense ordenar " << endl;
 	cout << np;
+	np1=np;
 //	np.print();
 //	cout << endl << "Ordena" << endl;
 	np.sort();
@@ -158,7 +159,11 @@ int main () {
 	cout << endl << "Dades introuides irdenades alfabéticament" << endl;
 //	np.print();
 	cout << np;
-	np == np;
+	mida=np1.name.size();
+	np1.name[0]="3";
+	np == np1;
+	cout << "np1 :" << endl;
+	cout << np1;
   return (0);
 
 }
