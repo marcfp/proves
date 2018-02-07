@@ -12,6 +12,8 @@ string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
 string days[] = {"Diu", "Dll", "Dmt", "Dmc", "Dj", "Dv",
 
                       "Dss"};
+//enum class Genere{ nonfiction=1, periodical=2, biography=3, children=4 };
+	
 
 class Date{
 // Private Members
@@ -133,9 +135,38 @@ class Book {
     //setters
 	string isdn;
 	string title;
+	//Genere genere;
 	string autor;
 	Date date;
 	bool checked;
+	enum Genere{ nonfiction=1, periodical, biography, children } genere;
+	//Genere g;
+	void setGenere(){
+		int genere_escollit =-1;
+		while(/*this->*/genere_escollit<1 || /*this->*/genere_escollit>4)
+		{
+			cout << endl << "Quin genere esculls ? (1..4)" << endl;
+			cin >> genere_escollit;
+//			cin >> this->genere;
+		} 
+		cout << "genere escollit = " << genere_escollit;
+		switch(genere_escollit)
+		{	
+			case 1: this->genere=nonfiction;break;
+			case 2: this->genere=periodical;break;
+			case 3: this->genere=biography;break;
+			case 4: this->genere=children;break;
+		}
+		//this->genere=genere_escollit;
+	}
+	int getGenere(){
+		cout << "this->generes = " << this->genere << endl;
+/*		switch(this->g)
+		{
+			case
+		}
+*/
+	}
 
 	void setChecked (){
 		int check=-1;
