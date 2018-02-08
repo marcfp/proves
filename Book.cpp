@@ -28,6 +28,8 @@ void introdueix_llibre(Book& book){
                         exit; //
                  }
                  else{
+			 book.setGenere();
+			 book.getGenere();
                          book.setAutor();
                          book.getAutor();
                          book.setTitle();

@@ -36,10 +36,6 @@ class Date{
                 time = localtime(&timer);
 		date = time->tm_mday;
 
-/*		month = months[time->tm_mon];
-                day = days[time->tm_wday];
-                year = time->tm_year + BASE_YEAR;
-*/
         }
 
 	int setDay(int i, int j){
@@ -50,7 +46,6 @@ class Date{
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
 				cin >> dia;
 			}
-//						1	3	5	7  8	10	12
 		}
 		else if(j==30){
 			while(dia<1 || dia > 31) {
@@ -68,6 +63,7 @@ class Date{
 		}
 		
 	}
+
 	int setMonth1(int traspas){
 		int mes;
 		cout << endl << "traspas = " << traspas << endl;
@@ -91,6 +87,7 @@ class Date{
 				break;
 		}	
 	}
+	
 	int setYear(){
 		int any;
 		
@@ -119,7 +116,6 @@ class Date{
 		}
 	}	
 
-        //void printDate(void) { 
 	int printDate(){
 		this -> day = this -> day;
 		this -> date = this -> date;
@@ -129,18 +125,23 @@ class Date{
         }
         // Destructor
         ~Date() {}
+
+};
+class Patron {
+public:
+	string nom_user;
+	
 };
 class Book {
   public:
     //setters
 	string isdn;
 	string title;
-	//Genere genere;
 	string autor;
 	Date date;
 	bool checked;
-	enum Genere{ nonfiction=1, periodical, biography, children } genere;
-	//Genere g;
+	enum Genere{ nonfiction=1, periodical=2, biography=3, children=4, error=5 } genere; //store genere
+	
 	void setGenere(){
 		int genere_escollit =-1;
 		while(/*this->*/genere_escollit<1 || /*this->*/genere_escollit>4)
@@ -156,16 +157,21 @@ class Book {
 			case 2: this->genere=periodical;break;
 			case 3: this->genere=biography;break;
 			case 4: this->genere=children;break;
+			case 5: this->genere=error;break;
 		}
-		//this->genere=genere_escollit;
 	}
-	int getGenere(){
+
+	void getGenere(){
 		cout << "this->generes = " << this->genere << endl;
-/*		switch(this->g)
+		switch(this->genere)
 		{
-			case
+			case 1: cout << endl << "Aquest llibre pertan a la no ficció" << endl ; break;
+			case 2: cout << endl << "Aquest llibre pertan al genere \"periodical\"" << endl ; break;
+			case 3: cout << endl << "Aquest llibre pertan al gènere de \"biography\"" << endl ; break;
+			case 4: cout << endl << "Aquest llibre pertan al gènere de \"children\"" << endl ; break;
+			case 5: cout << endl << "Aquí hi ha algún error, comproba-ho" << endl; break;
+			
 		}
-*/
 	}
 
 	void setChecked (){
@@ -222,13 +228,11 @@ class Book {
 //		cout << "isdn entrat = " << tot << endl;
 		this->isdn = tot;
 	}	
-/*	void getTitle(){
-		cout << endl << "get Title of book " << endl;
-		cout << endl << this->title << endl;
-	}*/
+	
 	string getTitle(){
 		return (this->title);
 	}
+	
 	void setTitle(){
 		char titol[512];
 		cout << endl << "set Tittle of book " << endl;
@@ -238,6 +242,7 @@ class Book {
 		this->title = titol;
 		cout << endl << "carrego titol a this->title = " << this->title << endl;
 	}
+
 	void setAutor(){
 		char autor[512];
 		cin.clear();
@@ -247,51 +252,19 @@ class Book {
 		cin.getline(autor,512);
 		this->autor = autor;
 	}
-/*	void getAutor(){
-		cout << endl << "get Autor of book" << endl;
-		cout << endl << this->autor << endl;
-	}*/
+
 	string getAutor(){
 		return (this->autor);
 	}
-/*	ostream & operator << (ostream & os,  Book& book) //print
-	{
-		cout << endl << "Imprimeix" << endl;
-        	//if(np.name.size()-1==0) {
-if(book.getsIsdn()
-                	return os <<  "no hi ha res a mostrar" ;
-         	}
-	        else{
-        	         for(int i=0; i <= np.name.size()-2;i++){
-                	         os << "nom = " << np.name[i] << " , edat = " << np.age[i] << endl;
-                 	}
-         	}
-
-	}
- 
-	ostream & operator == (Book & np1) //, Book & np2) // iguals?
-	{
-		cout << endl << "iguals " << endl;
-	}*/
 
 };
 
- ostream & operator << (ostream & os,  Book& book) //print
+	 ostream & operator << (ostream & os,  Book& book) //print
          {
                  cout << endl << "Imprimeix ISDN ="<< book.getsIsdn() << endl ;
 		cout << "title = " << book.getTitle() << endl;
 		cout << "autor = " << book.getAutor() << endl;
 		 
-                 //if(np.name.size()-1==0) {
- /*if(book.getsIsdn()
-                         return os <<  "no hi ha res a mostrar" ;
-                 }
-                 else{
-                          for(int i=0; i <= np.name.size()-2;i++){
-                                  os << "nom = " << np.name[i] << " , edat = " << np.age[i] << endl;
-                         }
-                 }
- */
          }
  
          ostream & operator == (Book & book1, Book & book2) // iguals?
