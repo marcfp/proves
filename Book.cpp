@@ -29,14 +29,24 @@ void introdueix_llibre(Book& book){
                  }
                  else{
 			 book.setGenere();
-			 book.getGenere();
+			
                          book.setAutor();
-                         book.getAutor();
+                         
                          book.setTitle();
-                         book.getTitle();
+                         
                          book.date.setYear();
                          book.setChecked();
-                         book.getChecked();
+
+		//	cout << endl << "Printa data" << endl;
+		//	 book.date.printDate();
+			cout << endl << "Printa titol" << endl;
+			cout << book.getTitle();
+			cout << endl << "Printa Autor " << endl; //\n book.autor(book.cpp)== " << book.autor << endl;
+			cout << book.getAutor();
+			cout << endl << "printa Genere" << endl;
+			book.getGenere();
+			cout << endl << "printa deixat" << endl;
+                        cout << book.getChecked();
                 }
 //      }
 
@@ -52,38 +62,9 @@ int main () {
 	introdueix_llibre(book);
 	cout << endl << "book1" << endl;
 	introdueix_llibre(book1);
-/*
-//	while(book.getsIsdn()!= "-1-1-1" ){ 
-		cout << endl << "Introdueix llibre (per sortir introdueix algun valor igual a dins l'isdn, per exemple :'1 1 -1 a' " << endl;
-//		book.g
-		book.setIsdn();
-//		if(book.getsIsdn()=="0") break;
-		cout << endl << "book.getsIsdn =" << book.getsIsdn() << endl;
-//		cout << endl << "book.getsIsdn () ==" << book.getsIsdn() << endl;
-		string isdn=book.getsIsdn();
-		string surt="-1";
-		
-//		cout  << endl << "string isdn = " << isdn << endl;
-		if(isdn.find(surt) != string::npos) {
-			cout << endl << "s'ha escollit sortir, fora!!" << endl;
-//			break; //loop
-			exit; //
-		}
-		else{
-		        book.setAutor();
-		        book.getAutor();
-	       		book.setTitle();
-		        book.getTitle();
-			book.date.setYear();
-			book.setChecked();
-			book.getChecked();
-		}
-//	}
-*/
-//	cout << endl << "Primer llibre " << book << endl;
-//	cout << endl << "Segon llibre" << book1 << endl;
-	cout << book;	
-	cout << book1;
+	cout << book ;
+	cout << endl;	
+	cout << book1 ;
 	book==book1;
 	book!=book1;
   return (0);

@@ -61,6 +61,7 @@ class Date{
 				cin >> dia;
 			}
 		}
+		return(dia);
 		
 	}
 
@@ -75,7 +76,8 @@ class Date{
 		switch (mes)
 		{
 			case 1:case 3: case 5: case 7 : case 8:  case 10 : case 12 :	
-				this->setDay(1, 31);
+				//this->setDay(1, 31);
+				month=setDay(1,31);
 				break;
 			case 4: case 6: case 11: 
 				this->setDay(1,30);
@@ -121,6 +123,7 @@ class Date{
 		this -> date = this -> date;
 		this -> month = this -> month;
 		this -> year = this -> year;
+		cout << endl << "dia =" << this->day << "date =" << this->date << "this->month =" << this->month << " this->year = " << this->year << endl; 
 		return (0);
         }
         // Destructor
@@ -184,7 +187,7 @@ class Book {
 	}
 
 	int getChecked(){
-		cout << "checked = " << this->checked;
+		cout << "checked = " << this->checked << endl;
 		return ((int)this->checked);
 	}	
 
@@ -200,13 +203,6 @@ class Book {
 		cout << endl << "get Isdn of book " << this->isdn << endl;
 	}
 	
-	string IntToString (int a)
-	{
-	    ostringstream temp;
-	    temp<<a;
-	    return temp.str();
-	}	
-
 	void setIsdn(){
 		int isdn1=-1;
 		int isdn2=-1;
@@ -225,35 +221,36 @@ class Book {
 				break;
 			}
 		}
-//		cout << "isdn entrat = " << tot << endl;
 		this->isdn = tot;
 	}	
 	
 	string getTitle(){
-		return (this->title);
+		return ( this->title);
 	}
 	
 	void setTitle(){
-		char titol[512];
-		cout << endl << "set Tittle of book " << endl;
-		cout << endl << "input Title of the Book" << endl;
-		cin.getline(titol,512);
-		cout << endl << "titol llegit = " << titol << endl;
-		this->title = titol;
-		cout << endl << "carrego titol a this->title = " << this->title << endl;
+		char titole[512];
+		//cout << endl << "set Tittle of book " << endl;
+		cout << endl << "Input Title of the Book" << endl;
+		cin.getline(titole,128);
+		//cout << endl << "titol llegit = " << titole << endl;
+		this->title = titole;
+		//cout << endl << "carrego titol a this->title = " << this->title << " i title = " << title << endl;
 	}
 
 	void setAutor(){
-		char autor[512];
+		char autore[512];
 		cin.clear();
-		cout << endl << "set Autor of book" << endl;
+		//cout << endl << "set Autor of book" << endl;
 		cout << endl << "input Autor of book " << endl;
 		cin.ignore(512,'\n');
-		cin.getline(autor,512);
-		this->autor = autor;
+		cin.getline(autore,128);
+		this->autor = autore;
+		//cout << endl << "carrego auto a this->autor = " << this->autor << " i autor = " << autor << endl;
 	}
 
 	string getAutor(){
+//		cout << endl << "this->autor :" << this->autor << endl << " autor = " << autor  << endl;
 		return (this->autor);
 	}
 
