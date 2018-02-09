@@ -11,20 +11,14 @@ using namespace std;
 
 void introdueix_llibre(Book& book){
 
-//      while(book.getsIsdn()!= "-1-1-1" ){ 
                 cout << endl << "Introdueix llibre (per sortir introdueix algun valor igual a dins l'isdn, per exemple :'1 1 -1 a' " << endl;
-//              book.g
                 book.setIsdn();
-//              if(book.getsIsdn()=="0") break;
                 cout << endl << "book.getsIsdn =" << book.getsIsdn() << endl;
-//              cout << endl << "book.getsIsdn () ==" << book.getsIsdn() << endl;
                 string isdn=book.getsIsdn();
                 string surt="-1";
 
-//              cout  << endl << "string isdn = " << isdn << endl;
                 if(isdn.find(surt) != string::npos) {
                         cout << endl << "s'ha escollit sortir, fora!!" << endl;
-//                      break; //loop
                         exit; //
                  }
                  else{
@@ -33,12 +27,12 @@ void introdueix_llibre(Book& book){
                          book.setAutor();
                          
                          book.setTitle();
-                         
+        
+			 book.setChecked();
+                 
                          book.date.setYear();
-                         book.setChecked();
-
-		//	cout << endl << "Printa data" << endl;
-		//	 book.date.printDate();
+//			cout << endl << "Printa data" << endl;
+//			book.date.printDate();
 			cout << endl << "Printa titol" << endl;
 			cout << book.getTitle();
 			cout << endl << "Printa Autor " << endl; //\n book.autor(book.cpp)== " << book.autor << endl;
@@ -47,6 +41,8 @@ void introdueix_llibre(Book& book){
 			book.getGenere();
 			cout << endl << "printa deixat" << endl;
                         cout << book.getChecked();
+			cout << endl<< "date.getDate()  " << endl;
+			book.date.getDate();
                 }
 //      }
 

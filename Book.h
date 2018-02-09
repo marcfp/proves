@@ -22,8 +22,11 @@ class Date{
 	public:
         string month;
         string day;
-        int date;
-        int year;
+//	int month;
+//	int day;
+        int diat;
+        int anyt;
+	int mest;
 	int febrer;
     // Public Members
   //  public:
@@ -34,7 +37,7 @@ class Date{
                 tm * time;
                 std::time(&timer);
                 time = localtime(&timer);
-		date = time->tm_mday;
+		diat = time->tm_mday;
 
         }
 
@@ -45,21 +48,31 @@ class Date{
 				cout << endl << "Mes de gener, març, maig, juliol,agost, octubre i desembre" << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
 				cin >> dia;
+				diat=dia;
 			}
+//			this->dia=dia;
+//			Date->dia=dia;
+//			diat=dia;
 		}
 		else if(j==30){
 			while(dia<1 || dia > 31) {
 				cout << endl << "Mes d'abril, juny, setembre, novembre " << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
                                 cin >> dia;
+				diat=dia;
 			}
+//			this->dia=dia;
+//			diat=dia;
 		}
 		else { 
 			while(dia<1 || dia > febrer) {	
 				cout << endl << "més de febrer ?"<< endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
 				cin >> dia;
+				diat=dia;
 			}
+//			this->dia=dia;
+//			diat=dia;
 		}
 		return(dia);
 		
@@ -71,19 +84,25 @@ class Date{
 		do {
 			cout << endl << "Entra el mes de l'any que demanes aquest llibre " << endl;
 			cin >> mes;
+			mest=mes;
 		}while(mes<1 || mes >12);
 		cout << "Número de mes k has escollit " << mes << endl;
+//		month=mes;
+		//mest=mes;
 		switch (mes)
 		{
 			case 1:case 3: case 5: case 7 : case 8:  case 10 : case 12 :	
 				//this->setDay(1, 31);
-				month=setDay(1,31);
+//				month=setDay(1,31);
+				setDay(1,31);
 				break;
 			case 4: case 6: case 11: 
-				this->setDay(1,30);
+//				this->setDay(1,30);
+				setDay(1,30);
 				break;
 			case 2: 
-				this->setDay(1,febrer);
+//				this->setDay(1,febrer);
+				setDay(1,febrer);
 				break;
 			default: cout << endl << "mes erroni " << endl;
 				break;
@@ -95,37 +114,41 @@ class Date{
 		
 		cout << endl << "Entra l'any que demanes aquest llibre" << endl;
 		cin >> any;
+		anyt=any;
 		if(any%4==0 && any%100!=0){ 
 				cout << endl << " any de traspàs" << endl;
 				febrer=29;
 				//return(0);
-				this->setMonth1(febrer);
+				setMonth1(febrer);
 		}
 		else {
 			if(any%400==0 ){ 
 					cout << endl << " any de traspàs" << endl; 
 					febrer=29;
 					//return(0);
-					this->setMonth1(febrer);
+					setMonth1(febrer);
 			}
 
 			else {	
 				cout << endl << "NORMAL" << endl;
 				febrer=28;
 				//return(1);
-				this->setMonth1(febrer);
+				setMonth1(febrer);
 			}
 		}
 	}	
 
 	int printDate(){
-		this -> day = this -> day;
-		this -> date = this -> date;
-		this -> month = this -> month;
-		this -> year = this -> year;
-		cout << endl << "dia =" << this->day << "date =" << this->date << "this->month =" << this->month << " this->year = " << this->year << endl; 
+//		this -> day = this -> day;
+//		this -> diat = this -> date;
+//		this -> month = this -> month;
+//		this -> year = this -> year;
+		cout << endl << "dia =" << this->day << "this->diat =" << this->diat << "this->month =" << this->month << " (linea 142)this->year = " << this->anyt << endl; 
 		return (0);
         }
+	void getDate(){
+		cout << "diat = " << diat << ", mest = " << mest << ", year =" << anyt << endl;
+	}
         // Destructor
         ~Date() {}
 
