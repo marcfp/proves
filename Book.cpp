@@ -32,7 +32,7 @@ void introdueix_llibre(Book& book){
                  
                          book.date.setYear();
 			book.p.setNomUser();
-	book.p.set_tarjeta();
+			book.p.set_tarjeta();
 //			cout << endl << "Printa data" << endl;
 //			book.date.printDate();
 			cout << endl << "####################################################################"<< endl;
@@ -87,7 +87,7 @@ int main () {
 		cout << endl << "No  entro if(isdn)2" << endl;
 	}
 	cout << "Gastos administratius general = ";
-	cout << book.p.get_gastos_admin(); 
+//	cout << p.get_gastos_admin(); 
   return (0);
 
 }

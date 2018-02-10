@@ -12,8 +12,28 @@ string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
 string days[] = {"Diu", "Dll", "Dmt", "Dmc", "Dj", "Dv",
 
                       "Dss"};
-//enum class Genere{ nonfiction=1, periodical=2, biography=3, children=4 };
+/*class Library {
+	public:
+	Date date;
+	Book book;
+	Patrons p;
+}*/
 	
+/*void llegir_digit(string &valor, int &tarajeta_credit){
+		locale loc;
+		bool b=false;
+                while(b==false){
+                        cout << endl << "Entra el número de tarjeta" << endl;
+                        cin >> valor; //tarjeta_credit;
+                        if(isdigit(valor[0],loc)){
+                        //tarjeta_credit)) {
+                                stringstream(valor) >> tarjeta_credit; //= atoi(valor);
+                                b=true;
+                        }
+
+                }
+
+}*/
 
 class Date{
 // Private Members
@@ -143,8 +163,33 @@ class Date{
 class Patron {
 public:
 	string nom_user;
-	double tarjeta_credit;
+	int tarjeta_credit;
 	int gastos_administratius;	
+
+
+	void llegir_digit(string &valor, int &tarajeta_credit){
+                locale loc;
+                bool b=false;
+                while(b==false){
+                        cout << endl << "Entra el número de tarjeta" << endl;
+                        cin >> valor; //tarjeta_credit;
+                        if(isdigit(valor[0],loc)){
+                        //tarjeta_credit)) {
+                                stringstream(valor) >> tarjeta_credit; //= atoi(valor);
+                                b=true;
+                        }
+
+                }
+
+	}
+
+	void llegir_lletra(string &valor, string &nom_user){
+/*
+		http://www.cplusplus.com/reference/cctype/isalpha/
+		http://www.cplusplus.com/reference/locale/isalnum/
+		http://www.cplusplus.com/reference/locale/isdigit/
+*/
+	}
 
 	void setNomUser(){
 		cout << endl << "Entra el nom d'usuari que s'ha deixat el llibre" << endl;
@@ -154,8 +199,9 @@ public:
 		return (this->nom_user);
 	}
 	void set_tarjeta(){
-		cout << endl << "Entra el número de tarjeta" << endl;
-		cin >> tarjeta_credit;
+		string valor;
+		
+		llegir_digit(valor,tarjeta_credit);
 	}	
 	double get_tarjeta(){
 		return(this->tarjeta_credit);
@@ -336,4 +382,14 @@ class Book {
                 string b2=book2.getsIsdn();
                 if(b1.compare(b2) !=0) cout << "Els isdn són diferents" << endl;
                 else cout << " L'isdn és el mateix dels dos llibres "<< endl;
-        }      
+        } 
+
+
+
+class Library {
+        public:
+        Date date;
+        Book book;
+        Patron p;
+};
+     
