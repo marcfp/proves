@@ -33,6 +33,8 @@ void introdueix_llibre(Book& book){
                          book.date.setYear();
 //			cout << endl << "Printa data" << endl;
 //			book.date.printDate();
+			cout << endl << "####################################################################"<< endl;
+			cout << endl << "\t\t\t Dades del llibre entrat : \n" << endl;
 			cout << endl << "Printa titol" << endl;
 			cout << book.getTitle();
 			cout << endl << "Printa Autor " << endl; //\n book.autor(book.cpp)== " << book.autor << endl;
@@ -58,11 +60,20 @@ int main () {
 	introdueix_llibre(book);
 	cout << endl << "book1" << endl;
 	introdueix_llibre(book1);
-	cout << book ;
-	cout << endl;	
-	cout << book1 ;
-	book==book1;
-	book!=book1;
+	string isdn=book.getsIsdn();
+	cout << endl << "book.getsIsdn() =" << book.getsIsdn() << endl;
+	if(isdn.find("-1")==string::npos )cout << book ;
+	else cout << endl << "No entro if(isdn)" << endl;
+	cout << endl;
+	isdn=book1.getsIsdn();	
+	if(isdn.find("-1")==string::npos) {
+		cout << book1 ;
+		book==book1;
+		book!=book1;
+	}
+	else{
+		cout << endl << "No  entro if(isdn)2" << endl;
+	}
   return (0);
 
 }

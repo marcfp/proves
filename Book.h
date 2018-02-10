@@ -50,9 +50,6 @@ class Date{
 				cin >> dia;
 				diat=dia;
 			}
-//			this->dia=dia;
-//			Date->dia=dia;
-//			diat=dia;
 		}
 		else if(j==30){
 			while(dia<1 || dia > 31) {
@@ -61,8 +58,6 @@ class Date{
                                 cin >> dia;
 				diat=dia;
 			}
-//			this->dia=dia;
-//			diat=dia;
 		}
 		else { 
 			while(dia<1 || dia > febrer) {	
@@ -71,8 +66,6 @@ class Date{
 				cin >> dia;
 				diat=dia;
 			}
-//			this->dia=dia;
-//			diat=dia;
 		}
 		return(dia);
 		
@@ -87,21 +80,15 @@ class Date{
 			mest=mes;
 		}while(mes<1 || mes >12);
 		cout << "Número de mes k has escollit " << mes << endl;
-//		month=mes;
-		//mest=mes;
 		switch (mes)
 		{
 			case 1:case 3: case 5: case 7 : case 8:  case 10 : case 12 :	
-				//this->setDay(1, 31);
-//				month=setDay(1,31);
 				setDay(1,31);
 				break;
 			case 4: case 6: case 11: 
-//				this->setDay(1,30);
 				setDay(1,30);
 				break;
 			case 2: 
-//				this->setDay(1,febrer);
 				setDay(1,febrer);
 				break;
 			default: cout << endl << "mes erroni " << endl;
@@ -156,7 +143,34 @@ class Date{
 class Patron {
 public:
 	string nom_user;
-	
+	double tarjeta_credit;
+	int gastos_administratius;	
+
+	void setNomUser(){
+		cout << endl << "Entra el nom d'usuari que s'ha deixat el llibre" << endl;
+		cin >> nom_user;
+	}
+	string getNomUser(){
+		return (this->nom_user);
+	}
+	void set_tarjeta(){
+		cout << endl << "Entra el número de tarjeta" << endl;
+		cin >> tarjeta_credit;
+	}	
+	double get_tarjeta(){
+		return(this->tarjeta_credit);
+	}
+	void set_gastos_admin(){
+		cout << endl << "Entra si existeixen gastos administratius " << endl;
+		cin >> gastos_administratius;
+	}
+	int get_gastos_admin()	{
+		return(this->gastos_administratius);
+	}
+	bool si_no_gastos_admin(){
+		cout << endl<< "Té gastos administratius ?" << endl;
+		
+	}
 };
 class Book {
   public:
@@ -170,11 +184,10 @@ class Book {
 	
 	void setGenere(){
 		int genere_escollit =-1;
-		while(/*this->*/genere_escollit<1 || /*this->*/genere_escollit>4)
+		while(genere_escollit<1 || genere_escollit>4)
 		{
 			cout << endl << "Quin genere esculls ? (1..4)" << endl;
 			cin >> genere_escollit;
-//			cin >> this->genere;
 		} 
 		cout << "genere escollit = " << genere_escollit;
 		switch(genere_escollit)
