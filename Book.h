@@ -160,15 +160,34 @@ public:
 	double get_tarjeta(){
 		return(this->tarjeta_credit);
 	}
+	/*int*/
 	void set_gastos_admin(){
 		cout << endl << "Entra si existeixen gastos administratius " << endl;
 		cin >> gastos_administratius;
+//		return(gastos_administratius);
 	}
-	int get_gastos_admin()	{
+/*	int set_gastos_admin()	{
+		cout << endl << "Entra els gastos d'administració " << endl;
+		cin >> gastos_administratius;
+		
 		return(this->gastos_administratius);
 	}
+*/
+	string get_gastos_admin() {
+		return ("Els gastos d'administració d'aquest llibre són " + this->gastos_administratius) ;
+	}
 	bool si_no_gastos_admin(){
-		cout << endl<< "Té gastos administratius ?" << endl;
+		int i=-1;
+		while(i<0 || i>1){
+			cout << endl<< "Té gastos administratius ?(0 no, 1 si)" << endl;
+			cin >> i;
+		}
+		cout << endl << " i = " << i << endl;
+		if(i==1) return true; 
+		else {
+			cout << endl << "sense gastos d'aministració?" << endl;
+			return false;
+		}
 		
 	}
 };
@@ -179,6 +198,7 @@ class Book {
 	string title;
 	string autor;
 	Date date;
+	Patron p;
 	bool checked;
 	enum Genere{ nonfiction=1, periodical=2, biography=3, children=4, error=5 } genere; //store genere
 	

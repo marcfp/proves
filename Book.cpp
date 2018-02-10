@@ -31,6 +31,8 @@ void introdueix_llibre(Book& book){
 			 book.setChecked();
                  
                          book.date.setYear();
+			book.p.setNomUser();
+	book.p.set_tarjeta();
 //			cout << endl << "Printa data" << endl;
 //			book.date.printDate();
 			cout << endl << "####################################################################"<< endl;
@@ -45,6 +47,16 @@ void introdueix_llibre(Book& book){
                         cout << book.getChecked();
 			cout << endl<< "date.getDate()  " << endl;
 			book.date.getDate();
+//			book.p.setNomUser();
+			book.p.getNomUser();
+//			book.p.set_tarjeta();
+			book.p.get_tarjeta();
+			cout << endl << "última pregunta, ... " << endl;
+			if(book.p.si_no_gastos_admin())	{ 
+						book.p.set_gastos_admin();
+						book.p.get_gastos_admin();
+			}
+			else cout << endl << "No té gastos d'administració " << endl;
                 }
 //      }
 
@@ -74,6 +86,8 @@ int main () {
 	else{
 		cout << endl << "No  entro if(isdn)2" << endl;
 	}
+	cout << "Gastos administratius general = ";
+	cout << book.p.get_gastos_admin(); 
   return (0);
 
 }
