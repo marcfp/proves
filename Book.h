@@ -30,9 +30,7 @@ string days[] = {"Diu", "Dll", "Dmt", "Dmc", "Dj", "Dv",
                                 stringstream(valor) >> tarjeta_credit; //= atoi(valor);
                                 b=true;
                         }
-
                 }
-
 }*/
 
 class Date{
@@ -254,6 +252,9 @@ class Book {
 		{
 			cout << endl << "Quin genere esculls ? (1..4)" << endl;
 			cin >> genere_escollit;
+			if(cin.fail()){
+				throw "Input error... Program needs numbers!";
+			} 
 		} 
 		cout << "genere escollit = " << genere_escollit;
 		switch(genere_escollit)
@@ -262,7 +263,7 @@ class Book {
 			case 2: this->genere=periodical;break;
 			case 3: this->genere=biography;break;
 			case 4: this->genere=children;break;
-			case 5: this->genere=error;break;
+			default: this->genere=error;break;
 		}
 	}
 
@@ -284,6 +285,7 @@ class Book {
 		while (check<0 || check>1) {
 			cout << endl << "S'ha deixat el llibre ?(1 si, 0 no)" << endl;
 			cin >> check;
+			if(cin.fail()) throw "\nError entrant prèstec\n" ;
 		}
 		this->checked = check;
 	}
@@ -347,6 +349,7 @@ class Book {
 		cout << endl << "input Autor of book " << endl;
 		cin.ignore(512,'\n');
 		cin.getline(autore,128);
+//		if(cin.fail) throw 
 		this->autor = autore;
 		//cout << endl << "carrego auto a this->autor = " << this->autor << " i autor = " << autor << endl;
 	}
@@ -392,4 +395,3 @@ class Library {
         Book book;
         Patron p;
 };
-     
