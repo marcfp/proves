@@ -66,7 +66,16 @@ class Date{
 				cout << endl << "Mes de gener, març, maig, juliol,agost, octubre i desembre" << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
 				cin >> dia;
-				diat=dia;
+				while(cin.fail()) {
+					if(cin.fail()) {
+        	                                cout << endl << "Valor entrat no vàlid" << endl;                                
+                	                        cin.clear();
+                        	                cin.ignore(10,'\n');
+                                	}
+	                                else {
+        	                                diat=dia;
+                	                } 
+				}
 			}
 		}
 		else if(j==30){
@@ -74,7 +83,16 @@ class Date{
 				cout << endl << "Mes d'abril, juny, setembre, novembre " << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
                                 cin >> dia;
-				diat=dia;
+				while(cin.fail()) {
+					if(cin.fail()) {
+        	                                cout << endl << "Valor entrat no vàlid" << endl;                                
+                	                        cin.clear();
+                        	                cin.ignore(10,'\n');
+	                                }
+        	                        else {
+                	                        diat=dia;
+                        	        }
+				} 
 			}
 		}
 		else { 
@@ -82,10 +100,19 @@ class Date{
 				cout << endl << "més de febrer ?"<< endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
 				cin >> dia;
-				diat=dia;
+				while(cin.fail()) {
+					if(cin.fail()) {
+		                                cout << endl << "Valor entrat no vàlid" << endl;
+        		                        cin.clear();
+                		                cin.ignore(10,'\n');
+	                        	}
+	        	                else {
+						diat=dia;
+					}
+				}
 			}
 		}
-		return(dia);
+		return(diat);
 		
 	}
 
@@ -95,7 +122,16 @@ class Date{
 		do {
 			cout << endl << "Entra el mes de l'any que demanes aquest llibre " << endl;
 			cin >> mes;
-			mest=mes;
+			while(cin.fail()) {
+				if(cin.fail()) {
+					cout << endl << "Valor entrat no vàlid" << endl;
+					cin.clear();
+					cin.ignore(10,'\n');
+				}
+				else {
+					mest=mes;
+				}
+			}
 		}while(mes<1 || mes >12);
 		cout << "Número de mes k has escollit " << mes << endl;
 		switch (mes)
@@ -119,7 +155,17 @@ class Date{
 		
 		cout << endl << "Entra l'any que demanes aquest llibre" << endl;
 		cin >> any;
-		anyt=any;
+		while(cin.fail()) {
+                                if(cin.fail()) {
+                                        cout << endl << "Valor entrat no vàlid" << endl;
+                                        cin.clear();
+                                        cin.ignore(10,'\n');
+					cin >> any;
+                                }
+                                else {
+					anyt=any;
+				}
+		}
 		if(any%4==0 && any%100!=0){ 
 				cout << endl << " any de traspàs" << endl;
 				febrer=29;
@@ -387,11 +433,24 @@ class Book {
                 else cout << " L'isdn és el mateix dels dos llibres "<< endl;
         } 
 
-
-
+/*
+9. Create a Library class. Include vectors of Books and Patrons. Include a struct called
+Transaction. Have it include a Book, a Patron, and a Date from the chapter. Make a vector of
+Transactions. Create functions to add books to the library, add patrons to the library, and check
+out books. Whenever a user checks out a book, have the library make sure that both the user and
+the book are in the library. If they aren’t, report an error. Then check to make sure that the user
+owes no fees. If the user does, report an error. If not, create a Transaction, and place it in the
+vector of Transactions. Also write a function that will return a vector that contains the names
+of all Patrons who owe fees.
+*/
+struct Transaction{
+	Book bookT;
+	Patron pt;
+	Date dt;
+}
 class Library {
         public:
         Date date;
-        Book book;
-        Patron p;
+        Book vector<book>;
+        Patron vector<p>;
 };
