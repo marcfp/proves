@@ -447,10 +447,11 @@ struct Transaction{
 	Book bookT;
 	Patron pt;
 	Date dt;
-}
+};
 class Library {
         public:
         Date date;
-        Book vector<book>;
-        Patron vector<p>;
+        vector<Book> vector_book;
+        vector<Patron> vector_patro;
+	vector<Transaction> vector_transaccio;
 };
