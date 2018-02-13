@@ -66,16 +66,7 @@ class Date{
 				cout << endl << "Mes de gener, març, maig, juliol,agost, octubre i desembre" << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
 				cin >> dia;
-				while(cin.fail()) {
-					if(cin.fail()) {
-        	                                cout << endl << "Valor entrat no vàlid" << endl;                                
-                	                        cin.clear();
-                        	                cin.ignore(10,'\n');
-                                	}
-	                                else {
-        	                                diat=dia;
-                	                } 
-				}
+				diat=dia;
 			}
 		}
 		else if(j==30){
@@ -83,16 +74,7 @@ class Date{
 				cout << endl << "Mes d'abril, juny, setembre, novembre " << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
                                 cin >> dia;
-				while(cin.fail()) {
-					if(cin.fail()) {
-        	                                cout << endl << "Valor entrat no vàlid" << endl;                                
-                	                        cin.clear();
-                        	                cin.ignore(10,'\n');
-	                                }
-        	                        else {
-                	                        diat=dia;
-                        	        }
-				} 
+				diat=dia;
 			}
 		}
 		else { 
@@ -100,19 +82,10 @@ class Date{
 				cout << endl << "més de febrer ?"<< endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
 				cin >> dia;
-				while(cin.fail()) {
-					if(cin.fail()) {
-		                                cout << endl << "Valor entrat no vàlid" << endl;
-        		                        cin.clear();
-                		                cin.ignore(10,'\n');
-	                        	}
-	        	                else {
-						diat=dia;
-					}
-				}
+				diat=dia;
 			}
 		}
-		return(diat);
+		return(dia);
 		
 	}
 
@@ -122,16 +95,7 @@ class Date{
 		do {
 			cout << endl << "Entra el mes de l'any que demanes aquest llibre " << endl;
 			cin >> mes;
-			while(cin.fail()) {
-				if(cin.fail()) {
-					cout << endl << "Valor entrat no vàlid" << endl;
-					cin.clear();
-					cin.ignore(10,'\n');
-				}
-				else {
-					mest=mes;
-				}
-			}
+			mest=mes;
 		}while(mes<1 || mes >12);
 		cout << "Número de mes k has escollit " << mes << endl;
 		switch (mes)
@@ -155,17 +119,7 @@ class Date{
 		
 		cout << endl << "Entra l'any que demanes aquest llibre" << endl;
 		cin >> any;
-		while(cin.fail()) {
-                                if(cin.fail()) {
-                                        cout << endl << "Valor entrat no vàlid" << endl;
-                                        cin.clear();
-                                        cin.ignore(10,'\n');
-					cin >> any;
-                                }
-                                else {
-					anyt=any;
-				}
-		}
+		anyt=any;
 		if(any%4==0 && any%100!=0){ 
 				cout << endl << " any de traspàs" << endl;
 				febrer=29;
@@ -294,13 +248,25 @@ class Book {
 	
 	void setGenere(){
 		int genere_escollit =-1;
-		while(genere_escollit<1 || genere_escollit>4)
+		bool entrat=false;
+		while((genere_escollit<1 || genere_escollit>4)&& entrat==false)
 		{
 			cout << endl << "Quin genere esculls ? (1..4)" << endl;
 			cin >> genere_escollit;
 			if(cin.fail()){
-				throw "Input error... Program needs numbers!";
+				cin.clear();
+				cin.ignore();
+				cout << "Input error... Program needs numbers!";
+				
 			} 
+			else {
+				if(genere_escollit>0 && genere_escollit<5){
+					 entrat=true;
+				}
+				else {
+					cout << endl << "Aquí hi ha hagut algun erro,r comproba-ho" << endl;
+				}
+			}
 		} 
 		cout << "genere escollit = " << genere_escollit;
 		switch(genere_escollit)
@@ -328,11 +294,16 @@ class Book {
 
 	void setChecked (){
 		int check=-1;
-		while (check<0 || check>1) {
+		bool entrat=false;
+		while ((check<0 || check>1)&& entrat==false)
+		{
 			cout << endl << "S'ha deixat el llibre ?(1 si, 0 no)" << endl;
-			cin >> check;
-			if(cin.fail()) throw "\nError entrant prèstec\n" ;
-		}
+			while(!(cin >> check)){
+				cin.clear();
+				cin.ignore(1000,'\n');
+				cout << "Has d'entrar un 1 o un 0, gràcies";
+			}
+		}	
 		this->checked = check;
 	}
 
@@ -433,25 +404,11 @@ class Book {
                 else cout << " L'isdn és el mateix dels dos llibres "<< endl;
         } 
 
-/*
-9. Create a Library class. Include vectors of Books and Patrons. Include a struct called
-Transaction. Have it include a Book, a Patron, and a Date from the chapter. Make a vector of
-Transactions. Create functions to add books to the library, add patrons to the library, and check
-out books. Whenever a user checks out a book, have the library make sure that both the user and
-the book are in the library. If they aren’t, report an error. Then check to make sure that the user
-owes no fees. If the user does, report an error. If not, create a Transaction, and place it in the
-vector of Transactions. Also write a function that will return a vector that contains the names
-of all Patrons who owe fees.
-*/
-struct Transaction{
-	Book bookT;
-	Patron pt;
-	Date dt;
-};
+
+
 class Library {
         public:
         Date date;
-        vector<Book> vector_book;
-        vector<Patron> vector_patro;
-	vector<Transaction> vector_transaccio;
+        Book book;
+        Patron p;
 };

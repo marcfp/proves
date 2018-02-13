@@ -66,7 +66,7 @@ void introdueix_llibre(Book& book){
 int main () {
 	//vector<Book> book;
 	Book book,book1;
-	Library llibreria;
+
 	cout << endl << endl << "Books" << endl << endl;
 	cout << endl << "book" << endl;
 	introdueix_llibre(book);
