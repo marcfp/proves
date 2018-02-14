@@ -6,6 +6,7 @@
 
 
 #include "Book.h"
+#include "Library.h"
 //#include "Date.h"
 using namespace std;
 
@@ -67,6 +68,7 @@ void introdueix_llibre(Book& book){
 int main () {
 	//vector<Book> book;
 	Book book,book1;
+	Library lib;
 
 	cout << endl << endl << "Books" << endl << endl;
 	cout << endl << "book" << endl;
@@ -89,6 +91,8 @@ int main () {
 	}
 //	cout << "Gastos administratius general = ";
 //	cout << p.get_gastos_admin(); 
+	lib.add_Books();
+	lib.add_Patrons();
   return (0);
 
 }
