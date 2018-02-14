@@ -12,26 +12,21 @@ string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
 string days[] = {"Diu", "Dll", "Dmt", "Dmc", "Dj", "Dv",
 
                       "Dss"};
-/*class Library {
-	public:
-	Date date;
-	Book book;
-	Patrons p;
-}*/
-	
-/*void llegir_digit(string &valor, int &tarajeta_credit){
-		locale loc;
-		bool b=false;
-                while(b==false){
-                        cout << endl << "Entra el número de tarjeta" << endl;
-                        cin >> valor; //tarjeta_credit;
-                        if(isdigit(valor[0],loc)){
-                        //tarjeta_credit)) {
-                                stringstream(valor) >> tarjeta_credit; //= atoi(valor);
-                                b=true;
-                        }
-                }
-}*/
+
+
+/*
+
+9. Create a Library class. Include vectors of Books and Patrons. Include a struct called
+Transaction. Have it include a Book, a Patron, and a Date from the chapter. Make a vector of
+Transactions. Create functions to add books to the library, add patrons to the library, and check
+out books. Whenever a user checks out a book, have the library make sure that both the user and
+the book are in the library. If they aren’t, report an error. Then check to make sure that the user
+owes no fees. If the user does, report an error. If not, create a Transaction, and place it in the
+vector of Transactions. Also write a function that will return a vector that contains the names
+of all Patrons who owe fees.
+
+*/
+
 
 class Date{
 // Private Members
@@ -65,24 +60,49 @@ class Date{
 			while(dia<1 || dia > 31) {
 				cout << endl << "Mes de gener, març, maig, juliol,agost, octubre i desembre" << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
-				cin >> dia;
-				diat=dia;
+				while(!(cin >> dia)){
+					if(cin.fail()){
+						cin.clear();
+						cin.ignore();
+						cout << endl << "Error d'introducció.... El dia ha de ser un número entre 1 i 31!!!!" << endl;
+					}
+					else{
+						diat=dia;
+					}
+				}
 			}
 		}
 		else if(j==30){
 			while(dia<1 || dia > 31) {
 				cout << endl << "Mes d'abril, juny, setembre, novembre " << endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
-                                cin >> dia;
-				diat=dia;
+                                while(!(cin >> dia)){
+					if(cin.fail()){
+						cin.clear();	
+						cin.ignore();
+						cout << endl << "Error d'introducció.... El dia ha de ser un número entre 1 i 30!!!!" << endl;
+					}
+					else{
+						diat=dia;
+					}
+				}
 			}
 		}
 		else { 
 			while(dia<1 || dia > febrer) {	
 				cout << endl << "més de febrer ?"<< endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
-				cin >> dia;
-				diat=dia;
+//				cin >> dia;
+				while(!(cin >> dia)){
+					if(cin.fail()){
+						cin.clear();
+						cin.ignore();
+						cout << endl << "Error d'introducicó... el dia ha de ser un número entre 1 i " << febrer << "!!!!"<< endl;
+					}
+					else{
+						diat=dia;
+					}
+				}
 			}
 		}
 		return(dia);
@@ -94,8 +114,16 @@ class Date{
 		cout << endl << "traspas = " << traspas << endl;
 		do {
 			cout << endl << "Entra el mes de l'any que demanes aquest llibre " << endl;
-			cin >> mes;
-			mest=mes;
+			while(!(cin >> mes)){
+				if(cin.fail()){
+					cin.clear();
+					cin.ignore();
+					cout << endl << "Error d'introducció... El més ha de ser un nombre de l'1 al 12!!!!" << endl;
+				}
+				else{	
+					mest=mes;
+				}
+			}
 		}while(mes<1 || mes >12);
 		cout << "Número de mes k has escollit " << mes << endl;
 		switch (mes)
@@ -118,8 +146,17 @@ class Date{
 		int any;
 		
 		cout << endl << "Entra l'any que demanes aquest llibre" << endl;
-		cin >> any;
-		anyt=any;
+		while(!(cin >> any)){
+			if(cin.fail()){
+                        	cin.clear();
+                                cin.ignore();
+                                cout << endl << "Error d'introducció... L'any ha de ser un nombre!!!" << endl;
+ 
+                        }
+			else {
+				anyt=any;
+			}
+		}
 		if(any%4==0 && any%100!=0){ 
 				cout << endl << " any de traspàs" << endl;
 				febrer=29;
@@ -174,6 +211,7 @@ public:
                         if(isdigit(valor[0],loc)){
                         //tarjeta_credit)) {
                                 stringstream(valor) >> tarjeta_credit; //= atoi(valor);
+				cout << endl << "tarjeta_credit = " << tarjeta_credit << endl;
                                 b=true;
                         }
 
@@ -207,7 +245,11 @@ public:
 	/*int*/
 	void set_gastos_admin(){
 		cout << endl << "Entra si existeixen gastos administratius " << endl;
-		cin >> gastos_administratius;
+		while(!(cin >> gastos_administratius)){
+			cin.clear();
+			cin.ignore();
+			cout << endl << "Has d'introduir-me un número" << endl;
+		}
 //		return(gastos_administratius);
 	}
 /*	int set_gastos_admin()	{
@@ -224,7 +266,11 @@ public:
 		int i=-1;
 		while(i<0 || i>1){
 			cout << endl<< "Té gastos administratius ?(0 no, 1 si)" << endl;
-			cin >> i;
+			while(!(cin >> i)){
+				cin.clear();
+				cin.ignore();
+				cout << endl << "Has d'introduir un 1 o un 0" << endl;
+			}
 		}
 		cout << endl << " i = " << i << endl;
 		if(i==1) return true; 
@@ -405,10 +451,24 @@ class Book {
         } 
 
 
+struct Transaction{
+        Book bookt;
+        Patron patront;
+        Date datet;
+};
+
+
 
 class Library {
         public:
         Date date;
-        Book book;
-        Patron p;
+        vector<Book> vbook;
+        vector<Patron> vpatron;
+	vector<Transaction> vtransaction;
 };
+
+/*struct Transaction{
+	Book bookt;
+	Patron patront;
+	Date datet;
+};*/
