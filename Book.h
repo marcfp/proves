@@ -5,14 +5,14 @@
 
 
 using namespace std;
-string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
+/*string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
 
                         "Jul", "Agt", "Set", "Oct", "Nov", "Dec"};
 
 string days[] = {"Diu", "Dll", "Dmt", "Dmc", "Dj", "Dv",
 
                       "Dss"};
-
+*/
 
 /*
 
@@ -43,17 +43,6 @@ class Date{
 	int febrer;
     // Public Members
   //  public:
-        // Default Constructor
-        Date() { 
-                const int BASE_YEAR = 1900;
-                time_t timer;
-                tm * time;
-                std::time(&timer);
-                time = localtime(&timer);
-		diat = time->tm_mday;
-
-        }
-
 	int setDay(int i, int j){
 		int dia=0;
 		if(j==31) {
@@ -66,10 +55,8 @@ class Date{
 						cin.ignore();
 						cout << endl << "Error d'introducció.... El dia ha de ser un número entre 1 i 31!!!!" << endl;
 					}
-					else{
-						diat=dia;
-					}
 				}
+				diat=dia;
 			}
 		}
 		else if(j==30){
@@ -82,10 +69,8 @@ class Date{
 						cin.ignore();
 						cout << endl << "Error d'introducció.... El dia ha de ser un número entre 1 i 30!!!!" << endl;
 					}
-					else{
-						diat=dia;
-					}
 				}
+				diat=dia;
 			}
 		}
 		else { 
@@ -99,10 +84,8 @@ class Date{
 						cin.ignore();
 						cout << endl << "Error d'introducicó... el dia ha de ser un número entre 1 i " << febrer << "!!!!"<< endl;
 					}
-					else{
-						diat=dia;
-					}
 				}
+				diat=dia;
 			}
 		}
 		return(dia);
@@ -120,10 +103,8 @@ class Date{
 					cin.ignore();
 					cout << endl << "Error d'introducció... El més ha de ser un nombre de l'1 al 12!!!!" << endl;
 				}
-				else{	
-					mest=mes;
-				}
 			}
+			mest=mes;
 		}while(mes<1 || mes >12);
 		cout << "Número de mes k has escollit " << mes << endl;
 		switch (mes)
@@ -153,28 +134,23 @@ class Date{
                                 cout << endl << "Error d'introducció... L'any ha de ser un nombre!!!" << endl;
  
                         }
-			else {
-				anyt=any;
-			}
 		}
-		if(any%4==0 && any%100!=0){ 
+		anyt=any;
+		if(anyt%4==0 && anyt%100!=0){ 
 				cout << endl << " any de traspàs" << endl;
 				febrer=29;
-				//return(0);
 				setMonth1(febrer);
 		}
 		else {
 			if(any%400==0 ){ 
 					cout << endl << " any de traspàs" << endl; 
 					febrer=29;
-					//return(0);
 					setMonth1(febrer);
 			}
 
 			else {	
-				cout << endl << "NORMAL" << endl;
+				cout << endl << "any NORMAL" << endl;
 				febrer=28;
-				//return(1);
 				setMonth1(febrer);
 			}
 		}
@@ -189,7 +165,7 @@ class Date{
 		return (0);
         }
 	void getDate(){
-		cout << "diat = " << diat << ", mest = " << mest << ", year =" << anyt << endl;
+		cout << "diat = " << this->diat << ", mest = " << this->mest << ", year =" << this->anyt << endl;
 	}
         // Destructor
         ~Date() {}
