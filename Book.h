@@ -5,7 +5,7 @@
 #include <vector>
 
 using namespace std;
-string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
+/*string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
 
                         "Jul", "Agt", "Set", "Oct", "Nov", "Dec"};
 
@@ -13,7 +13,7 @@ string days[] = {"Diu", "Dll", "Dmt", "Dmc", "Dj", "Dv",
 
                       "Dss"};
 
-
+*/
 /*
 
 9. Create a Library class. Include vectors of Books and Patrons. Include a struct called
@@ -280,6 +280,7 @@ public:
 		}
 		
 	}
+	~Patron() {}
 };
 class Book {
   public:
@@ -357,7 +358,7 @@ class Book {
 		cout << "checked = " << this->checked << endl;
 		return ((int)this->checked);
 	}	
-
+	
 	void getAny(){
 		cout << endl << "Aquest és any és de traspàs ?" << endl;
 		
@@ -421,6 +422,7 @@ class Book {
 //		cout << endl << "this->autor :" << this->autor << endl << " autor = " << autor  << endl;
 		return (this->autor);
 	}
+	~Book() {}
 
 };
 
@@ -450,31 +452,48 @@ class Book {
                 else cout << " L'isdn és el mateix dels dos llibres "<< endl;
         } 
 
-/*
-struct Transaction{
-        Book bookt;
-        Patron patront;
-        Date datet;
-};
+
+ struct Transaction{
+         Book bookt;
+         Patron patront;
+         Date datet;
+ };
 
 
 
-class Library {
-        public:
-        Date date;
-        vector<Book> vbook;
-        vector<Patron> vpatron;
-	vector<Transaction> vtransaction;
-	
+ class Library {
+         public:
+         Date date;
+         vector<Book> vbook;
+         vector<Patron> vpatron;
+         vector<Transaction> vtransaction;
 
-	void add_Books(){
-		cout << endl << "Add books to library " << endl;
-		
-	}
-};
-*/
-/*struct Transaction{
-	Book bookt;
-	Patron patront;
-	Date datet;
-};*/
+
+         void add_Books(){
+                cout << endl << "Add books to library " << endl;
+		/*
+			string isdn;
+		        string title;
+		        string autor;
+		        Date date;
+		        Patron p;
+		        bool checked;   
+		        enum Genere{ nonfiction=1, periodical=2, biography=3, children=4, error=5
+		*/
+               //vbook.push_back("11","11","autor","1","1",1,1);
+		/* He de fer setters ? */
+
+         }
+         void add_Patrons(){
+         	cout << endl << "Add patrons to library" << endl;
+		/*
+			string nom_user;
+		        int tarjeta_credit;
+		        int gastos_administratius;
+		*/
+//		vpatron.push_back("patron",1,1);
+		/* He de fer setters ? */
+         }
+
+ };
+
