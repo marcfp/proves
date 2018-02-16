@@ -463,14 +463,30 @@ class Book {
 
  class Library {
          public:
+	 Book book;
          Date date;
-         vector<Book> vbook;
-         vector<Patron> vpatron;
-         vector<Transaction> vtransaction;
-
-
+         vector<Book> vbooks;
+         vector<Patron> vpatrons;
+         vector<Transaction> vtransactions;
+//	vector<Book>::push_back(Book *);
+	 void push_back()//Book *prova)
+	 {	
+		Book book;
+		//vbooks.push_back(book);
+		book.setAutor();
+		book.setTitle();
+		vbooks.push_back(book);
+		cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() <<  endl;
+	 }
          void add_Books(){
+		//char s='k';
                 cout << endl << "Add books to library " << endl;
+
+		//vbooks.push_back(s);
+//		vbooks.push_back(Book()); //falta afegir ?
+//		vbooks[0].autor.push_back('b');
+//="vbook";
+	//	cout << "vbook[0].autor.length() = " << vbook[0].autor.length() << endl;
 		/*
 			string isdn;
 		        string title;
@@ -486,6 +502,7 @@ class Book {
          }
          void add_Patrons(){
          	cout << endl << "Add patrons to library" << endl;
+	//	vbook.push_back(Book());
 		/*
 			string nom_user;
 		        int tarjeta_credit;
