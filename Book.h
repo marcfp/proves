@@ -471,12 +471,24 @@ class Book {
 //	vector<Book>::push_back(Book *);
 	 void push_back()//Book *prova)
 	 {	
+		char c=' ';	
 		Book book;
 		//vbooks.push_back(book);
-		book.setAutor();
-		book.setTitle();
-		vbooks.push_back(book);
-		cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() <<  endl;
+		while(c!='n' && c!='N'){
+//			introdueix_llibre(book);//mirar com he de compartir funcions entre clases (clases germanes, herencia, com va això ?)
+		 	book.setGenere();	
+			book.setAutor();
+			book.setTitle();
+			book.setChecked();
+			book.date.setYear();
+			book.p.setNomUser();
+			book.p.set_tarjeta();
+
+			vbooks.push_back(book);
+			cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() <<  endl;
+			cout << endl << "Vols introduir més llibres ?(n o N per sortir)"<< endl;
+			cin >> c;
+		}
 	 }
          void add_Books(){
 		//char s='k';

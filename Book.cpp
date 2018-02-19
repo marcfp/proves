@@ -71,7 +71,7 @@ int main () {
 	Library lib;
 
 	cout << endl << endl << "Books" << endl << endl;
-	cout << endl << "book" << endl;
+	/*cout << endl << "book" << endl;
 	introdueix_llibre(book);
 	cout << endl << "book1" << endl;
 	introdueix_llibre(book1);
@@ -89,10 +89,12 @@ int main () {
 	else{
 		cout << endl << "No  entro if(isdn)2" << endl;
 	}
+*/
 //	cout << "Gastos administratius general = ";
 //	cout << p.get_gastos_admin(); 
 	lib.add_Books();
 	lib.add_Patrons();
+	lib.push_back();
   return (0);
 
 }
