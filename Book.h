@@ -198,33 +198,31 @@ class Date{
 class Patron {
 public:
 	string nom_user;
-	int tarjeta_credit;
+	unsigned long tarjeta_credit;
 	int gastos_administratius;	
 
 
-	void llegir_digit(string &valor, int &tarajeta_credit){
+	void llegir_digit(string &valor, unsigned long &tarajeta_credit){
                 locale loc;
                 bool b=false;
                 while(b==false){
                         cout << endl << "Entra el número de tarjeta" << endl;
                         cin >> valor; //tarjeta_credit;
-                        if(isdigit(valor[0],loc)){
+                        if(isdigit(valor[0],loc) && isdigit(valor[1],loc)&& isdigit(valor[2],loc) && isdigit(valor[3],loc)&& isdigit(valor[4],loc) && isdigit(valor[5],loc)&& isdigit(valor[6],loc) && 
+				isdigit(valor[7],loc)&& isdigit(valor[8],loc) && isdigit(valor[9],loc)&& isdigit(valor[10],loc) && isdigit(valor[11],loc)&& isdigit(valor[12],loc) && isdigit(valor[13],loc)
+				&& isdigit(valor[14],loc) && isdigit(valor[15],loc)){
                         //tarjeta_credit)) {
                                 stringstream(valor) >> tarjeta_credit; //= atoi(valor);
-				cout << endl << "tarjeta_credit = " << tarjeta_credit << endl;
+				cout << endl << fixed << "tarjeta_credit = " << tarjeta_credit << endl << "valor.length()= " << valor.length() << endl;
                                 b=true;
                         }
+			if(valor.length()!=16){
+				b=false;
+				cout << endl << "Valor massa llarg o curt, no és de 16 digits" << endl;
+				}
 
                 }
 
-	}
-
-	void llegir_lletra(string &valor, string &nom_user){
-/*
-		http://www.cplusplus.com/reference/cctype/isalpha/
-		http://www.cplusplus.com/reference/locale/isalnum/
-		http://www.cplusplus.com/reference/locale/isdigit/
-*/
 	}
 
 	void setNomUser(){
@@ -365,6 +363,7 @@ class Book {
 	}
 
 	string getsIsdn(){
+		cout << endl << "getsIsdn() = " << this->isdn;
 		return(this->isdn);
 	}
 	void getIsdn(){
@@ -382,7 +381,13 @@ class Book {
 		cout << endl << "input Isdn of the Book like : \"number number number (letter or number)\"" << endl;
 		while(correcte==false){
 			cin >> isdn1 >>  isdn2 >>  isdn3 >>  isdn4 ;
-			tot =  to_string(isdn1) +  to_string(isdn2) +  to_string(isdn3) + isdn4;
+			ostringstream convert1, convert2, convert3;   // stream used for the conversion
+			convert1 << isdn1;
+			convert2 << isdn2;
+			convert3 << isdn3;
+			tot =  convert1.str()+convert2.str()+convert3.str()+isdn4;
+			cout << endl << "tot = " << tot << endl;
+				//to_string(isdn1) +  to_string(isdn2) +  to_string(isdn3) + isdn4;
 			if(isdn1!=-1 && isdn2!=-1 && isdn3!=-1 && isdn4!="-1") correcte=true;
 			else{
 				cout << "ISDN " << tot << " entrat per sortir, surtint del programa" << endl;
@@ -465,17 +470,17 @@ class Book {
          public:
 	 Book book;
          Date date;
-         vector<Book> vbooks;
-         vector<Patron> vpatrons;
-         vector<Transaction> vtransactions;
-//	vector<Book>::push_back(Book *);
-	 void push_back()//Book *prova)
+         vector<Book> vbooks;//libres
+         vector<Patron> vpatrons;//clients
+         vector<Transaction> vtransactions;//per controlar els llibres deixats i els llibres que hi ha a la llibreria 
+	 void push_back()
 	 {	
 		char c=' ';	
 		Book book;
 		//vbooks.push_back(book);
 		while(c!='n' && c!='N'){
 //			introdueix_llibre(book);//mirar com he de compartir funcions entre clases (clases germanes, herencia, com va això ?)
+			book.setIsdn();
 		 	book.setGenere();	
 			book.setAutor();
 			book.setTitle();
@@ -485,7 +490,8 @@ class Book {
 			book.p.set_tarjeta();
 
 			vbooks.push_back(book);
-			cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() <<  endl;
+			
+			cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() << "\n Isdn =" << vbooks[0].getsIsdn() <<  endl;
 			cout << endl << "Vols introduir més llibres ?(n o N per sortir)"<< endl;
 			cin >> c;
 		}
@@ -493,9 +499,13 @@ class Book {
          void add_Books(){
 		//char s='k';
                 cout << endl << "Add books to library " << endl;
-
-		//vbooks.push_back(s);
-//		vbooks.push_back(Book()); //falta afegir ?
+		cout << endl << "vbooks.size() =" << vbooks.size() << " isdn = " << vbooks[0].getsIsdn() << endl; //Els estic afegint, falta saber com recora-ho
+		for(int i=0; i<vbooks.size(); i++){
+			cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle(); //<< ".\n Aquest llibre és del genere " << vbooks[i].getGenere() << " i és escrit de l'any : " << vbooks[i].getAny << ".\n és deixat ? (0 no, 1 si)" << vbooks[i].getChecked; 
+//			cout << vbooks[i].getsIsdn() << vbooks[i].getTitle() << endl;
+		}
+		//vtbooks.push_back(s);
+//		vbooks.push_back(Book()); //falta afegir ?n
 //		vbooks[0].autor.push_back('b');
 //="vbook";
 	//	cout << "vbook[0].autor.length() = " << vbook[0].autor.length() << endl;

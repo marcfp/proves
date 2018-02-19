@@ -38,6 +38,7 @@ void introdueix_llibre(Book& book){
 //			book.date.printDate();
 			cout << endl << "####################################################################"<< endl;
 			cout << endl << "\t\t\t Dades del llibre entrat : \n" << endl;
+			cout << endl << "ISDN = " << book.getsIsdn() << endl;
 			cout << endl << "Printa titol" << endl;
 			cout << book.getTitle();
 			cout << endl << "Printa Autor " << endl; //\n book.autor(book.cpp)== " << book.autor << endl;
@@ -92,9 +93,10 @@ int main () {
 */
 //	cout << "Gastos administratius general = ";
 //	cout << p.get_gastos_admin(); 
-	lib.add_Books();
+//	lib.add_Books();
 	lib.add_Patrons();
 	lib.push_back();
+	lib.add_Books();
   return (0);
 
 }
