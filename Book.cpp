@@ -30,10 +30,15 @@ void introdueix_llibre(Book& book){
                          book.setTitle();
         
 			 book.setChecked();
-                 
-                         book.date.setYear();
-			book.p.setNomUser();
-			book.p.set_tarjeta();
+                
+			 if(book.getChecked()==1 ){
+                         	book.date.setYear();
+				book.p.setNomUser();
+				book.p.set_tarjeta();
+		  	 }
+			 else{
+				cout << endl << "El llibre no esta en prestec" << endl;
+			 }
 //			cout << endl << "Printa data" << endl;
 //			book.date.printDate();
 			cout << endl << "####################################################################"<< endl;

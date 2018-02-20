@@ -92,7 +92,6 @@ class Date{
 			while(dia<1 || dia > febrer) {	
 				cout << endl << "més de febrer ?"<< endl;
 				cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
-//				cin >> dia;
 				while(!(cin >> dia)){
 					if(cin.fail()){
 						cin.clear();
@@ -160,31 +159,24 @@ class Date{
 		if(any%4==0 && any%100!=0){ 
 				cout << endl << " any de traspàs" << endl;
 				febrer=29;
-				//return(0);
 				setMonth1(febrer);
 		}
 		else {
 			if(any%400==0 ){ 
 					cout << endl << " any de traspàs" << endl; 
 					febrer=29;
-					//return(0);
 					setMonth1(febrer);
 			}
 
 			else {	
 				cout << endl << "NORMAL" << endl;
 				febrer=28;
-				//return(1);
 				setMonth1(febrer);
 			}
 		}
 	}	
 
 	int printDate(){
-//		this -> day = this -> day;
-//		this -> diat = this -> date;
-//		this -> month = this -> month;
-//		this -> year = this -> year;
 		cout << endl << "dia =" << this->day << "this->diat =" << this->diat << "this->month =" << this->month << " (linea 142)this->year = " << this->anyt << endl; 
 		return (0);
         }
@@ -229,18 +221,21 @@ public:
 		cout << endl << "Entra el nom d'usuari que s'ha deixat el llibre" << endl;
 		cin >> nom_user;
 	}
+	
 	string getNomUser(){
 		return (this->nom_user);
 	}
+	
 	void set_tarjeta(){
 		string valor;
 		
 		llegir_digit(valor,tarjeta_credit);
 	}	
+	
 	double get_tarjeta(){
 		return(this->tarjeta_credit);
 	}
-	/*int*/
+	
 	void set_gastos_admin(){
 		cout << endl << "Entra si existeixen gastos administratius " << endl;
 		while(!(cin >> gastos_administratius)){
@@ -248,18 +243,12 @@ public:
 			cin.ignore();
 			cout << endl << "Has d'introduir-me un número" << endl;
 		}
-//		return(gastos_administratius);
 	}
-/*	int set_gastos_admin()	{
-		cout << endl << "Entra els gastos d'administració " << endl;
-		cin >> gastos_administratius;
-		
-		return(this->gastos_administratius);
-	}
-*/
+	
 	string get_gastos_admin() {
 		return ("Els gastos d'administració d'aquest llibre són " + this->gastos_administratius) ;
 	}
+	
 	bool si_no_gastos_admin(){
 		int i=-1;
 		while(i<0 || i>1){
@@ -324,8 +313,8 @@ class Book {
 		}
 	}
 
-	void getGenere(){
-		cout << "this->generes = " << this->genere << endl;
+	string getGenere(){
+		//cout << "this->generes = " << this->genere << endl;
 		switch(this->genere)
 		{
 			case 1: cout << endl << "Aquest llibre pertan a la no ficció" << endl ; break;
@@ -360,6 +349,14 @@ class Book {
 	void getAny(){
 		cout << endl << "Aquest és any és de traspàs ?" << endl;
 		
+	
+	}
+	
+	int getsAny(){
+		return(this->date.anyt);
+	}
+	string getsDate(){
+		return(this->date.diat+" del mes "+ this->date.mest);// + " de l'any " + this->date.anyt);
 	}
 
 	string getsIsdn(){
@@ -473,36 +470,49 @@ class Book {
          vector<Book> vbooks;//libres
          vector<Patron> vpatrons;//clients
          vector<Transaction> vtransactions;//per controlar els llibres deixats i els llibres que hi ha a la llibreria 
-	 void push_back()
+	 
+	void push_back()
 	 {	
 		char c=' ';	
 		Book book;
-		//vbooks.push_back(book);
 		while(c!='n' && c!='N'){
-//			introdueix_llibre(book);//mirar com he de compartir funcions entre clases (clases germanes, herencia, com va això ?)
 			book.setIsdn();
-		 	book.setGenere();	
-			book.setAutor();
-			book.setTitle();
-			book.setChecked();
-			book.date.setYear();
-			book.p.setNomUser();
-			book.p.set_tarjeta();
-
-			vbooks.push_back(book);
+			string isdn=book.getsIsdn();
+	                string surt="-1"; 
+	                if(isdn.find(surt) == string::npos) { //si no troba -1
+			 	book.setGenere();	
+				book.setAutor();
+				book.setTitle();
+				book.setChecked();
+//				cout << "getchecked = " << book.getChecked();
+				if(book.getChecked()==1){ //si deixat, demana això
+					book.date.setYear();
+					book.p.setNomUser();
+					book.p.set_tarjeta();
+				}
+				else {
+					cout << endl << "llibre no deixat" << endl;
+				}
+				vbooks.push_back(book);
 			
-			cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() << "\n Isdn =" << vbooks[0].getsIsdn() <<  endl;
-			cout << endl << "Vols introduir més llibres ?(n o N per sortir)"<< endl;
-			cin >> c;
+//				cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() << "\n Isdn =" << vbooks[0].getsIsdn() <<  endl;
+				cout << endl << "Vols introduir més llibres ?(n o N per sortir)"<< endl;
+				cin >> c;
+			}
+			else throw invalid_argument("Argument invàlid, fora!");
 		}
 	 }
-         void add_Books(){
+         
+	void add_Books(){
 		//char s='k';
                 cout << endl << "Add books to library " << endl;
 		cout << endl << "vbooks.size() =" << vbooks.size() << " isdn = " << vbooks[0].getsIsdn() << endl; //Els estic afegint, falta saber com recora-ho
-		for(int i=0; i<vbooks.size(); i++){
-			cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle(); //<< ".\n Aquest llibre és del genere " << vbooks[i].getGenere() << " i és escrit de l'any : " << vbooks[i].getAny << ".\n és deixat ? (0 no, 1 si)" << vbooks[i].getChecked; 
-//			cout << vbooks[i].getsIsdn() << vbooks[i].getTitle() << endl;
+		if(vbooks.size()>=1){
+			for(int i=0; i<vbooks.size(); i++){
+				if(vbooks[i].getChecked()!=0) cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és escrit de l'any : " << vbooks[i].date.anyt << ".\n és deixat ? (0 no, 1 si)" << vbooks[i].getChecked()<< endl; 
+				else cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
+	//			cout << vbooks[i].getsIsdn() << vbooks[i].getTitle() << endl;
+			}
 		}
 		//vtbooks.push_back(s);
 //		vbooks.push_back(Book()); //falta afegir ?n
@@ -522,7 +532,8 @@ class Book {
 		/* He de fer setters ? */
 
          }
-         void add_Patrons(){
+         
+	void add_Patrons(){
          	cout << endl << "Add patrons to library" << endl;
 	//	vbook.push_back(Book());
 		/*
@@ -533,6 +544,8 @@ class Book {
 //		vpatron.push_back("patron",1,1);
 		/* He de fer setters ? */
          }
+	
+	~Library(){}
 
  };
 
