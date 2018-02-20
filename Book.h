@@ -71,6 +71,7 @@ class Date{
 					}
 				}
 			}
+			diat=dia;
 		}
 		else if(j==30){
 			while(dia<1 || dia > 31) {
@@ -87,6 +88,7 @@ class Date{
 					}
 				}
 			}
+			diat=dia;
 		}
 		else { 
 			while(dia<1 || dia > febrer) {	
@@ -103,6 +105,7 @@ class Date{
 					}
 				}
 			}
+			diat=dia;
 		}
 		return(dia);
 		
@@ -125,6 +128,7 @@ class Date{
 			}
 		}while(mes<1 || mes >12);
 		cout << "Número de mes k has escollit " << mes << endl;
+		mest=mes;
 		switch (mes)
 		{
 			case 1:case 3: case 5: case 7 : case 8:  case 10 : case 12 :	
@@ -156,6 +160,7 @@ class Date{
 				anyt=any;
 			}
 		}
+		anyt=any;
 		if(any%4==0 && any%100!=0){ 
 				cout << endl << " any de traspàs" << endl;
 				febrer=29;
@@ -180,8 +185,39 @@ class Date{
 		cout << endl << "dia =" << this->day << "this->diat =" << this->diat << "this->month =" << this->month << " (linea 142)this->year = " << this->anyt << endl; 
 		return (0);
         }
+
 	void getDate(){
 		cout << "diat = " << diat << ", mest = " << mest << ", year =" << anyt << endl;
+	}
+  
+	int getDia(){
+		return(diat);
+	}
+	
+	int getMes(){
+		return(mest);
+	}
+
+	string getMesString(){
+		switch(mest){
+			case 1: return("Gener");break;
+			case 2: return("Febrer");break;
+			case 3: return("Març");break;
+			case 4: return("Abril");break;
+			case 5: return("Maig"); break;
+			case 6: return("Juny");break;
+			case 7: return("Juliol");break;
+			case 8: return("Agost"); break;
+			case 9: return("Setembre"); break;
+			case 10: return("Octubre"); break;
+			case 11: return("Novembre"); break;
+			case 12: return ("Desembre"); break;
+			default : return("error!!!!"); break;
+		}
+		return("error!!!!");
+	}
+	int getAny(){
+		return(anyt);
 	}
         // Destructor
         ~Date() {}
@@ -346,12 +382,12 @@ class Book {
 		return ((int)this->checked);
 	}	
 	
-	void getAny(){
+/*	void getAny(){
 		cout << endl << "Aquest és any és de traspàs ?" << endl;
 		
 	
 	}
-	
+*/	
 	int getsAny(){
 		return(this->date.anyt);
 	}
@@ -509,7 +545,7 @@ class Book {
 		cout << endl << "vbooks.size() =" << vbooks.size() << " isdn = " << vbooks[0].getsIsdn() << endl; //Els estic afegint, falta saber com recora-ho
 		if(vbooks.size()>=1){
 			for(int i=0; i<vbooks.size(); i++){
-				if(vbooks[i].getChecked()!=0) cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és escrit de l'any : " << vbooks[i].date.anyt << ".\n és deixat ? (0 no, 1 si)" << vbooks[i].getChecked()<< endl; 
+			if(vbooks[i].getChecked()!=0) cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << ".\n" <<  endl; 
 				else cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
 	//			cout << vbooks[i].getsIsdn() << vbooks[i].getTitle() << endl;
 			}
