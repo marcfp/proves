@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <cctype>
 
 using namespace std;
 /*string months[] = {"Gen", "Feb", "Mar", "Abr", "Mai", "Jun",
@@ -321,6 +322,11 @@ class Book {
 		bool entrat=false;
 		while((genere_escollit<1 || genere_escollit>4)&& entrat==false)
 		{
+			cout << endl << "Escull un gènere : " << endl;
+			cout << endl << "1 -> no ficció" << endl;
+			cout << endl << "2 -> periodical" << endl;
+			cout << endl << "3 -> Biogràfic" << endl;
+			cout << endl << "4 -> Infantil" << endl;
 			cout << endl << "Quin genere esculls ? (1..4)" << endl;
 			cin >> genere_escollit;
 			if(cin.fail()){
@@ -334,7 +340,7 @@ class Book {
 					 entrat=true;
 				}
 				else {
-					cout << endl << "Aquí hi ha hagut algun erro,r comproba-ho" << endl;
+					cout << endl << "Aquí hi ha hagut algun error, comproba-ho" << endl;
 				}
 			}
 		} 
@@ -509,9 +515,9 @@ class Book {
 	 
 	void push_back()
 	 {	
-		char c=' ';	
+		char c=' ';
 		Book book;
-		while(c!='n' && c!='N'){
+		while(c!='n' && c!='N' ){
 			book.setIsdn();
 			string isdn=book.getsIsdn();
 	                string surt="-1"; 
@@ -532,8 +538,13 @@ class Book {
 				vbooks.push_back(book);
 			
 //				cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() << "\n Isdn =" << vbooks[0].getsIsdn() <<  endl;
-				cout << endl << "Vols introduir més llibres ?(n o N per sortir)"<< endl;
-				cin >> c;
+				do{
+					cout << endl << "Vols introduir més llibres ?(n o N per sortir, s o S per continuar)"<< endl;
+//				do{
+					cin >> c;
+				}while(c!='n' && c!='N' && c!='s' && c!='S');
+			//	sb=tolower(c);
+				//c=toupper(c);
 			}
 			else throw invalid_argument("Argument invàlid, fora!");
 		}
@@ -545,8 +556,8 @@ class Book {
 		cout << endl << "vbooks.size() =" << vbooks.size() << " isdn = " << vbooks[0].getsIsdn() << endl; //Els estic afegint, falta saber com recora-ho
 		if(vbooks.size()>=1){
 			for(int i=0; i<vbooks.size(); i++){
-			if(vbooks[i].getChecked()!=0) cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << ".\n" <<  endl; 
-				else cout << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
+			if(vbooks[i].getChecked()!=0) cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << ".\n" <<  endl; 
+				else cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
 	//			cout << vbooks[i].getsIsdn() << vbooks[i].getTitle() << endl;
 			}
 		}
