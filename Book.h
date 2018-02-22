@@ -36,8 +36,6 @@ class Date{
 	public:
         string month;
         string day;
-//	int month;
-//	int day;
         int diat;
         int anyt;
 	int mest;
@@ -231,6 +229,12 @@ public:
 	int gastos_administratius;	
 
 
+	void busca()
+	{
+		cout << endl << "busca si existeix" << endl;
+		
+	}	
+
 	void llegir_digit(string &valor, unsigned long &tarajeta_credit){
                 locale loc;
                 bool b=false;
@@ -388,12 +392,6 @@ class Book {
 		return ((int)this->checked);
 	}	
 	
-/*	void getAny(){
-		cout << endl << "Aquest és any és de traspàs ?" << endl;
-		
-	
-	}
-*/	
 	int getsAny(){
 		return(this->date.anyt);
 	}
@@ -417,7 +415,7 @@ class Book {
 		bool correcte=false;
 		string tot;
 		cout << endl << "set Isdn of book " << endl;
-		cout << endl << "input Isdn of the Book like : \"number number number (letter or number)\"" << endl;
+		cout << endl << "input Isdn of the Book like : \"number number number (letter or number)\" Otherwise program exits" << endl;
 		while(correcte==false){
 			cin >> isdn1 >>  isdn2 >>  isdn3 >>  isdn4 ;
 			ostringstream convert1, convert2, convert3;   // stream used for the conversion
@@ -442,28 +440,21 @@ class Book {
 	
 	void setTitle(){
 		char titole[512];
-		//cout << endl << "set Tittle of book " << endl;
 		cout << endl << "Input Title of the Book" << endl;
 		cin.getline(titole,128);
-		//cout << endl << "titol llegit = " << titole << endl;
 		this->title = titole;
-		//cout << endl << "carrego titol a this->title = " << this->title << " i title = " << title << endl;
 	}
 
 	void setAutor(){
 		char autore[512];
 		cin.clear();
-		//cout << endl << "set Autor of book" << endl;
 		cout << endl << "input Autor of book " << endl;
 		cin.ignore(512,'\n');
 		cin.getline(autore,128);
-//		if(cin.fail) throw 
 		this->autor = autore;
-		//cout << endl << "carrego auto a this->autor = " << this->autor << " i autor = " << autor << endl;
 	}
 
 	string getAutor(){
-//		cout << endl << "this->autor :" << this->autor << endl << " autor = " << autor  << endl;
 		return (this->autor);
 	}
 	~Book() {}
@@ -480,8 +471,8 @@ class Book {
  
          ostream & operator == (Book & book1, Book & book2) // iguals?
          {
-                 cout << endl << "Són iguals els isdn? " << endl;
-		 string b1=book1.getsIsdn();
+                cout << endl << "Són iguals els isdn? " << endl;
+		string b1=book1.getsIsdn();
 		string b2=book2.getsIsdn();
 		if(b1.compare(b2) !=0) cout << "Els isdn són diferents" << endl;
 		else cout << " L'isdn és el mateix dels dos llibres "<< endl;
@@ -512,7 +503,32 @@ class Book {
          vector<Book> vbooks;//libres
          vector<Patron> vpatrons;//clients
          vector<Transaction> vtransactions;//per controlar els llibres deixats i els llibres que hi ha a la llibreria 
-	 
+
+/*
+Create functions to add books to the library, add patrons to the library, and check
+out books. Whenever a user checks out a book, have the library make sure that both the user and
+the book are in the library. If they aren’t, report an error. Then check to make sure that the user
+owes no fees. If the user does, report an error. If not, create a Transaction, and place it in the
+vector of Transactions. Also write a function that will return a vector that contains the names
+of all Patrons who owe fees.
+*/
+
+	void check_user_book_library(){
+		Patron p;
+		cout << endl << "check if a user(Patron) and a book are in the library, if they aren't, report an error, but if they are inside, create a transaction and put them(user and book) into transaction vector." << endl;
+		p.setNomUser();
+//              p.set_tarjeta();
+		cout << endl << "Buscar si existeix nom d'usuari als Patrons(usuaris)" << endl;
+		p.busca();
+		
+		
+	}
+	void names_patros_fees(){
+		cout << endl << "write a function that return a vector that contains de names of all Patrons who owe a fees" << endl;
+	}
+	void check_in_out_books(){
+		cout << endl << "check books whose are inside library and these which one are outside" << endl;
+	}	 
 	void push_back()
 	 {	
 		char c=' ';
@@ -526,7 +542,6 @@ class Book {
 				book.setAutor();
 				book.setTitle();
 				book.setChecked();
-//				cout << "getchecked = " << book.getChecked();
 				if(book.getChecked()==1){ //si deixat, demana això
 					book.date.setYear();
 					book.p.setNomUser();
@@ -537,60 +552,60 @@ class Book {
 				}
 				vbooks.push_back(book);
 			
-//				cout << endl << "push_back(Book *x)\n autor = " << vbooks[0].getAutor() << "\n getTitle = " << vbooks[0].getTitle() << "\n Isdn =" << vbooks[0].getsIsdn() <<  endl;
 				do{
 					cout << endl << "Vols introduir més llibres ?(n o N per sortir, s o S per continuar)"<< endl;
-//				do{
 					cin >> c;
 				}while(c!='n' && c!='N' && c!='s' && c!='S');
-			//	sb=tolower(c);
-				//c=toupper(c);
 			}
-			else throw invalid_argument("Argument invàlid, fora!");
+			else throw invalid_argument("INVALID Argument, LOG OUT!");
 		}
 	 }
          
 	void add_Books(){
-		//char s='k';
+		char c='n';
                 cout << endl << "Add books to library " << endl;
-		cout << endl << "vbooks.size() =" << vbooks.size() << " isdn = " << vbooks[0].getsIsdn() << endl; //Els estic afegint, falta saber com recora-ho
-		if(vbooks.size()>=1){
-			for(int i=0; i<vbooks.size(); i++){
-			if(vbooks[i].getChecked()!=0) cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << ".\n" <<  endl; 
-				else cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
-	//			cout << vbooks[i].getsIsdn() << vbooks[i].getTitle() << endl;
+		if(vbooks.size()>0) {
+			try{
+				cout << endl << "vbooks.size() =" << vbooks.size() << " isdn = " << vbooks[0].getsIsdn() << endl; //Els estic afegint, falta saber com recora-ho
+		
+				if(vbooks.size()>=1){
+					for(int i=0; i<vbooks.size(); i++){
+						if(vbooks[i].getChecked()!=0) cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << ".\n" <<  endl; 
+						else cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
+					}	
+				}
+			}
+			catch (const exception& e) {
+				cout << "Ha succeït l'error : " << e.what() << endl;
 			}
 		}
-		//vtbooks.push_back(s);
-//		vbooks.push_back(Book()); //falta afegir ?n
-//		vbooks[0].autor.push_back('b');
-//="vbook";
-	//	cout << "vbook[0].autor.length() = " << vbook[0].autor.length() << endl;
-		/*
-			string isdn;
-		        string title;
-		        string autor;
-		        Date date;
-		        Patron p;
-		        bool checked;   
-		        enum Genere{ nonfiction=1, periodical=2, biography=3, children=4, error=5
-		*/
-               //vbook.push_back("11","11","autor","1","1",1,1);
-		/* He de fer setters ? */
+		else{ 
+			do{
+				cout << endl << "no hi ha llibres, en vols introduir ? " << endl;
+				while (!(cin >> c))
+	                     	{
+	                            cin.clear();
+	                            cin.ignore(80, '\n');
+	                            cout << "Valor no vàlid, introdueix una s o una n";
+				}
+	                	cin.ignore(80, '\n');
+				
+			}while(c!='s' && c!='n');		
+			if(c=='s') push_back();
+			else cout << endl << "no introdueixo llibres" << endl;
+		}
+}
 
-         }
+
+
          
 	void add_Patrons(){//Afegir clients
          	cout << endl << "Add patrons to library" << endl;
-	//	vbook.push_back(Book());
-		/*
-			string nom_user;
-		        int tarjeta_credit;
-		        int gastos_administratius;
-		*/
-//		vpatron.push_back("patron",1,1);
-		/* He de fer setters ? */
+		//book.date.setYear();
+                book.p.setNomUser();
+                book.p.set_tarjeta();
          }
+
 	
 	~Library(){}
 

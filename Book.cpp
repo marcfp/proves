@@ -2,12 +2,10 @@
 #include <vector>
 #include <algorithm>
 #include <string.h>
-//#include <functional>
-
 
 #include "Book.h"
-//#include "Library.h"
-//#include "Date.h"
+
+
 using namespace std;
 
 void introdueix_llibre(Book& book){
@@ -20,7 +18,7 @@ void introdueix_llibre(Book& book){
 
                 if(isdn.find(surt) != string::npos) {
                         cout << endl << "s'ha escollit sortir, fora!!" << endl;
-                        exit; //
+                        exit; 
                  }
                  else{
 			 book.setGenere();
@@ -39,8 +37,6 @@ void introdueix_llibre(Book& book){
 			 else{
 				cout << endl << "El llibre no esta en prestec" << endl;
 			 }
-//			cout << endl << "Printa data" << endl;
-//			book.date.printDate();
 			cout << endl << "####################################################################"<< endl;
 			cout << endl << "\t\t\t Dades del llibre entrat : \n" << endl;
 			cout << endl << "ISDN = " << book.getsIsdn() << endl;
@@ -66,42 +62,49 @@ void introdueix_llibre(Book& book){
 			}
 			else cout << endl << "No té gastos d'administració " << endl;
                 }
-//      }
 
 
 }
+
+
 
 int main () {
 	//vector<Book> book;
 	Book book,book1;
 	Library lib;
 
-	cout << endl << endl << "Books" << endl << endl;
-	/*cout << endl << "book" << endl;
-	introdueix_llibre(book);
-	cout << endl << "book1" << endl;
-	introdueix_llibre(book1);
-	string isdn=book.getsIsdn();
-	cout << endl << "book.getsIsdn() =" << book.getsIsdn() << endl;
-	if(isdn.find("-1")==string::npos )cout << book ;
-	else cout << endl << "No entro if(isdn)" << endl;
-	cout << endl;
-	isdn=book1.getsIsdn();	
-	if(isdn.find("-1")==string::npos) {
-		cout << book1 ;
-		book==book1;
-		book!=book1;
-	}
-	else{
-		cout << endl << "No  entro if(isdn)2" << endl;
-	}
-*/
-//	cout << "Gastos administratius general = ";
-//	cout << p.get_gastos_admin(); 
-//	lib.add_Books();
-	lib.add_Patrons();
+	int num;
+	cout << endl << endl << "Library books" << endl << endl;
+
+	do{
+	 do{
+	       	cout << endl << " Escull una opció de les següents : " << endl;
+		cout << endl << " 3 -> todo check_user_book_library " << endl;
+	       	cout << endl << " 2 -> llibres" << endl;
+		cout << endl << " 1 -> usuaris" << endl;
+	       	cout << endl << " 0 -> sortir" << endl;
+	       while (!(cin >> num))
+	            {
+	                    cin.clear();
+        	            cin.ignore(80, '\n');
+                	    cout << "Valor no vàlid, introdueix un valor del 0 al 2";
+	            }
+        	    cin.ignore(80, '\n');
+	   }while(num<0 &&  num>4);
+ 	 switch(num){
+                case 3 : lib.check_user_book_library();break;
+                case 2 : lib.add_Books();break;
+                case 1 : lib.add_Patrons();break;
+		case 0 : break;
+                default : break;
+         }
+
+	}while(num!=0);
+
+/*	lib.add_Patrons();
 	lib.push_back();
 	lib.add_Books();
+*/
   return (0);
 
 }
