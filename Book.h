@@ -224,7 +224,7 @@ class Date{
         ~Date() {}
 
 };
-class Patron {
+class Patron { //clients
 public:
 	string nom_user;
 	unsigned long tarjeta_credit;
@@ -580,7 +580,7 @@ class Book {
 
          }
          
-	void add_Patrons(){
+	void add_Patrons(){//Afegir clients
          	cout << endl << "Add patrons to library" << endl;
 	//	vbook.push_back(Book());
 		/*
