@@ -214,16 +214,32 @@ class Date{
 
 };
 class Patron { //clients
+
 public:
 	string nom_user;
 	unsigned long tarjeta_credit;
 	int gastos_administratius;	
+//	int numero;
 
-
-	void busca(string nom_a_buscar)
+/*	int size(){
+		if((this)->nom_user!="") numero++;
+	}
+*/
+	void busca(string nom_a_buscar, Patron p)
 	{
-		cout << endl << "busca si existeix" << nom_a_buscar << endl;
-		//cout << 
+		cout << endl << "busca si existeix : nom_a_buscar =" << nom_a_buscar << "\n p.nom_user = " << p.nom_user << endl;
+//		cout << "Número de registres entrats = " << p.size() << endl;
+//		p.
+/*		for(int i =0; i<=p.size();++i){
+//		for (auto inici = nom_user.begin(); inici<=nom_user.end(); inici++){
+			if(strcmp(nom_a_buscar[inici],nom_user[inici])==0) cout << endl << "trobat" <<endl;
+			else cout << endl << "no trobat" << endl;
+		
+		}	
+//
+*/
+		
+		
 		
 	}	
 
@@ -514,7 +530,7 @@ of all Patrons who owe fees.
 		cin >> nom_a_buscar;
 //              p.set_tarjeta();
 		cout << endl << "Buscar si existeix nom d'usuari als Patrons(usuaris) amb el nom entrar aquest : "<< p.getNomUser() << endl;
-		p.busca(nom_a_buscar);
+		p.busca(nom_a_buscar, p);
 		
 		
 	}
