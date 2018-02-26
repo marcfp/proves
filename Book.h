@@ -170,15 +170,15 @@ class Date{
                 }
         }
 
-        int printDate(){
+/*        int printDate(){
                 cout << endl << "dia =" << this->day << "this->diat =" << this->diat << "this->month =" << this->month << " (linea 142)this->year = " << this->anyt << endl;
                 return (0);
         }
-
-        void getDate(){
+*/
+/*        void getDate(){
                 cout << "diat = " << diat << ", mest = " << mest << ", year =" << anyt << endl;
         }
-
+*/
         int getDia(){
                 return(diat);
         }
@@ -223,7 +223,7 @@ public:
         void setNomUser(){
                 cout << endl << "Entra el nom d'usuari que s'ha deixat el llibre" << endl;
                 cin >> nom_user;
-                Patron::count++;
+//                Patron::count++;
         }
 
         string getNomUser(){
@@ -264,20 +264,6 @@ public:
                 return(this->tarjeta_credit);
         }
 
-/*        void set_gastos_admin(){
-                cout << endl << "Entra si existeixen gastos administratius " << endl;
-                while(!(cin >> gastos_administratius)){
-                        cin.clear();
-                        cin.ignore();
-                        cout << endl << "Has d'introduir-me un número" << endl;
-                }
-        }
-
-        string get_gastos_admin() {
-                return ("Els gastos d'administració d'aquest llibre són " + this->gastos_administratius) ;
-        }
-*/
-
         bool si_no_gastos_admin(){
                 int i=-1;
                 while(i<0 || i>1){
@@ -296,6 +282,7 @@ public:
                 }
 
         }
+
         ~Patron() {}
 
 
@@ -394,11 +381,8 @@ class Book{ //llibres
                 cout << endl << "getsIsdn() = " << this->isdn;
                 return(this->isdn);
         }
-        void getIsdn(){
-                cout << endl << "get Isdn of book " << this->isdn << endl;
-        }
-
-        void setIsdn(){
+        
+	void setIsdn(){
                 int isdn1=-1;
                 int isdn2=-1;
                 int isdn3=-1;
@@ -461,6 +445,17 @@ class Library{
         vector<Book> vbooks;//libres
 	vector<Patron> vpatrons;//clients
 
+	void check_out_books_patrons(){
+/*
+Create functions to add books to the library, add patrons to the library, and check out books. Whenever a user checks out a book, 
+have the library make sure that both the user and the book are in the library. If they aren’t, report an error. Then check to make
+sure that the user owes no fees. If the user does, report an error. If not, create a Transaction, and place it in the
+vector of Transactions. Also write a function that will return a vector that contains the names of all Patrons who owe fees.
+
+*/
+		cout << endl << "Comprobar si el llibre està deixat a algú o no, primer s'ha de comprobar que el llibre i usuari siguin dins la llibreria, si no existeixen, llençar error.Si l'usuari existeix, s'ha de comprobar que no tingui cap prestem, si en té algun, llençar error. Si l'usuari no té cap prèstec, existeix i el llibre existeix, crear transacció i posar el llibre i l'usuari a la transacció. També s'ha d'escriure una funció que ens retorni tots els noms d'usuaris que tenen un prèstec" << endl;
+	}
+
 	void push_back()
          {
                 char c=' ';
@@ -492,6 +487,8 @@ class Library{
                         else throw invalid_argument("INVALID Argument, LOG OUT!");
                 }
          }
+
+
 	void list_Books(){
 	if(vbooks.size() >0){
 		for(int i=0; i<vbooks.size();++i){
@@ -508,14 +505,29 @@ class Library{
                 cout << endl << "Add books to library " << endl;
                 if(vbooks.size()>0) {
                         try{
-                                cout << endl << "vbooks.size() =" << vbooks.size() << " isdn = " << vbooks[0].getsIsdn() << endl; //Els estic afegint, falta saber com recora-ho
-
                                 if(vbooks.size()>=1){
-                                        for(int i=0; i<vbooks.size(); i++){
+					cout << endl << "vbooks.size() = " << vbooks.size()<< endl;
+                                        for(int i=1; i<vbooks.size(); i++){
                                                 if(vbooks[i].getChecked()!=0) cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << ".\n" <<  endl;
                                                 else cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
                                         }
+					
                                 }
+				char c1='0';
+				do{
+                                cout << endl << "vols introduir més llibres?(s/n) " << endl;
+                                while (!(cin >> c1))
+                                {
+                                    cin.clear();
+                                    cin.ignore(80, '\n');
+                                    cout << "Valor no vàlid, introdueix una s o una n";
+                                }
+                                cin.ignore(80, '\n');
+ 
+                         }while(c1!='s' && c1!='n');
+                         if(c1=='s') push_back();//introdueix llibres
+                         else cout << endl << "no introdueixo llibres" << endl;
+
                         }
                         catch (const exception& e) {
                                 cout << "Ha succeït l'error : " << e.what() << endl;
@@ -538,6 +550,19 @@ class Library{
                 }
 	}
 
+
+	void list_Patrons(){ //motra clients entrats
+	        if(vpatrons.size() >0){ 
+        	        for(int i=0; i<vpatrons.size();++i){
+	                        if(vpatrons.size()>=1) cout << endl << "La llibreria conté el client " << vpatrons[i].getNomUser() << " amb el número de tarjeta " << vpatrons[i].get_tarjeta() << endl;
+
+	                }
+	        }
+		else{ //no hi ha clients
+			cout << endl << "NO HI HA USUARIS PER MOSTRAR!!!!" << endl;
+		}
+	}
+
 	void patrons_push_back(){
 		cout << endl << "Introdueixo clients en el vector de clients " << endl;
 
@@ -545,39 +570,38 @@ class Library{
 
 char c=' ';
                 Patron pat;
-                while(c!='n' && c!='N' ){
-			pat.setNomUser();
-			pat.set_tarjeta();
-/*              book.setIsdn();
-                string isdn=book.getsIsdn();
-                        string surt="-1";
-                        if(isdn.find(surt) == string::npos) { //si no troba -1
-                                book.setGenere();
-                                book.setAutor();
-                                book.setTitle();
-                                book.setChecked();
-                                if(book.getChecked()==1){ //si deixat, demana això
-                                        book.date.setYear();
-                                        //book.p.setNomUser();
-                                        //book.p.set_tarjeta();
-                                }
-                                else {
-                                        cout << endl << "llibre no deixat" << endl;
-                                }
-                                vbooks.push_back(book);
-
+		if(vpatrons.size() >0){ //hi ha clients ja introduits
+					 for(int i=1; i<vpatrons.size(); i++){
+                                                        if(vpatrons[i].get_tarjeta()) cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << ", amb el número de tarjeta : " << vpatrons[i].get_tarjeta() << endl;
+                                                        else cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << " I no té número de tarjeta associada" << endl;
+                                               // else cout << endl << "NO HI HA CAP CLIENT" << endl;
+                                        }
                                 do{
-                                        cout << endl << "Vols introduir més llibres ?(n o N per sortir, s o S per continuar)"<< endl;
-                                        cin >> c;
-                                }while(c!='n' && c!='N' && c!='s' && c!='S');
-                        }
-                        else throw invalid_argument("INVALID Argument, LOG OUT!");
-                }   
+                                        cout << endl << "vols introduir més clients ? (s/n)" << endl;
+                                        while (!(cin >> c))
+                                        {
+                                                cin.clear();
+                                                cin.ignore(80, '\n');
+                                                cout << "Valor no vàlid, introdueix una s o una n";
+                                        }
+                                        cin.ignore(80, '\n');
 
+                                }while(c!='s' && c!='n');
+                                if(c=='s') patrons_push_back();//introdueix llibres
+                                else cout << endl << "no introdueixo més clients" << endl;
 
-*/
+		}
+		else {
+	                while(c!='n' && c!='N' ){
+				pat.setNomUser();
+				pat.set_tarjeta();
+				vpatrons.push_back(pat);
+				cout << endl <<  "Vols introduir més clients ?(s/n)" << endl;
+				cin >> c;
+			}
+		}
 	}
-}
+
 	void add_Patrons(){//Afegir clients
 		char c='n';
 		
@@ -586,9 +610,25 @@ char c=' ';
 			try{
 				if(vpatrons.size()>=1){	
 					for(int i=0; i<vpatrons.size();i++){
-						if(vpatrons.size()>0) cout << endl << "la llibreria conté clients" << endl;
+						if(vpatrons.size()>0)
+							if(vpatrons[i].get_tarjeta()) cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << ", amb el número de tarjeta : " << vpatrons[i].get_tarjeta() << endl;
+							else cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << " I no té número de tarjeta associada" << endl;
 						else cout << endl << "NO HI HA CAP CLIENT" << endl;
 					}
+				do{ 
+                                	cout << endl << "no hi ha Clients, en vols introduir ? (s/n)" << endl;
+	                                while (!(cin >> c)) 
+        	                        {   
+                                 cout << endl << "no hi ha Clients, en vols introduir ? " << endl;
+		                                cin.ignore(80, '\n');
+                 		                cout << "Valor no vàlid, introdueix una s o una n";
+                                	}
+	                                cin.ignore(80, '\n');
+	 
+        	                }while(c!='s' && c!='n');
+                	        if(c=='s') patrons_push_back();//introdueix llibres
+                        	else cout << endl << "no introdueixo més clients" << endl;
+				
 				}
 			}
 		catch (const exception& e) {
@@ -597,7 +637,7 @@ char c=' ';
                  }
 		else{
                          do{
-                                 cout << endl << "no hi ha Clients, en vols introduir ? " << endl;
+                                 cout << endl << "no hi ha Clients, en vols introduir ? (s/n)" << endl;
                                  while (!(cin >> c))
                                  {
                                      cin.clear();
@@ -611,13 +651,9 @@ char c=' ';
                          else cout << endl << "no introdueixo clients" << endl;
                 }
 
-                //book.date.setYear();
-//                book.p.setNomUser(); //he de pasar-li el punter ?
-//                book.p.set_tarjeta(); //he de pasar-li el punter ?
-        //      book.p.count=book.p.count +1;
          }
 
-
+	
         ~Library(){}
 
 
