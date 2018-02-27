@@ -446,6 +446,10 @@ class Library{
 	vector<Patron> vpatrons;//clients
 
 	void check_out_books_patrons(){
+
+		string book;
+		string usuari;
+//		vector<Book>::iterator i;
 /*
 Create functions to add books to the library, add patrons to the library, and check out books. Whenever a user checks out a book, 
 have the library make sure that both the user and the book are in the library. If they aren’t, report an error. Then check to make
@@ -453,7 +457,24 @@ sure that the user owes no fees. If the user does, report an error. If not, crea
 vector of Transactions. Also write a function that will return a vector that contains the names of all Patrons who owe fees.
 
 */
+
 		cout << endl << "Comprobar si el llibre està deixat a algú o no, primer s'ha de comprobar que el llibre i usuari siguin dins la llibreria, si no existeixen, llençar error.Si l'usuari existeix, s'ha de comprobar que no tingui cap prestem, si en té algun, llençar error. Si l'usuari no té cap prèstec, existeix i el llibre existeix, crear transacció i posar el llibre i l'usuari a la transacció. També s'ha d'escriure una funció que ens retorni tots els noms d'usuaris que tenen un prèstec" << endl;
+//cerca llibres
+		cout << endl << endl << endl << "Entra el llibre que vols cercar dins de la biblioteca  :";
+		cin >> book;
+
+//		int limit = (sizeof(vbooks)/sizeof(vbooks[0]));
+//		cout << "limit = " << limit << "sizeof(vbooks) = " << sizeof vbooks  << "sizeof(vbooks[0]) = " << sizeof vbooks[0]  << endl;
+		cout << endl << "els llibres entrats són : " << endl << endl;
+//		for(vector<Book>::iterator i=vbooks.begin(); i!=vbooks.end(); ++i){
+//		for(int i=1; i<vbooks.size(); i++){
+		for (vector<Book>::size_type i = 0; i != vbooks.size(); i++) {
+			cout << "llibre amb isdn " << vbooks[i].getsIsdn() << " de l'autor " << vbooks[i].getAutor() << " de la data " << vbooks[i].getsDate() << endl; //" de la temàtica " << vbooks[i].getGenere() << endl;
+//			cout << " i =" << *i << endl;
+		}
+		//falta fer la cerca, és fer una comparació amb un bolea, si bolea cert, continua, sino llença error (throw ?)
+//cerca usuaris
+
 	}
 
 	void push_back()
