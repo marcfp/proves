@@ -458,7 +458,7 @@ class Book{ //llibres
 struct Transaction{
 	vector<Book> llibres_deixats;
 	vector<Patron> usuaris_deixats;
-} llibres_usuaris_deixats;
+};
 /*void llibres_usuaris_deixats::mostra_llibres_usuaris(){
 	cout << endl << "mostra_llibres_usuaris()" << endl;
 }
@@ -472,10 +472,12 @@ class Library{
 	void mostra_llibres_usuaris(){
 	
 	}
-	void check_out_books_patrons(){
-
-		string book;
-		string usuari;
+void check_out_books_patrons(){
+	
+	string book;
+	string usuari;
+	Transaction llibres_usuaris_deixats;
+	
 //		vector<Book>::iterator i;
 /*
 Create functions to add books to the library, add patrons to the library, and check out books. Whenever a user checks out a book, 
@@ -485,8 +487,10 @@ vector of Transactions. Also write a function that will return a vector that con
 
 */
 
-		cout << endl << "Comprobar si el llibre està deixat a algú o no, primer s'ha de comprobar que el llibre i usuari siguin dins la llibreria, si no existeixen, llençar error.Si l'usuari existeix, s'ha de comprobar que no tingui cap prestem, si en té algun, llençar error. Si l'usuari no té cap prèstec, existeix i el llibre existeix, crear transacció i posar el llibre i l'usuari a la transacció. També s'ha d'escriure una funció que ens retorni tots els noms d'usuaris que tenen un prèstec" << endl;
+	cout << endl << "Comprobar si el llibre està deixat a algú o no, primer s'ha de comprobar que el llibre i usuari siguin dins la llibreria, si no existeixen, llençar error.Si l'usuari existeix, s'ha de comprobar que no tingui cap prestem, si en té algun, llençar error. Si l'usuari no té cap prèstec, existeix i el llibre existeix, crear transacció i posar el llibre i l'usuari a la transacció. També s'ha d'escriure una funció que ens retorni tots els noms d'usuaris que tenen un prèstec" << endl;
 //cerca llibres
+	if(vbooks.size()>0 && vpatrons.size()>0) {
+
 		cout << endl << endl << endl << "Entra el llibre que vols cercar dins de la biblioteca(entra l'isdn del llibre a cercar)  :";
 		cin >> book;
 
@@ -502,7 +506,7 @@ vector of Transactions. Also write a function that will return a vector that con
 				cout << endl << "Entra l'usuari a cercar " ;
 				cin >> usuari;
 				cout << "vpatrons.size() = " << vpatrons.size() << endl;
-				for(vector<Patron>::size_type j=0; j!= vpatrons.size();i++){
+				for(vector<Patron>::size_type j=0; j!= vpatrons.size();j++){
 					cout << endl << "vpatrons[j].getNomUser() = " << vpatrons[j].getNomUser() << endl;
 					if(vpatrons[j].getNomUser()==usuari) {
 						cout << endl << "L'usuari EXISTEIX!!!!!!! s'ha de mirar si té algun prestec, si NO en té cap, posar llibre i usuari a una transacció. " << endl;
@@ -513,11 +517,15 @@ vector of Transactions. Also write a function that will return a vector that con
 						else{
 							cout << endl << "NO TÉ CAP PRESTEC!!(falta afegir al vector)" << endl;
 							//afegir l'usuari i el llibre a la transacció i ja estarà fet
+							cout << "ara té per prèstec aquest idsn : " << vbooks[i].getsIsdn();
+//							llibres_usuaris_deixats.llibres_deixats.push_back(vbooks[i].getsIsdn().);
 //							llibres_usuaris_deixats.llibres_deixats.push_back(vbooks[i].getsIsdn());
 //							llibres_usuaris_deixats.usuaris_deixats.push_back(vpatrons[j].getNomUser());
 //							llibres_usuaris_deixats.mostra_llibres_usuaris();
+							usuaris_tenen_prestec();
+							break;
 						}
-						break;
+		
 					}
 					else{
 						cout << "Usuari no trobat!!! LLENÇAR ERROR!!!" << endl << endl;
@@ -534,9 +542,20 @@ vector of Transactions. Also write a function that will return a vector that con
 		//falta fer la cerca del llibre, és fer una comparació amb un bolea, si bolea cert, continua, sino llença error (throw ?)
 //cerca usuaris
 // si usuari no té cap presteic i existex i llibre existeix, crear transacció . 
-
+	}
+	else{
+		cout << endl << "Primer s'han d'entrar llibres i usuaris, sino no es pot fer res" << endl;
 	}
 
+}
+	void usuaris_tenen_prestec(){
+		for(vector<Patron>::size_type j=0; j!= vpatrons.size();j++){
+	                cout << endl << "vpatrons[j].getNomUser() = " << vpatrons[j].getNomUser() << endl;
+                        if(vpatrons[j].getGastos_administratius()) {
+				cout << "té prestec " << vpatrons[j].getNomUser();
+			}
+		}
+	}
 	void push_back()
          {
                 char c=' ';
