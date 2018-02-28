@@ -214,7 +214,7 @@ class Date{
 };
 class Patron{ //usuaris
 public:
-        int count =0; 
+//        int count =0; 
         string nom_user;
         unsigned long tarjeta_credit;
         int gastos_administratius;    
@@ -275,13 +275,21 @@ public:
                         }
                 }
                 cout << endl << " i = " << i << endl;
-                if(i==1) return true;
+                if(i==1){
+			gastos_administratius=1;
+			 return true;
+		}
                 else {
                         cout << endl << "sense gastos d'aministració?" << endl;
+			gastos_administratius=0;
                         return false;
                 }
+	}
+	int getGastos_administratius(){
+		return(this->gastos_administratius);
+	}
 
-        }
+	        
 
         ~Patron() {}
 
@@ -432,19 +440,38 @@ class Book{ //llibres
         string getAutor(){
                 return (this->autor);
         }
+/*
+//usuari 
+
+	void setUsuari(){
+	
+	}
+	string getUsuari(){
+		return (this->
+	}
+*/
         ~Book() {}
 
 };
 
 
 struct Transaction{
-};
+	vector<Book> llibres_deixats;
+	vector<Patron> usuaris_deixats;
+} llibres_usuaris_deixats;
+/*void llibres_usuaris_deixats::mostra_llibres_usuaris(){
+	cout << endl << "mostra_llibres_usuaris()" << endl;
+}
+*/
 class Library{
  public:
         Date date;
         vector<Book> vbooks;//libres
 	vector<Patron> vpatrons;//clients
 
+	void mostra_llibres_usuaris(){
+	
+	}
 	void check_out_books_patrons(){
 
 		string book;
@@ -460,7 +487,7 @@ vector of Transactions. Also write a function that will return a vector that con
 
 		cout << endl << "Comprobar si el llibre està deixat a algú o no, primer s'ha de comprobar que el llibre i usuari siguin dins la llibreria, si no existeixen, llençar error.Si l'usuari existeix, s'ha de comprobar que no tingui cap prestem, si en té algun, llençar error. Si l'usuari no té cap prèstec, existeix i el llibre existeix, crear transacció i posar el llibre i l'usuari a la transacció. També s'ha d'escriure una funció que ens retorni tots els noms d'usuaris que tenen un prèstec" << endl;
 //cerca llibres
-		cout << endl << endl << endl << "Entra el llibre que vols cercar dins de la biblioteca  :";
+		cout << endl << endl << endl << "Entra el llibre que vols cercar dins de la biblioteca(entra l'isdn del llibre a cercar)  :";
 		cin >> book;
 
 //		int limit = (sizeof(vbooks)/sizeof(vbooks[0]));
@@ -470,10 +497,43 @@ vector of Transactions. Also write a function that will return a vector that con
 //		for(int i=1; i<vbooks.size(); i++){
 		for (vector<Book>::size_type i = 0; i != vbooks.size(); i++) {
 			cout << "llibre amb isdn " << vbooks[i].getsIsdn() << " de l'autor " << vbooks[i].getAutor() << " de la data " << vbooks[i].getsDate() << endl; //" de la temàtica " << vbooks[i].getGenere() << endl;
+			if(vbooks[i].getsIsdn() == book){ 
+				cout << endl << endl << endl << " EL LLIBRE EXISTEIX!!!!!!!!!!!!!!!! UEUEUEUEUEUEUEUEUEUEUEUEUE" << endl << endl << endl << endl;
+				cout << endl << "Entra l'usuari a cercar " ;
+				cin >> usuari;
+				cout << "vpatrons.size() = " << vpatrons.size() << endl;
+				for(vector<Patron>::size_type j=0; j!= vpatrons.size();i++){
+					cout << endl << "vpatrons[j].getNomUser() = " << vpatrons[j].getNomUser() << endl;
+					if(vpatrons[j].getNomUser()==usuari) {
+						cout << endl << "L'usuari EXISTEIX!!!!!!! s'ha de mirar si té algun prestec, si NO en té cap, posar llibre i usuari a una transacció. " << endl;
+						if(vpatrons[j].getGastos_administratius()){	
+							cout << endl << "JA TÉ UN PRESTEC!!! NO ES POT DEIXAR CAP MÉS LLIBRE !" << endl;
+							break;
+						}
+						else{
+							cout << endl << "NO TÉ CAP PRESTEC!!(falta afegir al vector)" << endl;
+							//afegir l'usuari i el llibre a la transacció i ja estarà fet
+//							llibres_usuaris_deixats.llibres_deixats.push_back(vbooks[i].getsIsdn());
+//							llibres_usuaris_deixats.usuaris_deixats.push_back(vpatrons[j].getNomUser());
+//							llibres_usuaris_deixats.mostra_llibres_usuaris();
+						}
+						break;
+					}
+					else{
+						cout << "Usuari no trobat!!! LLENÇAR ERROR!!!" << endl << endl;
+						break;
+					}
+				}
+				
+			}
+			else{
+				 cout << endl << "no trobat!! llençar error!!!" << endl << endl;
+			}
 //			cout << " i =" << *i << endl;
 		}
-		//falta fer la cerca, és fer una comparació amb un bolea, si bolea cert, continua, sino llença error (throw ?)
+		//falta fer la cerca del llibre, és fer una comparació amb un bolea, si bolea cert, continua, sino llença error (throw ?)
 //cerca usuaris
+// si usuari no té cap presteic i existex i llibre existeix, crear transacció . 
 
 	}
 
@@ -492,8 +552,6 @@ vector of Transactions. Also write a function that will return a vector that con
                                 book.setChecked();
                                 if(book.getChecked()==1){ //si deixat, demana això
                                         book.date.setYear();
-                                        //book.p.setNomUser();
-                                        //book.p.set_tarjeta();
                                 }
                                 else {
                                         cout << endl << "llibre no deixat" << endl;
@@ -513,7 +571,7 @@ vector of Transactions. Also write a function that will return a vector that con
 	void list_Books(){
 	if(vbooks.size() >0){
 		for(int i=0; i<vbooks.size();++i){
-			if(vbooks.size()>=1) cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << ".\n" <<  endl;
+			if(vbooks.size()>=1) cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << /*".Aquest llibre és del gènere " << vbooks[i].getGenere(); // vbooks[i].getGenere(); <<*/ " i és en prestec de l'any : " << vbooks[i].getsAny() << ", del mes : " << vbooks[i].date.getMes() << ", que és el mes de " << vbooks[i].date.getMesString() << ", del dia :" << vbooks[i].date.getDia() << " .\n" <<  endl;
 			else cout << endl << "La llibreria conté el llibre amb l'ISDN " << vbooks[i].getsIsdn() << " que és de l'autor " << vbooks[i].getAutor() << " i té el títol " << vbooks[i].getTitle() << endl;
 
 		}
@@ -556,7 +614,7 @@ vector of Transactions. Also write a function that will return a vector that con
                 }
                 else{
                         do{
-                                cout << endl << "no hi ha llibres, en vols introduir ? " << endl;
+                                cout << endl << "no hi ha llibres, en vols introduir ?(Respon o 's' o 'n') " << endl;
                                 while (!(cin >> c))
                                 {
                                     cin.clear();
@@ -585,7 +643,7 @@ vector of Transactions. Also write a function that will return a vector that con
 	}
 
 	void patrons_push_back(){
-		cout << endl << "Introdueixo clients en el vector de clients " << endl;
+//		cout << endl << "Introdueixo clients en el vector de clients " << endl;
 
 
 
@@ -593,7 +651,7 @@ char c=' ';
                 Patron pat;
 		if(vpatrons.size() >0){ //hi ha clients ja introduits
 					 for(int i=1; i<vpatrons.size(); i++){
-                                                        if(vpatrons[i].get_tarjeta()) cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << ", amb el número de tarjeta : " << vpatrons[i].get_tarjeta() << endl;
+                                                        if(vpatrons[i].getGastos_administratius()/*.get_tarjeta()*/) cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << ", amb el número de tarjeta : " << vpatrons[i].get_tarjeta() << endl;
                                                         else cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << " I no té número de tarjeta associada" << endl;
                                                // else cout << endl << "NO HI HA CAP CLIENT" << endl;
                                         }
@@ -608,7 +666,16 @@ char c=' ';
                                         cin.ignore(80, '\n');
 
                                 }while(c!='s' && c!='n');
-                                if(c=='s') patrons_push_back();//introdueix llibres
+                                if(c=='s'){
+						while(c!='n' && c!='N' ){
+                        				pat.setNomUser();
+			                                pat.set_tarjeta();
+							pat.si_no_gastos_admin();
+			                                vpatrons.push_back(pat);
+                        			        cout << endl <<  "Vols introduir més clients ?(s/n)" << endl;
+			                                cin >> c;
+			                        }	
+				} //patrons_push_back();//introdueix llibres
                                 else cout << endl << "no introdueixo més clients" << endl;
 
 		}
@@ -616,6 +683,7 @@ char c=' ';
 	                while(c!='n' && c!='N' ){
 				pat.setNomUser();
 				pat.set_tarjeta();
+				pat.si_no_gastos_admin();
 				vpatrons.push_back(pat);
 				cout << endl <<  "Vols introduir més clients ?(s/n)" << endl;
 				cin >> c;
@@ -632,24 +700,24 @@ char c=' ';
 				if(vpatrons.size()>=1){	
 					for(int i=0; i<vpatrons.size();i++){
 						if(vpatrons.size()>0)
-							if(vpatrons[i].get_tarjeta()) cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << ", amb el número de tarjeta : " << vpatrons[i].get_tarjeta() << endl;
-							else cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << " I no té número de tarjeta associada" << endl;
+							if(vpatrons[i].getGastos_administratius() ) cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << ", amb el número de tarjeta : " << vpatrons[i].get_tarjeta() << " i té gastos administratius" << endl;
+							else cout << endl << "la llibreria conté client:" << vpatrons[i].getNomUser() << " I no té gastos administratius" << endl;
 						else cout << endl << "NO HI HA CAP CLIENT" << endl;
 					}
-				do{ 
-                                	cout << endl << "no hi ha Clients, en vols introduir ? (s/n)" << endl;
-	                                while (!(cin >> c)) 
-        	                        {   
-                                 cout << endl << "no hi ha Clients, en vols introduir ? " << endl;
-		                                cin.ignore(80, '\n');
-                 		                cout << "Valor no vàlid, introdueix una s o una n";
-                                	}
-	                                cin.ignore(80, '\n');
+					do{ 
+        	                        	cout << endl << "vols introduir més Usuaris? (s/n)" << endl;
+//						cin.ignore(80, '\n');
+	                                	while (!(cin >> c)) 
+        	                        	{   
+  		                               		cout << endl << "Vols introduir més Clients ? " << endl;
+		                                	cin.ignore(80, '\n');
+                 		                	cout << "Valor no vàlid, introdueix una s o una n";
+                                		}
+//		                               	cin.ignore(80, '\n');
 	 
-        	                }while(c!='s' && c!='n');
-                	        if(c=='s') patrons_push_back();//introdueix llibres
-                        	else cout << endl << "no introdueixo més clients" << endl;
-				
+        	                	}while(c!='s' && c!='n');
+                	        	if(c=='s') patrons_push_back();//introdueix llibres
+                        		else cout << endl << "no introdueixo més clients" << endl;				
 				}
 			}
 		catch (const exception& e) {
