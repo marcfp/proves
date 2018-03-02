@@ -9,19 +9,19 @@ using namespace std;
 
 int main(){
 Date date;
-int dia;
+/*int dia;
 int mes;
 int any;
 int result1, result2, result3, result4, result5, resultatfinal;
 int regular[]= {0,3,3,6,1,4,6,2,5,0,3,5};
-int bisiesto[]={0,3,4,0,2,5,0,3,6,1,4,6};
+int bisiesto[]={0,3,4,0,2,5,0,3,6,1,4,6};*/
 cout << endl << "T9EX11" << endl;
 //duckduckgo ->  calcular el dia de la semana partir de la fecha  -> https://programador-apli.blogspot.com/2012/04/calcular-el-dia-de-la-semana-partir-de.html
 //https://programador-apli.blogspot.com.es/2012/04/calcular-el-dia-de-la-semana-partir-de.html
 //https://prograador-apli.blogspot.com.es/2012/04/calcular-el-dia-de-la-semana-partir-de.html
 
 	date.setYear();
-	any=date.getAny();
+/*	any=date.getAny();
 	mes=date.getMes();
 	dia=date.getDia();
 	if((any%4==0) && !(any%100==0)){
@@ -39,7 +39,8 @@ cout << endl << "T9EX11" << endl;
 	result3=(3*(((any-1)/100)+1))/4;
 	result4=(result2-result3)%7;
 	result5=dia%7;
-	resultatfinal=(result1+result4+result5)%7;
+	resultatfinal=(result1+result4+mes+result5)%7;
+cout << endl << endl << "El dia " << dia << " del mes = " << mes << " de l'any = " << any << " cau en : " << endl;
 	switch(resultatfinal){
 		case 0: cout << "Diumenge" << endl; break;
 		case 1: cout << "Dilluns" << endl; break;
@@ -50,6 +51,22 @@ cout << endl << "T9EX11" << endl;
 		case 6: cout << "Dissabte" << endl; break;
 		default : cout << "error!!!!!!" << endl; break;
 	}
-cout << "dia = " << dia << ", mes = " << mes << ", any = " << any << endl;
+	if(resultatfinal==0){
+		cout << endl << "Cau en Diumenge i no és laboral, el proxim dia laboral sera demà, Dilluns" << endl;
+	}
+	else{
+		if(resultatfinal==6){
+			cout << endl << "Cau en Dissabte i no és laboral, el próxim dia laboral serà demà passat, Dilluns" << endl;
+		}
+		else {
+			if(resultatfinal==5){
+				cout << endl << "Cau en divendres, el seguent dia laborable serà dilluns" << endl;
+			}
+			else{
+				cout << endl << " Aquest dia és laborable, i el seguent també ho és" << endl;
+				}
+		}
+	}*/
+	date.next_workday();
 return(0);
 }
