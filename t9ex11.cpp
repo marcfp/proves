@@ -26,17 +26,37 @@ using namespace std;
 //	return GetWeek(&date);
 //	return (&date);
 }
-
 */
-int numSetmana(int any)
+
+int numSetmana(Date date, int resultat1)
 {
+int modulo_mes;
 float numero_setmanes=0;
+struct tm tm;
+char timebuf[64];
+
+memset(&tm, 0, sizeof tm);
+
+tm.tm_sec=0;
+tm.tm_min=0;
+tm.tm_hour=0;
+tm.tm_mday=date.getDia()-1;
+tm.tm_mon=date.getMes()-1;
+tm.tm_year=date.getAny();
+tm.tm_isdst = -1;
+mktime(&tm);
+if (strftime(timebuf, sizeof timebuf, "%W", &tm) != 0) {
+    cout << endl << "Week number is: " << timebuf << endl;
+  }
+
+
 //if(any%
 /*
 calcular si any és de traspas i fer el càcul de les setmanes
 https://ca.wikipedia.org/wiki/Setmana#Comen%C3%A7ament_de_la_setmana
 */
-cout << "l'any "<< any << "té " << numero_setmanes << "setmanes" << endl;
+//cout << "\n l'any "<< date.getAny() << " té " << numero_setmanes << "setmanes" << "\nresultat1 = " << resultat1<< endl;
+//mktime(&date);
 }
 int main(){
 Date date;
@@ -66,12 +86,14 @@ cout << endl << "T9EX11" << endl;
 		else{
 			mesb=regular[mes-1];
 			}
-	result1=(any-1)%7;
-	result2=(any-1)/4;
-	result3=(3*(((any-1)/100)+1))/4;
+	cout << "mesb = " << mesb << " any = " << any << " dia = "  << dia<< endl;
+	result1=(any)%7;
+	result2=(any)/4;
+	result3=(3*(((any)/100)))/4;
 	result4=(result2-result3)%7;
 	result5=dia%7;
 	resultatfinal=(result1+result4+mesb+result5)%7;
+	
 	switch(resultatfinal){
 		case 0: cout << "Diumenge" << endl; break;
 		case 1: cout << "Dilluns" << endl; break;
@@ -85,8 +107,8 @@ cout << endl << "T9EX11" << endl;
 	//setmana 
 
 	//int week = GetWeek(dia, mes, any);
-	int week = numSetmana(any);
-	cout << "dia " << dia << " de " << date.getMesString() << mes << " de l'any " << any << " és la setmana " << week  << endl;
+	int week = numSetmana(date, result1);
+	//cout << "dia " << dia << " de " << date.getMesString() << mes << " de l'any " << any << " és la setmana " << week  << endl;
 return(0);
 }
 

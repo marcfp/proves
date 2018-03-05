@@ -7,6 +7,13 @@
 
 using namespace std;
 
+/*
+11. Design and implement a set of useful helper functions for the Date class with functions such as
+next_workday() (assume that any day that is not a Saturday or a Sunday is a workday) and
+week_of_year() (assume that week 1 is the week with January 1 in it and that the first day of a
+week is a Sunday).
+
+*/
 class Date{
 // Private Members
 //    private:
@@ -35,13 +42,13 @@ class Date{
                 int dia=0;
                 if(j==31) {
                         while(dia<1 || dia > 31) {
-                                cout << endl << "Mes de gener, març, maig, juliol,agost, octubre" << endl;
+                                cout << endl << "Mes de gener, març, maig, juliol,agost, octubre i desembre" << endl;
                                 cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
                                 while(!(cin >> dia)){
                                         if(cin.fail()){
                                                 cin.clear();
                                                 cin.ignore();
-                                                cout << endl << "Error d'introducció.... El dia h " << endl;
+                                                cout << endl << "Error d'introducció.... El dia ha de ser un número entre 1 i 31!!!!";
                                         }
                                         else{
                                                 diat=dia;
@@ -53,12 +60,12 @@ class Date{
                 else if(j==30){
                         while(dia<1 || dia > 31) {
                                 cout << endl << "Mes d'abril, juny, setembre, novembre " << endl;
-                                cout << endl << "Entra el número de dia que es va deixar el llibr " << endl;
+                                cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
                                 while(!(cin >> dia)){
                                         if(cin.fail()){
                                                 cin.clear();
                                                 cin.ignore();
-                                                cout << endl << "Error d'introducció.... El dia h " << endl;
+                                                cout << endl << "Error d'introducció.... El dia ha de ser un número entre 1 i 30!!!!";
                                         }
                                         else{
                                                 diat=dia;
@@ -70,12 +77,12 @@ class Date{
                 else {
                         while(dia<1 || dia > febrer) {
                                 cout << endl << "més de febrer ?"<< endl;
-                                cout << endl << "Entra el número de dia que es va deixar el llibr " << endl;
+                                cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
                                 while(!(cin >> dia)){
                                         if(cin.fail()){
                                                 cin.clear();
                                                 cin.ignore();
-                                                cout << endl << "Error d'introducicó... el dia ha " << endl;
+                                                cout << endl << "Error d'introducicó... el dia ha de ser un número entre 1 i " << febrer;
                                         }
                                         else{
                                                 diat=dia;
@@ -92,12 +99,12 @@ class Date{
                 int mes;
                 cout << endl << "traspas = " << traspas << endl;
                 do {
-                        cout << endl << "Entra el mes de l'any que demanes aquest llibre " << endl ;
+                        cout << endl << "Entra el mes de l'any que demanes aquest llibre " << endl;
                         while(!(cin >> mes)){
                                 if(cin.fail()){
                                         cin.clear();
                                         cin.ignore();
-                                        cout << endl << "Error d'introducció... El més ha de ser " << endl; 
+                                        cout << endl << "Error d'introducció... El més ha de ser un nombre de l'1 al 12!!!!" << endl;
                                 }
                                 else{
                                         mest=mes;
@@ -130,7 +137,8 @@ class Date{
                         if(cin.fail()){
                                 cin.clear();
                                 cin.ignore();
-                                cout << endl << "Error d'introducció... L'any ha de ser un nombre " << endl;
+                                cout << endl << "Error d'introducció... L'any ha de ser un nombre!!!" << endl;
+
                         }
                         else {
                                 anyt=any;
@@ -157,15 +165,6 @@ class Date{
                 }
         }
 
-/*        int printDate(){
-                cout << endl << "dia =" << this->day << "this->diat =" << this->diat << "this->mo
-                return (0);
-        }
-*/
-/*        void getDate(){
-                cout << "diat = " << diat << ", mest = " << mest << ", year =" << anyt << endl;
-        }
-*/
         int getDia(){
                 return(diat);
         }
@@ -173,6 +172,7 @@ class Date{
         int getMes(){
                 return(mest);
         }
+
         string getMesString(){
                 switch(mest){
                         case 1: return("Gener");break;
