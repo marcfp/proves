@@ -10,7 +10,7 @@
 using namespace std;
 //https://www.codeproject.com/questions/592534/helpplustoplusfindoutplusweekplusnumberplusofplusy
 
-int GetWeek	(          // Valid values:  
+/*int GetWeek	(          // Valid values:  
 	int day,   // 1 to 31
 	int month, // 1 to 12.  1 = Jan.
 	int year   // 1970 to 3000
@@ -24,10 +24,20 @@ int GetWeek	(          // Valid values:
 	// so that we don't get problems with daylight saving time.
 	date.tm_hour = 12;
 //	return GetWeek(&date);
-	return (&date);
+//	return (&date);
 }
 
-
+*/
+int numSetmana(int any)
+{
+float numero_setmanes=0;
+//if(any%
+/*
+calcular si any és de traspas i fer el càcul de les setmanes
+https://ca.wikipedia.org/wiki/Setmana#Comen%C3%A7ament_de_la_setmana
+*/
+cout << "l'any "<< any << "té " << numero_setmanes << "setmanes" << endl;
+}
 int main(){
 Date date;
 int dia;
@@ -74,7 +84,9 @@ cout << endl << "T9EX11" << endl;
 	}
 	//setmana 
 
-	int week = GetWeek(dia, mes, any);
+	//int week = GetWeek(dia, mes, any);
+	int week = numSetmana(any);
 	cout << "dia " << dia << " de " << date.getMesString() << mes << " de l'any " << any << " és la setmana " << week  << endl;
 return(0);
 }
+
