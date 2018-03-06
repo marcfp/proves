@@ -132,6 +132,7 @@ class Date{
                 int any;
 
                 cout << endl << "Entra l'any que s'ha de fer el càcul " << endl;
+		do{
                 while(!(cin >> any)){
                         if(cin.fail()){
                                 cin.clear();
@@ -143,6 +144,13 @@ class Date{
                                 anyt=any;
                         }
                 }
+		 if(any<1970){
+                                cin.clear();
+                                cin.ignore();
+                                cout << endl << "L'any ha de ser superior a 1970 " << endl;
+                        }
+	
+		}while(any<1970);
                 anyt=any;
                 if(any%4==0 && any%100!=0){
                                 cout << endl << " any de traspàs" << endl;

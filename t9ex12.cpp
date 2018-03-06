@@ -28,7 +28,7 @@ tm.tm_hour=0;
 tm.tm_mday=date.getDia();
 tm.tm_mon=date.getMes()-1;
 tm.tm_year=date.getAny();
-tm.tm_isdst = -1;
+//tm.tm_isdst = -1;
 mktime(&tm);
 
 tm_resta.tm_sec=1;
@@ -38,13 +38,15 @@ tm_resta.tm_mday=1;
 tm_resta.tm_mon=1;
 tm_resta.tm_year=1970;
 mktime(&tm_resta);
-
-cout << "tm_resta.tm_mday = " << tm_resta.tm_mday << "tm_resta.tm_mon = " << tm_resta.tm_mon << "tm_resta.tm_year =" << tm_resta.tm_year << endl;
-if (strftime(timebuf, sizeof timebuf, "%W", &tm) != 0) {
-	numero_setmanes=atoi(timebuf)+1;
-    cout << endl << "El número de setmana és " << numero_setmanes << endl;
-  }
-cout << "difftime = " << fixed << setprecision (60) << fixed <<  difftime(mktime(&tm),mktime(&tm_resta));
+	if(mktime(&tm)< mktime(&tm_resta)) cout << endl << "no es pot fer la resta, és inferior l'any" << endl;
+	else {
+		cout << "tm_resta.tm_mday = " << tm_resta.tm_mday << "tm_resta.tm_mon = " << tm_resta.tm_mon << "tm_resta.tm_year =" << tm_resta.tm_year << endl;
+		if (strftime(timebuf, sizeof timebuf, "%W", &tm) != 0) {
+			numero_setmanes=atoi(timebuf)+1;
+		    cout << endl << "El número de setmana és " << numero_setmanes << endl;
+  		}
+		cout << "difftime = " << fixed << setprecision (60) << fixed <<  difftime(mktime(&tm),mktime(&tm_resta));
+	}
 }
 
 void calcula_dia(Date date)
@@ -95,7 +97,7 @@ int result1, any;
 cout << endl << "T9EX12" << endl;
 cout << endl << "es parteix de l'any 1970?" << endl;
 	date.setYear();
-	calcula_dia(date);
+	//calcula_dia(date);
 	any=date.getAny();
 	result1=(any)%7;
 	//setmana 
