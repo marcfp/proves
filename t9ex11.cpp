@@ -40,7 +40,7 @@ memset(&tm, 0, sizeof tm);
 tm.tm_sec=0;
 tm.tm_min=0;
 tm.tm_hour=0;
-tm.tm_mday=date.getDia()-1;
+tm.tm_mday=date.getDia();
 tm.tm_mon=date.getMes()-1;
 tm.tm_year=date.getAny();
 tm.tm_isdst = -1;
