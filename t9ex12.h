@@ -30,7 +30,7 @@ class Date{
   //  public:
         // Default Constructor
         Date() {
-                const int BASE_YEAR = 1900;
+                const int BASE_YEAR = 1700;
                 time_t timer;
                 tm * time;
                 std::time(&timer);

@@ -49,25 +49,118 @@ long int segons_totals;
 long int segons_calculats;
 segons_calculats = 60*60*24*365.25;//segons any
 time_t now = time(0);
-	cout << "time_now = " << now << "anyrestat =" << anyrestat << "diarestat" << diarestat << endl;
+//	cout << "now = " << now << " anyrestat = " << anyrestat << " diarestat = " << diarestat << endl;
 	any=date.getAny();
 	anyrestat=abs(anyrestat-any)*segons_calculats;
         mes=date.getMes();
-	mes=mes-1;
-	cout << "Falta contar dies fins 1 de gener de cada mes";
+	if(mes>1)mes=mes-1;
+//	cout << "Falta contar dies fins 1 de gener de cada mes";
 	switch(mes){
-	case 1: cout << endl << "Gener" << endl;break;
-	case 2: cout << endl << "Febrer" << endl; if(date.febrer==29) cout << "any bisexte, febrer té 29 dies!" <<endl; else cout << "Any normal, febrer té 28 dies!!"<< endl; break; //31dies
-	case 3: cout << endl << "Març" << endl; break; //31+28dies o 31+29dies
-	case 4: cout << endl << "Abril" << endl; break; //31+28/29+31dies
-	case 5: cout << endl << "Maig" << endl; break; //31+28+31+30
-	case 6: cout << endl << "Juny" << endl; break; //31+28+31+30+31
-	case 7: cout << endl << "Juliol" << endl; break;//31+28+31+30+31+30
-	case 8: cout << endl << "Agost" << endl; break;//31+28+31+30+31+30+31
-	case 9: cout << endl << "Setembre" << endl; break;//31+28+31+30+31+30+31+30
-	case 10: cout << endl << "Octubre" << endl; break;//31+28+31+30+31+30+31+30+30
-	case 11: cout << endl << "Novembre" << endl; break;//31+28+31+30+31+30+31+30+30+31
-	case 12: cout << endl << "Desembre" << endl; break;//31+28+31+30+31+30+31+30+30+31+30
+	case 1: cout << endl << "Gener" << endl; segons_calculats=anyrestat+dia*24*3600;break;
+	case 2: cout << endl << "Febrer" << endl; if(date.febrer==29){ 
+								segons_calculats=anyrestat+ 31*24*3600+dia*24*3600;
+								cout << "any bisexte, febrer té 29 dies!" <<endl;
+							} 
+							else {
+								cout << "Any normal, febrer té 28 dies!!"<< endl; 
+								segons_calculats=anyrestat+31*24*3600+dia*24*3600+dia*24*3600;
+							};	
+								 break;//31+dies
+	case 3: cout << endl << "Març" << endl;  if(date.febrer==29){ 
+                                                                segons_calculats=anyrestat+ 31*24*3600+29*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }   
+                                                        else {
+								cout << "Any normal, febrer té 28 dies!!"<< endl; 
+                                                                segons_calculats=anyrestat+ 31*24*3600+28*24*3600+ dia*24*3600;
+                                                        };  
+							break; //31+28+dies o 31+29+dies
+	case 4: cout << endl << "Abril" << endl; if(date.febrer==29){                                                                
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }                
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;                
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+dia*24*3600;
+                                                        };        
+  
+								break; //31+28/29+31+dies
+	case 5: cout << endl << "Maig" << endl; if(date.febrer==29){                                            
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }                
+                                                        else { 
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;  
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+dia*24*3600;
+                                                        };        
+ 
+                                                                break; //31+28/29+31+30+dies
+	case 6: cout << endl << "Juny" << endl; if(date.febrer==29){
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+31*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+31*24*3600+dia*24*3600;
+                                                        };
+
+								break; //31+28/29+31+30+31+dies
+	case 7: cout << endl << "Juliol" << endl;  if(date.febrer==29){
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+31*24*3600+30*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+31*24*3600+30*24*3600+dia*24*3600;
+                                                        };
+								break;//31+28/29+31+30+31+30+dies
+	case 8: cout << endl << "Agost" << endl; if(date.febrer==29){
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+31*24*3600+30*24*3600+31*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+31*24*3600+30*24*3600+31*24*3600+dia*24*3600;
+                                                        };
+								break;//31+28/29+31+30+31+30+31+dies
+	case 9: cout << endl << "Setembre" << endl; if(date.febrer==29){
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+dia*24*3600;
+                                                        };
+								break;//31+28/29+31+30+31+30+31+30+dies
+	case 10: cout << endl << "Octubre" << endl; if(date.febrer==29){
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+30*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+30*24*3600+dia*24*3600;
+                                                        };
+								break;//31+28/29+31+30+31+30+31+30+30+dies
+	case 11: cout << endl << "Novembre" << endl;  if(date.febrer==29){
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+30*24*3600+31*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+30*24*3600+31*24*3600+dia*24*3600;
+                                                        };
+
+								break;//31+28/29+31+30+31+30+31+30+30+31+dies
+	case 12: cout << endl << "Desembre" << endl; if(date.febrer==29){
+                                                                segons_calculats=anyrestat+31*24*3600+ 29*24*3600+31*24*3600+ 31*24*3600 +30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+30*24*3600+31*24*3600+30*24*3600+dia*24*3600;
+                                                                cout << "any bisexte, febrer té 29 dies!" <<endl;
+                                                        }
+                                                        else {
+                                                                cout << "Any normal, febrer té 28 dies!!"<< endl;
+                                                                segons_calculats=anyrestat+31*24*3600+ 28*24*3600+31*24*3600+ 31*24*3600+30*24*3600+31*24*3600+30*24*3600+31*24*3600+30*24*3600+30*24*3600+31*24*3600+30*24*3600+dia*24*3600;
+                                                        };
+
+								break;//31+28/29+31+30+31+30+31+30+30+31+30+dies
 	default : cout << "mes no introduit" << endl; break;
 	}
 	mesrestat=abs(mesrestat-mes);
@@ -75,7 +168,9 @@ time_t now = time(0);
 	diarestat=abs(diarestat-dia)*60*60*24;
 //	int mest= date
 //	int bi=date.getBisex();
-	cout << "any restat(segons) = " << anyrestat << " mes restat (canviar a segons ?)" << mesrestat << " diarestat(en segons) = " << diarestat << endl;
+	long int total=anyrestat+segons_calculats;
+	cout << "any restat(segons) = " << anyrestat << " mes restat (canviar a segons ?)" << mesrestat << " diarestat(en segons) = " << diarestat << endl <<  " \n\t\t\ttotal = "<< total << " segons" << "now = " << now << " total-now = " << total-now<< " segons"<< endl;
+	cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
         if((any%4==0) && !(any%100==0)){
                 mesb=bisiesto[mes-1];
         }
@@ -87,7 +182,7 @@ time_t now = time(0);
                         mesb=regular[mes-1];
                         }
         cout << "mesb = " << mesb << " any = " << any << " dia = "  << dia << endl;
-        result1=(any)%7;
+/*        result1=(any)%7;
         result2=(any)/4;
         result3=(3*(((any)/100)))/4;
         result4=(result2-result3)%7;
@@ -104,6 +199,7 @@ time_t now = time(0);
                 case 6: cout << "Dissabte, el següent dia laboral és dilluns" << endl; break;
                 default : cout << "error!!!!!!" << endl; break;
         }
+*/
 }
 int main(){
 Date date;
