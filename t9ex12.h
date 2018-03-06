@@ -24,13 +24,11 @@ class Date{
         int anyt;
         int mest;
         int febrer;
-//	int bisex; //0  té 365 dies, 1 té 366 dies
-	long int segons_totals;
     // Public Members
   //  public:
         // Default Constructor
         Date() {
-                const int BASE_YEAR = 1700;
+                const int BASE_YEAR = 1970;
                 time_t timer;
                 tm * time;
                 std::time(&timer);
@@ -44,7 +42,7 @@ class Date{
                 if(j==31) {
                         while(dia<1 || dia > 31) {
                                 cout << endl << "Mes de gener, març, maig, juliol,agost, octubre i desembre" << endl;
-                                cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
+                                cout << endl << "Entra el número de dia que s'ha de fer el càcul " << endl;
                                 while(!(cin >> dia)){
                                         if(cin.fail()){
                                                 cin.clear();
@@ -61,7 +59,7 @@ class Date{
                 else if(j==30){
                         while(dia<1 || dia > 31) {
                                 cout << endl << "Mes d'abril, juny, setembre, novembre " << endl;
-                                cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
+                                cout << endl << "Entra el número de dia que sha de fer el càcul " << endl;
                                 while(!(cin >> dia)){
                                         if(cin.fail()){
                                                 cin.clear();
@@ -78,7 +76,7 @@ class Date{
                 else {
                         while(dia<1 || dia > febrer) {
                                 cout << endl << "més de febrer ?"<< endl;
-                                cout << endl << "Entra el número de dia que es va deixar el llibre " << endl;
+                                cout << endl << "Entra el número de dia que s'ha de fer el càcul " << endl;
                                 while(!(cin >> dia)){
                                         if(cin.fail()){
                                                 cin.clear();
@@ -100,7 +98,7 @@ class Date{
                 int mes;
                 cout << endl << "traspas = " << traspas << endl;
                 do {
-                        cout << endl << "Entra el mes de l'any que demanes aquest llibre " << endl;
+                        cout << endl << "Entra el mes de l'any " << endl;
                         while(!(cin >> mes)){
                                 if(cin.fail()){
                                         cin.clear();
@@ -133,7 +131,7 @@ class Date{
         int setYear(){
                 int any;
 
-                cout << endl << "Entra l'any que demanes aquest llibre" << endl;
+                cout << endl << "Entra l'any que s'ha de fer el càcul " << endl;
                 while(!(cin >> any)){
                         if(cin.fail()){
                                 cin.clear();
@@ -150,28 +148,21 @@ class Date{
                                 cout << endl << " any de traspàs" << endl;
                                 febrer=29;
                                 setMonth1(febrer);
-				//bisex=1;
                 }
                 else {
                         if(any%400==0 ){
                                         cout << endl << " any de traspàs" << endl;
                                         febrer=29;
                                         setMonth1(febrer);
-				//	bisex=1;
                         }
 
                         else {
                                 cout << endl << "NORMAL" << endl;
                                 febrer=28;
                                 setMonth1(febrer);
-			//	bisex=0;
                         }
                 }
         }
-
-//	int getBisex(){
-//		return(bisex);
-//	}
 
         int getDia(){
                 return(diat);
