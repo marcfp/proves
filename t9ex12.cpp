@@ -53,12 +53,13 @@ time_t now = time(0);
 	any=date.getAny();
 	anyrestat=abs(anyrestat-any)*segons_calculats;
         mes=date.getMes();
+	mes=mes-1;
 	cout << "Falta contar dies fins 1 de gener de cada mes";
 	switch(mes){
 	case 1: cout << endl << "Gener" << endl;break;
-	case 2: cout << endl << "Febrer" << endl; break; //31dies
+	case 2: cout << endl << "Febrer" << endl; if(date.febrer==29) cout << "any bisexte, febrer té 29 dies!" <<endl; else cout << "Any normal, febrer té 28 dies!!"<< endl; break; //31dies
 	case 3: cout << endl << "Març" << endl; break; //31+28dies o 31+29dies
-	case 4: cout << endl << "Abril" << endl; break; //31+28+31dies
+	case 4: cout << endl << "Abril" << endl; break; //31+28/29+31dies
 	case 5: cout << endl << "Maig" << endl; break; //31+28+31+30
 	case 6: cout << endl << "Juny" << endl; break; //31+28+31+30+31
 	case 7: cout << endl << "Juliol" << endl; break;//31+28+31+30+31+30
@@ -72,6 +73,8 @@ time_t now = time(0);
 	mesrestat=abs(mesrestat-mes);
 	dia=date.getDia();
 	diarestat=abs(diarestat-dia)*60*60*24;
+//	int mest= date
+//	int bi=date.getBisex();
 	cout << "any restat(segons) = " << anyrestat << " mes restat (canviar a segons ?)" << mesrestat << " diarestat(en segons) = " << diarestat << endl;
         if((any%4==0) && !(any%100==0)){
                 mesb=bisiesto[mes-1];

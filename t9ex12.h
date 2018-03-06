@@ -24,6 +24,7 @@ class Date{
         int anyt;
         int mest;
         int febrer;
+//	int bisex; //0  té 365 dies, 1 té 366 dies
 	long int segons_totals;
     // Public Members
   //  public:
@@ -149,21 +150,28 @@ class Date{
                                 cout << endl << " any de traspàs" << endl;
                                 febrer=29;
                                 setMonth1(febrer);
+				//bisex=1;
                 }
                 else {
                         if(any%400==0 ){
                                         cout << endl << " any de traspàs" << endl;
                                         febrer=29;
                                         setMonth1(febrer);
+				//	bisex=1;
                         }
 
                         else {
                                 cout << endl << "NORMAL" << endl;
                                 febrer=28;
                                 setMonth1(febrer);
+			//	bisex=0;
                         }
                 }
         }
+
+//	int getBisex(){
+//		return(bisex);
+//	}
 
         int getDia(){
                 return(diat);
