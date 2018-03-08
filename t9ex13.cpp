@@ -7,7 +7,7 @@ using namespace std;
 
 int main(){
 Rational r;
-cout << endl << "falta simplificar les funcions resultants" << endl;
+
 cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
 cout << endl << "#############################################" << endl;
 cout << endl << "\tINICIALITZACIÓ DE LA CLASE\t" << endl;
@@ -24,9 +24,9 @@ r.setDominador2();
 cout << "\n\n\n Entra divisor 2 ";
 r.setDivisor2();
 cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
-cout << r.getDominador1() << endl;
-cout <<  "--" << endl;
-cout << r.getDivisor1() << endl << endl << endl;
+cout << r.getDominador1() << endl;//  << r.simplifica(r.getDominador1(),r.getDivisor1()) << endl;
+cout <<  "--" << endl ;//<< "="<< "--"<<endl;
+cout << r.getDivisor1() << endl ;//<< r.simplifica(r.getDominador1(), r.getDivisor1()) << endl << endl << endl;
 cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
 cout << r.getDominador2() << endl;
 cout << "--" << endl ;
@@ -39,9 +39,14 @@ cout << r.sumadivisor() << endl;
 cout << "#############################################" << endl;
 cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
 cout << "la resta és " << endl ;
-cout << r.restadominador() << endl;
-cout << "--" << endl;
-cout << r.restadivisor() << endl;
+if(r.restadominador()!=0) {
+	cout << r.restadominador() << endl;
+	cout << "--" << endl;
+	cout << r.restadivisor() << endl;
+}
+else{
+	cout << endl << " 0" << endl << endl;
+}
 cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
 cout << "#############################################" << endl;
 cout << "la multiplicació és " << endl;

@@ -63,7 +63,7 @@ int divisordiv;
 		//cout << "dominador2 =" << this->dominador2*(this->divisor1) << endl;
 		
 		return ((this->dominador1*(this->divisor2))+(this->dominador2*(this->divisor1)));
-	} 
+	}
 	float sumadivisor(){
 //		cout << "divisor1 = " << this->divisor1 << "divisor2 =" << this->divisor2 << endl;
 		//dominadorsuma=this->divisor1*this->divisor2;
@@ -127,6 +127,18 @@ int divisordiv;
                 cout << divisiodivisor() << endl;
 		cout << endl << "#############################################" << endl;
 		
+	}
+	int simplifica(int f1, int f2){
+		int mcd=0;
+		f1=max(dominador1, divisor1);
+		f2=max(dominador2, divisor2);
+		do{
+			mcd=f1;
+			f2=f1%f2;
+			f1=mcd;
+		}while(f2!=0);
+
+		return mcd;
 	}
 	~Rational(){}
 };
