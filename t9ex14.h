@@ -1,4 +1,5 @@
 class Money{
+/*http://www.cplusplus.com/reference/cmath/*/
 public:
 	float valor_total;
 	int part_entera;
