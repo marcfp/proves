@@ -55,7 +55,7 @@ int divisordiv;
 	int getDivisor2(){
 		return(this->divisor2);
 	}
-	int sumadominador(){
+	float sumadominador(){
 		//3+1=0.95 
 		//__ __
 		//4+5
@@ -64,27 +64,69 @@ int divisordiv;
 		
 		return ((this->dominador1*(this->divisor2))+(this->dominador2*(this->divisor1)));
 	} 
-	int sumadivisor(){
+	float sumadivisor(){
 //		cout << "divisor1 = " << this->divisor1 << "divisor2 =" << this->divisor2 << endl;
 		//dominadorsuma=this->divisor1*this->divisor2;
 		return(this->divisor1*this->divisor2);
 	}
-	int restadominador(){
+	float restadominador(){
 		return ((this->dominador1*(this->divisor2))-(this->dominador2*(this->divisor1)));
 	}
-	int restadivisor(){
+	float restadivisor(){
 		return(this->divisor1*this->divisor2);
 	}
-	int multiplicadominador(){
+	float multiplicadominador(){
 		return(this->dominador1* this->dominador2);
 	}
-	int multiplicadivisor(){
+	float multiplicadivisor(){
 		return(this->divisor1 * this->divisor2);
 	}
-	int divisiodivisor(){
+	float divisiodivisor(){
 		return(this->divisor1*this->dominador2);
 	}
-	int divisiodominador(){
+	float divisiodominador(){
 		return(this->dominador1*this->divisor2);
 	}
+	float igualtatdivisor(){
+		return(this->divisor2/this->divisor1);
+	}
+	float igualtatdominador(){
+		return(this->dominador2/this->dominador1);
+	}
+	float igualfraccio(){
+		cout << "Són iguals les fraccions ?" << endl;
+		if(igualtatdivisor() == igualtatdominador() ) {
+			cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+			cout << endl << "fraccions proporcionals amb una raó de " << igualtatdivisor() << endl;
+			cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+			//rao = igualtatdivisor();
+		}
+		else {
+			cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+			cout << endl << "\tNo són equivalents les fraccions" << endl;
+			cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
+		}
+	}
+	float valor(){
+		cout << endl << "#############################################" << endl;
+		cout << endl << "valor de la suma de les fraccions és " << endl; 
+		cout << sumadominador() << endl;
+		cout << "--"<<" = " << sumadominador()/sumadivisor() << endl;
+		cout << sumadivisor() << endl;
+		cout << endl << "valor de la resta de les fraccions és " << endl; 
+                cout << restadominador() << endl;
+                cout << "--"<<" = " << restadominador()/restadivisor() << endl;
+                cout << restadivisor() << endl;
+		cout << endl << "valor de la multiplicacció de les fraccions és " << endl; 
+                cout << multiplicadominador() << endl;
+                cout << "--"<<" = " << multiplicadominador()/multiplicadivisor() << endl;
+                cout << multiplicadivisor() << endl;	
+		cout << endl << "valor de la divisió de les fraccions és " << endl;
+                cout << divisiodominador() << endl;
+                cout << "--"<<" = " << divisiodominador()/divisiodivisor() << endl;
+                cout << divisiodivisor() << endl;
+		cout << endl << "#############################################" << endl;
+		
+	}
+	~Rational(){}
 };
