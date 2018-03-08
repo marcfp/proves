@@ -7,7 +7,7 @@ using namespace std;
 
 int main(){
 Rational r;
-
+cout << endl << "falta simplificar les funcions resultants" << endl;
 cout << endl << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << endl;
 cout << endl << "#############################################" << endl;
 cout << endl << "\tINICIALITZACIÓ DE LA CLASE\t" << endl;
