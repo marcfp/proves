@@ -1,0 +1,60 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+#include "t9ex15.h"
+
+Money Money::operator/ (const Money& m2) const{
+        Money m;
+        m.valor_total = this->valor_total / m2.valor_total;
+	cout << "Operació il·legal, les monedes no es divideixen" << m.valor_total << endl;
+	m.valor_total=0;
+        return(m);
+}
+
+Money Money::operator* (const Money& m2) const{
+        Money m;
+        m.valor_total = this->valor_total * m2.valor_total;
+	cout << "Operació il·legal, no sé multiplicar monedes ... me'n ensenyes ?" << m.valor_total << endl;
+	m.valor_total=0;
+        return(m);
+}
+
+Money Money::operator- (const Money& m2) const{
+        Money m;
+        m.valor_total=this->valor_total - m2.valor_total;
+        return(m);
+}
+
+Money Money::operator+ (const Money& m2) const{
+        Money m;
+        m.valor_total=this->valor_total + m2.valor_total;
+
+        return (m);
+}
+
+
+
+int main(int argc, char* argv[]){
+	Money m1, m2, mresultat;	
+	Money m3;
+
+	cout << "15. Refine the Money class by adding a currency (given as a constructor argument). Accept a " << endl;
+	cout << "floating-point initializer as long as it can be exactly represented as a long int. Don’t accept " << endl;
+	cout << "illegal operations. For example, Money*Money doesn’t make sense, and USD1.23+DKK5.00 " << endl;
+	cout << "makes sense only if you provide a conversion table defining the conversion factor between U.S. " << endl;
+	cout << "dollars (USD) and Danish kroner (DKK)." << endl;
+
+	cout << endl << endl << "NO FUNCIONA AMB USD1, PERÒ SI AMB 1USD" << endl;	
+/*	m1.setValor();
+	m2.setValor();	
+	cout << m1.getValor_total() << endl;
+	cout << m2.getValor_total() << endl;
+	mresultat= m1+m2;
+	cout << setprecision(2) << fixed << mresultat.getValor_total()<< endl;	
+*/
+	m3.setValor(argc, argv);
+	cout << "m3.getValor_total() = " << m3.getValor_total() << endl;
+return(0);
+}
