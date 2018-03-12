@@ -1,6 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <math.h>
+#include <string> //vector>
+
 using namespace std;
 
 #include "t9ex15.h"
@@ -8,7 +10,7 @@ using namespace std;
 Money Money::operator/ (const Money& m2) const{
         Money m;
         m.valor_total = this->valor_total / m2.valor_total;
-	cout << "Operació il·legal, les monedes no es divideixen" << m.valor_total << endl;
+	cout << "Operació il·legal, les monedes no es divideixen, ja ho fa el govern" << m.valor_total << endl;
 	m.valor_total=0;
         return(m);
 }
@@ -47,7 +49,7 @@ int main(int argc, char* argv[]){
 	cout << "dollars (USD) and Danish kroner (DKK)." << endl;
 
 	cout << endl << endl << "NO FUNCIONA AMB USD1, PERÒ SI AMB 1USD" << endl;	
-	m3.setValor(argc, argv);
+	m3.setValorargs(argc, argv);
 	cout << "m3.getValor_total() = " << m3.getValor_total() << " € " << endl;
 return(0);
 }
