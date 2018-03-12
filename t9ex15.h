@@ -12,34 +12,56 @@ public:
 	}
 
 	void setValor(int &argc, char *argv[]){ //, char argv){
-//		cout << endl << "Dins de la funció amb arguments" << endl;
-//		cout << endl << "argc = " << argc << endl;
+		string usd="USD";
+		string dkk="DKK";
 		for(int i=1; i<argc; i++){
-//			cout << endl << argv[i] << endl;
 			try{
 				string val = argv[i];
-				float valor=atoi(argv[i]);			
-				if(val.find("USD")!= string::npos) {
-					cout << "Moneda USD trobada" << endl;
-					valor=atoi(argv[i]);
-					cout << "valor = " << valor << endl;
+				int operacio;
+				if(val=="+") operacio=1;
+				else if(val=="-") operacio=2;	
+					else operacio=3;
+				cout << endl << "val = " << val << " i= " << i << endl;
+				float valor=atoi(argv[i]);		
+				size_t found_usd=val.find(usd);	
+				size_t found_dkk=val.find(dkk);
+				if(found_usd!= string::npos) {
+					cout << "Moneda USD trobada " << endl; 
+					valor=ceilf((atoi(argv[i])*0.812352)*100)/100;
+					if(valor==0) {
+							found_usd=found_usd+3;
+							string str_usd=val.substr(found_usd);
+							//cout << endl << "str_usd = " << str_usd << endl;
+							valor=ceilf((stoi(str_usd)*0.812352)*100)/100;
+					}
+					cout << "valor(usd) = " << valor << endl;
 				}
-				else if(val.find("DKK") != string::npos){
-					cout << "Moneda DKK trobada" << endl;
-					valor=atoi(argv[i]);
-					cout << "valor = " << valor << endl;
+				else if(found_dkk != string::npos){
+			//		cout << "Moneda DKK trobada" << endl;
+					valor=ceilf((atoi(argv[i])*0.855178)*100)/100;
+					if(valor==0){
+							found_dkk=found_dkk+3;
+							string str_dkk= val.substr(found_dkk);
+							//cout << endl << "str_dkk= " << str_dkk << endl;
+							valor=ceilf((stoi(str_dkk)*0.855178)*100)/100;
+					}
+					cout << "valor(dkk) = " << valor << endl;
 				}
 					else{
 						cout <<  "Moneda no reconeguda, valor 0" << endl;
 						valor=0;
 					}
-				valor_total=valor_total+valor;
+				valor_total=valor_total+valor;//buscar operació en linea de comandes
+				switch(operacio){
+					case 1: cout << "operacio = " << operacio << endl; valor_total=valor_total+valor;break;
+					case 2: cout << "operacio = " << operacio << endl; valor_total=valor_total-valor;break;
+					default : cout << "OPERACIÓ NO VÀLIDA operacio ="<< operacio << endl; break;
+				}
 			}
 			catch(exception& e){
+					cout  << "error : " << e.what() << endl;
 			}
 		}
-//		cout << endl << "argv = " << argv << endl;
-//		valor_total=argc;
 	}
 
 	float getValor_total(){

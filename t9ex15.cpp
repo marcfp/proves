@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-
+#include <math.h>
 using namespace std;
 
 #include "t9ex15.h"
@@ -47,14 +47,7 @@ int main(int argc, char* argv[]){
 	cout << "dollars (USD) and Danish kroner (DKK)." << endl;
 
 	cout << endl << endl << "NO FUNCIONA AMB USD1, PERÒ SI AMB 1USD" << endl;	
-/*	m1.setValor();
-	m2.setValor();	
-	cout << m1.getValor_total() << endl;
-	cout << m2.getValor_total() << endl;
-	mresultat= m1+m2;
-	cout << setprecision(2) << fixed << mresultat.getValor_total()<< endl;	
-*/
 	m3.setValor(argc, argv);
-	cout << "m3.getValor_total() = " << m3.getValor_total() << endl;
+	cout << "m3.getValor_total() = " << m3.getValor_total() << " € " << endl;
 return(0);
 }
