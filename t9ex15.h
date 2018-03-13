@@ -1,3 +1,7 @@
+#include <string.h>
+#include <string>
+#include <stdio.h>
+#include <vector>
 class Money{
 	long double valor_total;
 public:
@@ -12,13 +16,72 @@ public:
 		valor_total= valor_total1;
 	}
 
+	float calcula_valors(string parametres){
+		char * pch;
+		char operacions[]="+-";
+		vector<char> valors;
+		char caracters;
+		return(2);
+	}
 	void setValorargs(int &argc, char *argv[]){ //, char argv){
+		string caracter;
+//		cout << endl << argc << endl;//2 ok, sino falla
+		vector<string> params;
+		string parametres;
+	
+		if(argc==2){ 	for(int i=1; i< argc; i++){
+					//cout << endl << "argument " << i << " = " << argv[i] << endl;
+			
+					params.push_back(argv[i]);//carrego l'array al vector params
+				}
+				parametres=params[0];
+				size_t pos_suma = parametres.find("+");//trobo el primer
+				size_t pos_resta = parametres.find("-");
+/*
+http://en.cppreference.com/w/cpp/string/basic_string/substr
+http://en.cppreference.com/w/cpp/string/basic_string/erase
+*/
+				if(parametres.find("+") < parametres.size() ) {
+						while(pos_suma<=parametres.length()){
+							parametres.substr(pos_suma);
+							cout << "parametres.length() =" << parametres.length() << " == parametrs.size()=" << parametres.size() << endl;
+							cout << " pos_suma = " << pos_suma << endl;
+							string cad1=parametres.substr(parametres.size()-pos_suma);
+							cout << "cad1 = " << cad1;
+							params.push_back(cad1);
+							cout << "params[1]= "<< params[1] ;
+							pos_suma=pos_suma+5;
+						}
+				}
+				if(parametres.find("-") < parametres.size()){
+						while(pos_resta<=parametres.length()){
+							parametres.substr(pos_resta);
+                                                        cout << "parametres.length() =" << parametres.length() << " == parametrs.size()=" << parametres.size() << endl;
+                                                        cout << " pos_suma = " << pos_suma << endl;
+                                                        string cad1=parametres.substr(parametres.size()-pos_resta);
+                                                        cout << "cad1 = " << cad1;
+                                                        params.push_back(cad1);
+                                                        cout << "params[1]= "<< params[1] ;
+                                                        pos_resta=pos_resta+5;
+						}
+				}
+						
+				cout << endl << "contingut del vector :" << endl;
+				vector<string>::reverse_iterator rit = params.rbegin();
+				for (; rit!=params.rend(); ++rit)     std::cout << endl << *rit << endl;
+				//size_t params_suma=rit;
+		}
+		else{
+			cout << endl << "Executem així per què funcioni : \"./t9ex15 1+2+3-4-5-6\"" << endl;
+			
+		}
+/*	
 		string usd="USD";
 		string dkk="DKK";
 		string suma="+";
 		string resta="-";
 		
-		for(int i=0; i<argc; i++){
+		for(int i=1; i<argc; i++){
 			string valor_passat;
 			valor_passat=valor_passat+argv[i];
 			try{
@@ -49,7 +112,7 @@ public:
 							valor=ceil(((stoi(str_usd))*0.812352)*100)/100;
 						}
 						cout << "valor(usd) = " << valor << endl;
-						valor_total=valor_total+valor;
+						this->valor_total=this->valor_total+valor;
 					}
 					if(found_dkk != string::npos){
 				//		cout << "Moneda DKK trobada" << endl;
@@ -65,18 +128,19 @@ public:
 						}
 						cout << "valor(dkk) = " << valor << endl;
 					//	if(argv[i]!="D" && argv[i]!="K" )//valor_total=valor_total+valor;
+						this->valor_total=this->valor_total+valor;
 					}
 					if(found_mes !=string::npos){
 							cout << endl << "AIXÒ ÉS SUMA" << endl;
 							if(argv[i]!="U" && argv[i+1]!="S" && argv[i+2]!="D" ){
                                                                 valor=ceil((stoi(argv[i])*0.812352)*100)/100;
                                                                 i=i+2;
-                                                                valor_total=valor_total+valor;
+                                                                this->valor_total=this->valor_total+valor;
 							}
 							if(argv[i]!="D" && argv[i+1]!="K" && argv[i+2]!="K"){
                                                                 valor=ceil((stoi(argv[i])*0.855178)*100)/100;
                                                                 i=i+2;
-								valor_total=valor_total+valor;
+								this->valor_total=this->valor_total+valor;
                                                         } 	
 					}else	if(found_resta!=string::npos){
 								cout << endl << "ARA TOCA RESTA" << endl;
@@ -84,12 +148,12 @@ public:
 							if(argv[i]!="U" && argv[i+1]!="S" && argv[i+2]!="D" ) {
 								valor=-ceil((stoi(argv[i])*0.812352)*100)/100;
 	                                                        i=i+2;
-								valor_total=valor_total+valor;
+								this->valor_total=this->valor_total+valor;
 							}
 							if(argv[i]!="D" && argv[i+1]!="K" && argv[i+2]!="K"){
                                                                 valor=-ceil((stoi(argv[i])*0.855178)*100)/100;
                                                                 i=i+2;
-                                                                valor_total=valor_total+valor;
+                                                                this->valor_total=this->valor_total+valor;
                                                         }  
 						}
 						//else {// valor_total=valor_total;
@@ -97,12 +161,13 @@ public:
 					
 					j++;
 				}
-				valor_total=valor;
+				this->valor_total=valor;
 			}
 			catch(exception& e){
 					cout  << "error : " << e.what() << endl;
 			}
 		}
+*/
 	}
 
 	float getValor_total(){
