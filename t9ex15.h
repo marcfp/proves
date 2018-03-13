@@ -42,28 +42,44 @@ http://en.cppreference.com/w/cpp/string/basic_string/substr
 http://en.cppreference.com/w/cpp/string/basic_string/erase
 */
 				if(parametres.find("+") < parametres.size() ) {
-						while(pos_suma<=parametres.length()){
-							parametres.substr(pos_suma);
-							cout << "parametres.length() =" << parametres.length() << " == parametrs.size()=" << parametres.size() << endl;
-							cout << " pos_suma = " << pos_suma << endl;
-							string cad1=parametres.substr(parametres.size()-pos_suma);
-							cout << "cad1 = " << cad1;
-							params.push_back(cad1);
-							cout << "params[1]= "<< params[1] ;
-							pos_suma=pos_suma+5;
-						}
+						string sub2 = parametres.substr(5,9);
+						cout << sub2 << '\n';
+    
+						string sub2ll =sub2.substr(1,3);
+						string sub2n = sub2.substr(0,1);
+//						cout << "sub2ll = " << sub2ll << "\n";
+//						cout << "sub2n = " << sub2n << "\n";  
+						string sub1 = parametres.substr(0, 4);
+						cout << sub1 << "\n";
+						string sub1ll = parametres.substr(1,3);//unitat
+						string sub1n = parametres.substr(0,1);//valor
+//						cout << "sub1ll = " << sub1ll << "\n";
+//						cout << "sub1n = " << sub1n << "\n";
+						int resultat = stoi(sub1n)+stoi(sub2n);
+						string res_final=to_string(resultat)+" "+sub1ll;
+						cout << "resultat total (suma+ unitats) = " << res_final << endl;
+						cout << "Falta fer la conversió a eurosi afegir més monedes, ara hi ha feta USD, falta fer FKK i que ho retorni tot amb € (euros)" << endl;
+	
 				}
 				if(parametres.find("-") < parametres.size()){
-						while(pos_resta<=parametres.length()){
-							parametres.substr(pos_resta);
-                                                        cout << "parametres.length() =" << parametres.length() << " == parametrs.size()=" << parametres.size() << endl;
-                                                        cout << " pos_suma = " << pos_suma << endl;
-                                                        string cad1=parametres.substr(parametres.size()-pos_resta);
-                                                        cout << "cad1 = " << cad1;
-                                                        params.push_back(cad1);
-                                                        cout << "params[1]= "<< params[1] ;
-                                                        pos_resta=pos_resta+5;
-						}
+						string sub2 = parametres.substr(5,9);
+                                                cout << sub2 << '\n';
+ 
+                                                string sub2ll =sub2.substr(1,3); 
+                                                string sub2n = sub2.substr(0,1);
+//                                              cout << "sub2ll = " << sub2ll << "\n";
+//                                              cout << "sub2n = " << sub2n << "\n";  
+                                                string sub1 = parametres.substr(0, 4);
+                                                cout << sub1 << "\n";
+                                                string sub1ll = parametres.substr(1,3);//unitat
+                                                string sub1n = parametres.substr(0,1);//valor
+//                                              cout << "sub1ll = " << sub1ll << "\n";
+//                                              cout << "sub1n = " << sub1n << "\n";
+                                                int resultat = stoi(sub1n)-stoi(sub2n);
+                                                string res_final=to_string(resultat)+" "+sub1ll;
+                                                cout << "resultat total (resta+ unitats) = " << res_final << endl;
+						cout << "Falta fer la conversió a eurosi afegir més monedes, ara hi ha feta USD, falta fer FKK(fer amb switch?) i que ho retorni tot amb € (euros)multiplicar guardar a valor_total i ja estara)" << endl;
+
 				}
 						
 				cout << endl << "contingut del vector :" << endl;
@@ -75,99 +91,6 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 			cout << endl << "Executem així per què funcioni : \"./t9ex15 1+2+3-4-5-6\"" << endl;
 			
 		}
-/*	
-		string usd="USD";
-		string dkk="DKK";
-		string suma="+";
-		string resta="-";
-		
-		for(int i=1; i<argc; i++){
-			string valor_passat;
-			valor_passat=valor_passat+argv[i];
-			try{
-				string val = argv[i];
-				int operacio;
-				//cout << endl << "val = " << val << " i= " << i << endl;
-				int j=0;
-				double valor;
-				while(j<=argc){
-					valor=0;//atoi(argv[i]);		
-					size_t found_usd=val.find(usd);	
-					size_t found_dkk=val.find(dkk);
-					size_t found_mes=val.find(suma);
-					size_t found_resta=val.find(resta);
-					valor=0;
-					cout << endl << "found_usd = " << found_usd << "\nfound_dkk = "<< found_dkk << "\nfound_mes = " << found_mes << "\n found_resta = " << found_resta << endl;
-					cout << endl << " argv[i] = " << argv[i] << endl;
-					if(found_usd!= string::npos) {
-				//		cout << "Moneda USD trobada " << endl; 
-						if(argv[i]=="U" && argv[i+1]=="S" && argv[i+2]=="D") {
-								valor=ceil(((stoi(argv[i]))*0.812352)*100)/100;
-								i=i+2;
-								}
-						if(valor==0) {
-							found_usd=found_usd+3;
-							string str_usd=val.substr(found_usd);
-							cout << endl << "str_usd =" << str_usd  << endl;
-							valor=ceil(((stoi(str_usd))*0.812352)*100)/100;
-						}
-						cout << "valor(usd) = " << valor << endl;
-						this->valor_total=this->valor_total+valor;
-					}
-					if(found_dkk != string::npos){
-				//		cout << "Moneda DKK trobada" << endl;
-						if(argv[i]=="D" && argv[i+1]=="K" && argv[i+2]=="K"){
-								valor=ceil((stoi(argv[i])*0.855178)*100)/100;
-								i=i+2;
-								}
-						if(valor==0){
-							found_dkk=found_dkk+3;
-							string str_dkk= val.substr(found_dkk);
-							cout << endl << "str_dkk =" << str_dkk << endl;
-							valor=ceil(((stoi(str_dkk))*0.855178)*100)/100;
-						}
-						cout << "valor(dkk) = " << valor << endl;
-					//	if(argv[i]!="D" && argv[i]!="K" )//valor_total=valor_total+valor;
-						this->valor_total=this->valor_total+valor;
-					}
-					if(found_mes !=string::npos){
-							cout << endl << "AIXÒ ÉS SUMA" << endl;
-							if(argv[i]!="U" && argv[i+1]!="S" && argv[i+2]!="D" ){
-                                                                valor=ceil((stoi(argv[i])*0.812352)*100)/100;
-                                                                i=i+2;
-                                                                this->valor_total=this->valor_total+valor;
-							}
-							if(argv[i]!="D" && argv[i+1]!="K" && argv[i+2]!="K"){
-                                                                valor=ceil((stoi(argv[i])*0.855178)*100)/100;
-                                                                i=i+2;
-								this->valor_total=this->valor_total+valor;
-                                                        } 	
-					}else	if(found_resta!=string::npos){
-								cout << endl << "ARA TOCA RESTA" << endl;
-									
-							if(argv[i]!="U" && argv[i+1]!="S" && argv[i+2]!="D" ) {
-								valor=-ceil((stoi(argv[i])*0.812352)*100)/100;
-	                                                        i=i+2;
-								this->valor_total=this->valor_total+valor;
-							}
-							if(argv[i]!="D" && argv[i+1]!="K" && argv[i+2]!="K"){
-                                                                valor=-ceil((stoi(argv[i])*0.855178)*100)/100;
-                                                                i=i+2;
-                                                                this->valor_total=this->valor_total+valor;
-                                                        }  
-						}
-						//else {// valor_total=valor_total;
-						//}
-					
-					j++;
-				}
-				this->valor_total=valor;
-			}
-			catch(exception& e){
-					cout  << "error : " << e.what() << endl;
-			}
-		}
-*/
 	}
 
 	float getValor_total(){
