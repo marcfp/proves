@@ -44,6 +44,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 				if(parametres.find("+") < parametres.size() ) {
 	cout << "parametres = "<< parametres ; 
 						string::size_type indexUSD1 = parametres.find("USD");
+						cout << endl << "indexUSD1 =" << indexUSD1 << endl;
+						if(!parametres.find("USD")) string::size_type indexUSD1 = parametres.find("DKK");
 						string::size_type indexUSD1fi = indexUSD1+3;
 	cout << "\n indexUSD1 = " << indexUSD1 << endl;
 						string sub2ll =parametres.substr(indexUSD1,indexUSD1fi);
@@ -51,30 +53,40 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 						const char * usd="USD";
 						const char * dkk="DKK";
 						const char * entrat="KKK";
+						char * sortida;
 						int n;
 	cout << "usd = " << usd << "\n dkk =" << dkk << "\n entrat = " << entrat << endl;
 						entrat=sub2ll.c_str();
 						cout << "entrat fi = " << entrat << endl;
 						//n=sprintf(entrat,"%s",sub2ll.c_str());
-						if(strcmp(entrat,usd)==0){
+/*				if(strcmp(entrat,usd)==0){
 							cout << endl << "Valor a convertir usd" << endl;
 						}
 						else if(strcmp(entrat,dkk)==0){
 							cout << endl << "Dkk és el valor a convertir" << endl;
-						}
-	cout << "entrat = " << entrat << endl;
-						/*switch(entrat)
-						{
-							case "USD":break;
-							case "DKK":break;
-							default : cout << endl << "moneda no coneguda" << endl;
 						}*/
+	cout << "entrat = " << entrat << endl;
 						string::size_type index_mes= parametres.find("+");
 	cout << endl << "indexUSD1fi = " << indexUSD1fi << " index_mes = " << index_mes << endl;
 						string::size_type index_fi=index_mes-indexUSD1fi;
 	cout << "index_fi = " << index_fi << endl;
 						string sub2n = parametres.substr(indexUSD1fi,index_fi);
 	cout << endl << "sub2n = " << sub2n << endl;
+						if(strcmp(entrat,usd)==0){
+                                                        cout << endl << "Valor a convertir Usd sub2n = "<< sub2n << endl;
+							//entrat=to_string(atof(sub2n.c_str())*0.81);
+							string val11=to_string(atof(sub2n.c_str())*0.81);
+							//sortida = to_string(val);
+							cout << endl << "calcul fet = " << val11 << endl;
+                                                }
+                                                if(strcmp(entrat,dkk)==0){
+                                                        cout << endl << "Dkk és el valor a convertir sub2n = "<< sub2n << endl;
+							string val12=to_string(atof(sub2n.c_str())*0.13);
+                                                        //sortida = to_string(val);
+                                                        cout << endl << "calcul fet = " << val12 << endl;	
+                                                }
+
+	
 						string::size_type indexUSD2 = parametres.find("USD");
                                                 string::size_type indexUSD2fi = indexUSD2+3;
 	cout << "\n indexUSD2 = " << indexUSD2 << endl;
@@ -86,12 +98,6 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 						entrat=sub1ll.c_str();
                                                 cout << "entrat fi = " << entrat << endl;
                                                 //n=sprintf(entrat,"%s",sub2ll.c_str());
-                                                if(strcmp(entrat,usd)==0){
-                                                        cout << endl << "Valor a convertir usd" << endl;
-                                                }
-                                                else if(strcmp(entrat,dkk)==0){
-                                                        cout << endl << "Dkk és el valor a convertir" << endl;
-                                                }
 
 //                                                string::size_type index_mes2= parametres.find("+");
         cout << endl << "indexUSD2fi = " << indexUSD2fi << " index_mes2 = " << index_mes2 << endl;
@@ -100,6 +106,26 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 						index_total=(parametres.length()-index_total)+4;
                                                 string sub1n = parametres.substr(index_total,parametres.length());
         cout << endl << "sub1n = " << sub1n << endl;
+/*				if(strcmp(entrat,usd)==0){
+                                                        cout << endl << "Valor a convertir usd sub1n = " << sub1n << endl;
+                                                }
+                                                else if(strcmp(entrat,dkk)==0){
+                                                        cout << endl << "Dkk és el valor a convertir sub1n = " << sub1n << endl;
+                                                }*/
+						if(strcmp(entrat,usd)==0){
+                                                        cout << endl << "Valor a convertir Usd sub2n = "<< sub1n << endl;
+                                                        //entrat=to_string(atof(sub2n.c_str())*0.81);
+                                                        string val21=to_string(atof(sub1n.c_str())*0.81);
+                                                        //sortida = to_string(val);
+                                                        cout << endl << "calcul fet = " << val21 << endl;
+                                                }   
+                                                if(strcmp(entrat,dkk)==0){
+                                                        cout << endl << "Dkk és el valor a convertir sub2n = "<< sub1n << endl;
+                                                        string val22=to_string(atof(sub1n.c_str())*0.13);
+                                                        //sortida = to_string(val);
+                                                        cout << endl << "calcul fet = " << val22 << endl;
+                                                }
+
 						float resultat_suma = stof(sub1n)+stof(sub2n); //suma
 //						string res_final_suma = to_string(resultat_suma)+ " " + sub1ll;
 //						cout << "Resultat de la suma = " << res_final_suma << "Falta fer conversió del valor monetari!!" << endl;

@@ -48,7 +48,7 @@ int main(int argc, char* argv[]){
 	cout << "makes sense only if you provide a conversion table defining the conversion factor between U.S. " << endl;
 	cout << "dollars (USD) and Danish kroner (DKK)." << endl;
 
-	//cout << endl << endl << "NO FUNCIONA AMB USD1, PERÒ SI AMB 1USD" << endl;	
+	cout << endl << endl << "NO FUNCIONA AMB DKK1.50+DKK.1.50, AMB LA RESTA SI!!!" << endl;	
 	m3.setValorargs(argc, argv);
 	cout << "m3.getValor_total() = " << m3.getValor_total() << " € " << endl;
 return(0);
