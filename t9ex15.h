@@ -28,7 +28,7 @@ public:
 //		cout << endl << argc << endl;//2 ok, sino falla
 		vector<string> params;
 		string parametres;
-	
+	try{
 		if(argc==2){ 	for(int i=1; i< argc; i++){
 					//cout << endl << "argument " << i << " = " << argv[i] << endl;
 			
@@ -42,55 +42,89 @@ http://en.cppreference.com/w/cpp/string/basic_string/substr
 http://en.cppreference.com/w/cpp/string/basic_string/erase
 */
 				if(parametres.find("+") < parametres.size() ) {
-						string sub2 = parametres.substr(5,9);
-						cout << sub2 << '\n';
-    
-						string sub2ll =sub2.substr(1,3);
-						string sub2n = sub2.substr(0,1);
-//						cout << "sub2ll = " << sub2ll << "\n";
-//						cout << "sub2n = " << sub2n << "\n";  
-						string sub1 = parametres.substr(0, 4);
-						cout << sub1 << "\n";
-						string sub1ll = parametres.substr(1,3);//unitat
-						string sub1n = parametres.substr(0,1);//valor
-//						cout << "sub1ll = " << sub1ll << "\n";
-//						cout << "sub1n = " << sub1n << "\n";
-						int resultat = stoi(sub1n)+stoi(sub2n);
-						string res_final=to_string(resultat)+" "+sub1ll;
-						cout << "resultat total (suma+ unitats) = " << res_final << endl;
-						cout << "Falta fer la conversió a eurosi afegir més monedes, ara hi ha feta USD, falta fer FKK i que ho retorni tot amb € (euros)" << endl;
+	cout << "parametres = "<< parametres ; 
+						string::size_type indexUSD1 = parametres.find("USD");
+						string::size_type indexUSD1fi = indexUSD1+3;
+	cout << "\n indexUSD1 = " << indexUSD1 << endl;
+						string sub2ll =parametres.substr(indexUSD1,indexUSD1fi);
+	cout << endl << "sub2ll = " << sub2ll << endl;
+						string::size_type index_mes= parametres.find("+");
+	cout << endl << "indexUSD1fi = " << indexUSD1fi << " index_mes = " << index_mes << endl;
+						string::size_type index_fi=index_mes-indexUSD1fi;
+	cout << "index_fi = " << index_fi << endl;
+						string sub2n = parametres.substr(indexUSD1fi,index_fi);
+	cout << endl << "sub2n = " << sub2n << endl;
+						string::size_type indexUSD2 = parametres.find("USD");
+                                                string::size_type indexUSD2fi = indexUSD2+3;
+	cout << "\n indexUSD2 = " << indexUSD2 << endl;
+						string::size_type index_mes2= parametres.find("+");
+						string::size_type index_total= parametres.length()-index_mes2;
+	cout << "index_mes2 = " << index_mes2 << "\n index_total = " << index_total << endl;
+                                                string sub1ll=parametres.substr(index_mes2+1,indexUSD2fi);
+        cout << endl << "sub1ll = " << sub1ll << endl;
+//                                                string::size_type index_mes2= parametres.find("+");
+        cout << endl << "indexUSD2fi = " << indexUSD2fi << " index_mes2 = " << index_mes2 << endl;
+                                                string::size_type index_fi2=index_mes2-indexUSD2fi;
+        cout << "index_fi2 = " << index_fi2 << endl;
+						index_total=(parametres.length()-index_total)+4;
+                                                string sub1n = parametres.substr(index_total,parametres.length());
+        cout << endl << "sub1n = " << sub1n << endl;
+						float resultat_suma = stof(sub1n)+stof(sub2n); //suma
+//						string res_final_suma = to_string(resultat_suma)+ " " + sub1ll;
+//						cout << "Resultat de la suma = " << res_final_suma << "Falta fer conversió del valor monetari!!" << endl;
+						this->valor_total=resultat_suma;
+						
 	
 				}
 				if(parametres.find("-") < parametres.size()){
-						string sub2 = parametres.substr(5,9);
-                                                cout << sub2 << '\n';
- 
-                                                string sub2ll =sub2.substr(1,3); 
-                                                string sub2n = sub2.substr(0,1);
-//                                              cout << "sub2ll = " << sub2ll << "\n";
-//                                              cout << "sub2n = " << sub2n << "\n";  
-                                                string sub1 = parametres.substr(0, 4);
-                                                cout << sub1 << "\n";
-                                                string sub1ll = parametres.substr(1,3);//unitat
-                                                string sub1n = parametres.substr(0,1);//valor
-//                                              cout << "sub1ll = " << sub1ll << "\n";
-//                                              cout << "sub1n = " << sub1n << "\n";
-                                                int resultat = stoi(sub1n)-stoi(sub2n);
-                                                string res_final=to_string(resultat)+" "+sub1ll;
-                                                cout << "resultat total (resta+ unitats) = " << res_final << endl;
-						cout << "Falta fer la conversió a eurosi afegir més monedes, ara hi ha feta USD, falta fer FKK(fer amb switch?) i que ho retorni tot amb € (euros)multiplicar guardar a valor_total i ja estara)" << endl;
+	cout << "parametres = "<< parametres ;
+                                                string::size_type indexUSD1 = parametres.find("USD");
+                                                string::size_type indexUSD1fi = indexUSD1+3;
+        cout << "\n indexUSD1 = " << indexUSD1 << endl;
+                                                string sub2ll =parametres.substr(indexUSD1,indexUSD1fi);
+        cout << endl << "sub2ll = " << sub2ll << endl;
+                                                string::size_type index_mes= parametres.find("-");
+        cout << endl << "indexUSD1fi = " << indexUSD1fi << " index_mes = " << index_mes << endl;
+                                                string::size_type index_fi=index_mes-indexUSD1fi;
+        cout << "index_fi = " << index_fi << endl;
+                                                string sub2n = parametres.substr(indexUSD1fi,index_fi);
+        cout << endl << "sub2n = " << sub2n << endl;
+                                                string::size_type indexUSD2 = parametres.find("USD");
+                                                string::size_type indexUSD2fi = indexUSD2+3;
+        cout << "\n indexUSD2 = " << indexUSD2 << endl;
+                                                string::size_type index_mes2= parametres.find("-");
+                                                string::size_type index_total= parametres.length()-index_mes2;
+        cout << "index_mes2 = " << index_mes2 << "\n index_total = " << index_total << endl;
+                                                string sub1ll=parametres.substr(index_mes2+1,indexUSD2fi);
+        cout << endl << "sub1ll = " << sub1ll << endl;
+//                                                string::size_type index_mes2= parametres.find("+");
+        cout << endl << "indexUSD2fi = " << indexUSD2fi << " index_mes2 = " << index_mes2 << endl;
+                                                string::size_type index_fi2=index_mes2-indexUSD2fi;
+        cout << "index_fi2 = " << index_fi2 << endl;
+                                                index_total=(parametres.length()-index_total)+4;
+                                                string sub1n = parametres.substr(index_total,parametres.length());
+        cout << endl << "sub1n = " << sub1n << endl;
+                                                float resultat_suma = stof(sub1n)-stof(sub2n); //resta
+//                                              string res_final_suma = to_string(resultat_suma)+ " " + sub1ll;
+//                                              cout << "Resultat de la suma = " << res_final_suma << "Falta fer conversió del valor monetari!!" << endl;
+                                                this->valor_total=resultat_suma;
 
 				}
 						
-				cout << endl << "contingut del vector :" << endl;
+				cout << endl << "contingut del vector :(falta canvi de moneda i càlcul entre elles)" << endl;
 				vector<string>::reverse_iterator rit = params.rbegin();
 				for (; rit!=params.rend(); ++rit)     std::cout << endl << *rit << endl;
 				//size_t params_suma=rit;
 		}
 		else{
-			cout << endl << "Executem així per què funcioni : \"./t9ex15 1+2+3-4-5-6\"" << endl;
+			cout << endl << "Executem així per què funcioni : \"./t9ex15 1USD+2USD\"" << endl;
 			
 		}
+	}
+	catch(exception& e){
+		cout << endl << "No funciona així el programa .... USD3+USD3 Ó USD3+DKK3 Ó DKK4.1+USD5.2" << endl;
+		e.what();
+	}
 	}
 
 	float getValor_total(){
