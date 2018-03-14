@@ -48,6 +48,27 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 	cout << "\n indexUSD1 = " << indexUSD1 << endl;
 						string sub2ll =parametres.substr(indexUSD1,indexUSD1fi);
 	cout << endl << "sub2ll = " << sub2ll << endl;
+						const char * usd="USD";
+						const char * dkk="DKK";
+						const char * entrat="KKK";
+						int n;
+	cout << "usd = " << usd << "\n dkk =" << dkk << "\n entrat = " << entrat << endl;
+						entrat=sub2ll.c_str();
+						cout << "entrat fi = " << entrat << endl;
+						//n=sprintf(entrat,"%s",sub2ll.c_str());
+						if(strcmp(entrat,usd)==0){
+							cout << endl << "Valor a convertir usd" << endl;
+						}
+						else if(strcmp(entrat,dkk)==0){
+							cout << endl << "Dkk és el valor a convertir" << endl;
+						}
+	cout << "entrat = " << entrat << endl;
+						/*switch(entrat)
+						{
+							case "USD":break;
+							case "DKK":break;
+							default : cout << endl << "moneda no coneguda" << endl;
+						}*/
 						string::size_type index_mes= parametres.find("+");
 	cout << endl << "indexUSD1fi = " << indexUSD1fi << " index_mes = " << index_mes << endl;
 						string::size_type index_fi=index_mes-indexUSD1fi;
@@ -62,6 +83,16 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 	cout << "index_mes2 = " << index_mes2 << "\n index_total = " << index_total << endl;
                                                 string sub1ll=parametres.substr(index_mes2+1,indexUSD2fi);
         cout << endl << "sub1ll = " << sub1ll << endl;
+						entrat=sub1ll.c_str();
+                                                cout << "entrat fi = " << entrat << endl;
+                                                //n=sprintf(entrat,"%s",sub2ll.c_str());
+                                                if(strcmp(entrat,usd)==0){
+                                                        cout << endl << "Valor a convertir usd" << endl;
+                                                }
+                                                else if(strcmp(entrat,dkk)==0){
+                                                        cout << endl << "Dkk és el valor a convertir" << endl;
+                                                }
+
 //                                                string::size_type index_mes2= parametres.find("+");
         cout << endl << "indexUSD2fi = " << indexUSD2fi << " index_mes2 = " << index_mes2 << endl;
                                                 string::size_type index_fi2=index_mes2-indexUSD2fi;
