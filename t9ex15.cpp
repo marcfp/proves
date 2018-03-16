@@ -2,6 +2,8 @@
 #include <iomanip>
 #include <math.h>
 #include <string> //vector>
+#include <cstdlib> 
+
 
 using namespace std;
 
@@ -35,7 +37,9 @@ Money Money::operator+ (const Money& m2) const{
 
         return (m);
 }
-
+string to_string(double arg1){
+  cout << "arg1 = " << arg1 << endl;
+}
 
 
 int main(int argc, char* argv[]){
