@@ -32,6 +32,7 @@ public:
 //		cout << endl << argc << endl;//2 ok, sino falla
 		vector<string> params;
 		string parametres;
+		cout << endl << "http://www.cplusplus.com/reference/string/string/compare/" << endl;
 	try{
 		if(argc==2){ 	for(int i=1; i< argc; i++){
 					//cout << endl << "argument " << i << " = " << argv[i] << endl;
@@ -44,35 +45,50 @@ public:
 /*
 http://en.cppreference.com/w/cpp/string/basic_string/substr
 http://en.cppreference.com/w/cpp/string/basic_string/erase
-*/
-				if(parametres.find("+") < parametres.size() ) {
-if(debug==0)	cout << "parametres = "<< parametres ; 
-						string::size_type indexUSD1fi;
+*/				
+				float resultat_suma;
+				if(pos_suma < parametres.size() ) {
+if(debug==0)	cout << "parametres = "<< parametres << " parametres.length() = " << parametres.length() << "pos_suma = " << pos_suma << " pos_resta = " << pos_resta << " parametres.size() = " << parametres.size() << " parametres[7]= " << parametres[7]<< " parametres.compare1(\"USD\")=" <<  parametres.compare("USD")<< " parametres.compare2(\"USD\")=" <<  parametres.compare("USD")<< endl ; 
+
+/*crear 2 substring a partir del +*/
+                        string str_sumafi = parametres.substr(pos_suma+1);
+                        cout << endl << "str_sumafi = " << str_sumafi << endl;//segon parametre
+                        string str_sumainici = parametres.substr(0 , pos_suma);//primer parametre
+                        string troba = parametres.substr(parametres.length());
+                        cout << endl << "str_sumainici = " << str_sumainici << "\n troba = " << troba << endl;
+                        
+                        /* buscar la moneda de cada substring*/
+//                         /*aquí*/
+                        /*si tots 2 tenene moneda correcta, fer càcul, sino llençar error*/
+                        
+						/*string::size_type indexUSD1fi;
 						string sub1ll;
 						string::size_type indexUSD1 = parametres.find("USD");
-//						cout << endl << "indexUSD1 =" << indexUSD1 << endl << " parametres.find(\"USD\")= " << parametres.find("USD") << endl;
-						if(parametres.find("USD")>5) {
+						/*if(parametres.find("USD")>11) {
 							indexUSD1 = parametres.find("DKK");
-							indexUSD1fi = indexUSD1+3;
-//						cout << "\n indexUSD1 (DKK)= " << indexUSD1 << endl;
+							indexUSD1fi = indexUSD1;
 							sub1ll =parametres.substr(indexUSD1,indexUSD1fi);
 						}
 						else{
 							indexUSD1 = parametres.find("USD");
-							indexUSD1fi = indexUSD1+3;
-//                                                cout << "\n indexUSD1 = (USD)" << indexUSD1 << endl;
+							indexUSD1fi = indexUSD1;
+                                                cout << "\n indexUSD1 = (USD)" << indexUSD1 << endl;
                                                         sub1ll =parametres.substr(indexUSD1,indexUSD1fi);
+						cout << "\n sub1ll = " << sub1ll << endl;
 						}
 //	cout << endl << "sub1ll = " << sub1ll << endl;
-						const char * usd="USD";
-						const char * dkk="DKK";
-						const char * entrat="KKK";
-						char * sortida;
-						int n;
+//						const char * usd="USD";
+//						const char * dkk="DKK";
+//						const char * entrat="KKK";
+						string usd="USD";
+						string dkk="DKK";
+						string entrat="KKK";
+						
 //	cout << "usd = " << usd << "\n dkk =" << dkk << "\n entrat = " << entrat << endl;
 						entrat=sub1ll.c_str();
-if(debug==0)						cout << "entrat fi = " << entrat << endl;
-//	cout << "entrat = " << entrat << endl;
+						cout << endl << "sub1ll.c_str() = " << sub1ll.c_str() << endl;
+if(debug==0)						cout << "entrat + fi = " << entrat << endl;
+//	cout << "entrat = " << entrat << endl;g
 						string::size_type index_mes= parametres.find("+");
 //	cout << endl << "indexUSD1fi = " << indexUSD1fi << " index_mes = " << index_mes << endl;
 						string::size_type index_fi=index_mes-indexUSD1fi;
@@ -80,22 +96,23 @@ if(debug==0)						cout << "entrat fi = " << entrat << endl;
 						string sub1n = parametres.substr(indexUSD1fi,index_fi);
 //	cout << endl << "sub1n = " << sub1n << endl;
 						float num1;
-						if(strcmp(entrat,usd)==0){
+						//if(strcmp(entrat,usd)==0){
+						if(entrat.compare(usd)==0){
 if(debug==0)                                                        cout << endl << "Valor a convertir Usd sub1n = "<< sub1n << endl;
 							//sub1n=to_string(atof(sub1n.c_str())*0.81);
 							//https://ubuntuforums.org/showthread.php?t=800110
-							float ve=stof(sub1n)*0.81;
 							num1=stof(sub1n)*0.81;
-if(debug==0)							cout << endl << "stof(sub1n)*0.81 =" << stof(sub1n)*0.81 << endl;
-if(debug==0)							cout << endl << "calcul fet (sub1n usd) = " << sub1n << endl;
+							cout << endl << "+ stof(sub1n)*0.81 =" << stof(sub1n)*0.81 << " num1 = " << num1 << endl;
+if(debug==0)						cout << endl << "calcul fet (sub1n usd) = " << sub1n << endl;
                                                 }
-                                                if(strcmp(entrat,dkk)==0){
+                                                //if(strcmp(entrat,dkk)==0){
+                                                if(entrat.compare(dkk)==0){
 if(debug==0)                                                        cout << endl << "Dkk és el valor a convertir sub1n = "<< sub1n << endl;
 							//sub1n=to_string(atof(sub1n.c_str())*0.13);
 							//https://ubuntuforums.org/showthread.php?t=800110
-if(debug==0)							cout << endl << "sub1n=to_string(atof(sub1n)*0.13); = " << stof(sub1n)*0.13 << endl;
+							cout << endl << "sub1n=to_string(atof(sub1n)*0.13); = " << stof(sub1n)*0.13 << endl;
 							num1=stof(sub1n)*0.13;
-if(debug==0)                                                        cout << endl << "calcul fet (sub1n dkk)= " << sub1n << endl;	
+                                                        cout << endl << "calcul fet (sub1n dkk) = " << sub1n << " num1 = "<< num1 << endl;	
                                                 }
 
 	
@@ -117,29 +134,34 @@ if(debug==0)							cout << "entrat fi = " << entrat << endl;
 if(debug==0)							cout << endl << "sub2n (LINEA 120) = " << sub2n << " entrat = " << entrat << " usd = " << usd << " dkk = " << dkk  << endl;
 						
 						
-if(debug==0)							cout << endl << "(strcmp(entrat,usd)==0)=" << strcmp(entrat,usd) << endl;
+//if(debug==0)							cout << endl << "(strcmp(entrat,usd)==0)=" << strcmp(entrat,usd) << endl;
 						float num2;
-						if(strcmp(entrat,usd)>0){
+						//if(strcmp(entrat,usd)>0){
+						if(entrat.compare(usd)==0){
 if(debug==0)                                                    cout << endl << "Valor a convertir Usd sub2n = "<< sub2n << endl;
 							//sub2n=to_string(stof(sub2n.c_str())*0.81);
 							//https://ubuntuforums.org/showthread.php?t=800110
-if(debug==0)							cout << endl << "stof(sub2n.c_str())*0.81 =" << stof(sub2n)*0.81 << endl;
+							cout << endl << "stof(sub2n)*0.81 =" << stof(sub2n)*0.81 << endl;
 							num2=stof(sub2n)*0.81;
-if(debug==0)                                                    cout << endl << "calcul fet(sub2n usd) = " << sub2n << endl;
+							resultat_suma = num1+ stof(sub2n)*0.81;
+							cout << endl << "+ calcul fet(sub2n usd) = " << sub2n << " num2 = " << num2 <<  endl;
                                                 }   
-                                                if(strcmp(entrat,dkk)>0){
+//                                                if(strcmp(entrat,dkk)>0){
+						if(entrat.compare(dkk)==0){
 if(debug==0)                                                    cout << endl << "Dkk és el valor a convertir sub2n = "<< sub2n << endl;
 							//sub2n=to_string(stof(sub2n.c_str())*0.13);
 							//https://ubuntuforums.org/showthread.php?t=800110
-if(debug==0)							cout << "sub2n=to_string(stof(sub2n.c_str())*0.13)=" << stof(sub2n)*0.13 << endl;
+							cout << "stof(sub2nqwerty)*0.13)=" << stof(sub2n)*0.13 << endl;
 							num2=stof(sub2n)*0.13;
-if(debug==0)                                                    cout << endl << "calcul fet(sub2n dkk) = " << sub2n << endl;
+							resultat_suma = num1+stof(sub2n)*0.13;
+      
+if(debug==0)                                            cout << endl << "+ calcul fet(sub2n dkk) = " << sub2n << " num2 = " << num2 << endl;
                                                 }
-if(debug==0)							cout << "linea 119 stof(sub2n) = " << stof(sub2n) << " stof(sub1n) = " << stof(sub1n) << endl;
-						float resultat_suma = num1+num2;//stof(sub2n)+stof(sub1n); //suma
-
+                                                //cout << "linea 119 stof(sub2n) = " << stof(sub2n) << " stof(sub1n) = " << stof(sub1n) << " num2 = " << num2 << endl;
+						//float resultat_suma = num1+num2;//stof(sub2n)+stof(sub1n); //suma
+      
 						this->valor_total=resultat_suma;
-						
+						*/
 	
 				}
 				
@@ -163,9 +185,12 @@ if(debug==0)	cout << "parametres = "<< parametres ;
                                                         sub1ll =parametres.substr(indexUSD1,indexUSD1fi);
 						}
 //	cout << endl << "sub1ll = " << sub1ll << endl;
-						const char * usd="USD";
-						const char * dkk="DKK";
-						const char * entrat="KKK";
+						//const char * usd="USD";
+						//const char * dkk="DKK";
+						//const char * entrat="KKK";
+						string entrat ="KKK";
+						string usd="USD";
+						string dkk="DKK";
 						char * sortida;
 						int n;
 //	cout << "usd = " << usd << "\n dkk =" << dkk << "\n entrat = " << entrat << endl;
@@ -179,16 +204,18 @@ if(debug==0)						cout << "entrat fi = " << entrat << endl;
 						string sub1n = parametres.substr(indexUSD1fi,index_fi);
 //	cout << endl << "sub1n = " << sub1n << endl;
 						float num1;
-						if(strcmp(entrat,usd)==0){
+						//if(strcmp(entrat,usd)==0){
+						if(entrat.compare(usd)==0){
 if(debug==0)                                                        cout << endl << "Valor a convertir Usd sub1n = "<< sub1n << endl;
 							//sub1n=to_string(atof(sub1n.c_str())*0.81);
 							//https://ubuntuforums.org/showthread.php?t=800110
-							float ve=stof(sub1n)*0.81;
+							//float ve=stof(sub1n)*0.81;
 							num1=stof(sub1n)*0.81;
-if(debug==0)							cout << endl << "stof(sub1n)*0.81 =" << stof(sub1n)*0.81 << endl;
+if(debug==0)							cout << endl << "- stof(sub1n)*0.81 =" << stof(sub1n)*0.81 << endl;
 if(debug==0)							cout << endl << "calcul fet (sub1n usd) = " << sub1n << endl;
                                                 }
-                                                if(strcmp(entrat,dkk)==0){
+                                                //if(strcmp(entrat,dkk)==0){
+                                                if(entrat.compare(dkk)==0){
 if(debug==0)                                                        cout << endl << "Dkk és el valor a convertir sub1n = "<< sub1n << endl;
 							//sub1n=to_string(atof(sub1n.c_str())*0.13);
 							//https://ubuntuforums.org/showthread.php?t=800110
@@ -213,29 +240,33 @@ if(debug==0)							cout << "entrat fi = " << entrat << endl;
 //        cout << "index_fi2 = " << index_fi2 << endl;
 						//index_total=(parametres.length()-index_total)+4;
                                                 string sub2n = parametres.substr(index_total+3,parametres.length());
-if(debug==0)							cout << endl << "sub2n (LINEA 120) = " << sub2n << " entrat = " << entrat << " usd = " << usd << " dkk = " << dkk  << endl;
+						cout << endl << "sub2n (LINEA 120) = " << sub2n << " entrat = " << entrat << " usd = " << usd << " dkk = " << dkk  << endl;
 						
 						
-if(debug==0)							cout << endl << "(strcmp(entrat,usd)==0)=" << strcmp(entrat,usd) << endl;
+//if(debug==0)							cout << endl << "(strcmp(entrat,usd)==0)=" << strcmp(entrat,usd) << endl;
 						float num2;
-						if(strcmp(entrat,usd)>0){
+						//if(strcmp(entrat,usd)>0){
+						if(entrat.compare(usd)==0){
 if(debug==0)                                                    cout << endl << "Valor a convertir Usd sub2n = "<< sub2n << endl;
 							//sub2n=to_string(stof(sub2n.c_str())*0.81);
 							//https://ubuntuforums.org/showthread.php?t=800110
 if(debug==0)							cout << endl << "stof(sub2n.c_str())*0.81 =" << stof(sub2n)*0.81 << endl;
 							num2=stof(sub2n)*0.81;
-if(debug==0)                                                    cout << endl << "calcul fet(sub2n usd) = " << sub2n << endl;
+								resultat_suma = num1-stof(sub2n)*0.81;
+if(debug==0)                                                    cout << endl << "- calcul fet(sub2n usd) = " << sub2n << endl;
                                                 }   
-                                                if(strcmp(entrat,dkk)>0){
+                                                //if(strcmp(entrat,dkk)>0){
+                                                if(entrat.compare(dkk)==0){
 if(debug==0)                                                    cout << endl << "Dkk és el valor a convertir sub2n = "<< sub2n << endl;
 							//sub2n=to_string(stof(sub2n.c_str())*0.13);
 							//https://ubuntuforums.org/showthread.php?t=800110
 if(debug==0)							cout << "sub2n=to_string(stof(sub2n.c_str())*0.13)=" << stof(sub2n)*0.13 << endl;
 							num2=stof(sub2n)*0.13;
-if(debug==0)                                                    cout << endl << "calcul fet(sub2n dkk) = " << sub2n << endl;
+								resultat_suma = num1-stof(sub2n)*0.13;
+if(debug==0)                                                    cout << endl << "- calcul fet(sub2n dkk) = " << sub2n << endl;
                                                 }
 if(debug==0)							cout << "linea 119 stof(sub2n) = " << stof(sub2n) << " stof(sub1n) = " << stof(sub1n) << endl;
-						float resultat_suma = num1-num2;//stof(sub2n)+stof(sub1n); //suma
+						//float resultat_suma = num1-num2;//stof(sub2n)+stof(sub1n); //suma
 
 						this->valor_total=resultat_suma;
 						
