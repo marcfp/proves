@@ -71,8 +71,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					//if(pos_DKK1==-1) cout << endl << "ERROR!! ABORT!!! DKK1 FAILS"<< endl;
 					if(pos_DKK1<parametres.length()){
 						 if(debug==0)cout << "calculo valor dkk" << endl;
-						 if(debug==0)cout << endl << "dkk1 parametres.substr(3,3) = " << parametres.substr(3,3) << endl;
-						string val_dkk1=parametres.substr(3,3);
+						 if(debug==0)cout << endl << "dkk1 parametres.substr(3,4) = " << parametres.substr(3,4) << endl;
+						string val_dkk1=parametres.substr(3,4);
 						 if(debug==0)cout << endl << "val_dkk1 = " << val_dkk1<< endl;
 						float_DKK1=stof(val_dkk1)*0.13426;
 						 if(debug==0)cout << endl << "float_dkk1 =" << fixed << setprecision(2) << float_DKK1 << endl;
@@ -84,8 +84,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					    //if(pos_USD1==-1) cout << endl << "ERROR!! ABORT!!! USD1 FAILS"<< endl;
 					    if(pos_USD1<parametres.length()){
 						 if(debug==0)cout << "calculo valor usd" << endl;
-						 if(debug==0)cout << endl << "usd1 parametres.substr(3,3) = " << parametres.substr(3,3) << endl;
-						string val_usd1=parametres.substr(3,3);
+						 if(debug==0)cout << endl << "usd1 parametres.substr(3,4) = " << parametres.substr(3,4) << endl;
+						string val_usd1=parametres.substr(3,4);
 						 if(debug==0)cout << "val_usd1 = " << val_usd1;
 						float_USD1 = stof(val_usd1)*0.853776;
 						 if(debug==0)cout << endl << "float_usd1 = " << fixed << setprecision(2) << float_USD1 << endl;
@@ -97,8 +97,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					//if(pos_DKKfi==-1) cout << endl << "ERROR!! ABORT!!! DKKfi FAILS"<< endl;
 					if(pos_DKKfi<parametres.length()){
 						 if(debug==0)cout << "calculo valor dkk fi" << endl;
-						 if(debug==0)cout << endl << "dkkfi parametres.substr(10,13) = " << parametres.substr(10,13) << endl;
-						string val_dkkfi=parametres.substr(10,13);
+						 if(debug==0)cout << endl << "dkkfi parametres.substr(11,13) = " << parametres.substr(11,13) << endl;
+						string val_dkkfi=parametres.substr(11,13);
 						 if(debug==0)cout << "val_dkkfi = " << val_dkkfi;
 						float_DKKfi=stof(val_dkkfi)*0.13426;						
 						 if(debug==0)cout << endl << "float_dkkfi =" << fixed << setprecision(2) << float_DKKfi << endl;
@@ -109,8 +109,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					    //if(pos_USD1==-1) cout << endl << "ERROR!! ABORT!!! USD1 FAILS"<< endl;
 					    if(pos_USDfi<parametres.length()){
 						 if(debug==0)cout << "calculo valor usd fi" << endl;
-						 if(debug==0)cout << endl << "usd parametres.substr(7,13) = " << parametres.substr(10,13) << endl;
-						string val_usdfi=parametres.substr(10,13);
+						 if(debug==0)cout << endl << "usd parametres.substr(11,13) = " << parametres.substr(11,13) << endl;
+						string val_usdfi=parametres.substr(11,13);
 						 if(debug==0)cout << "val_usdfi = " << val_usdfi;
 						float_USDfi = stof(val_usdfi)*0.853776;
 						 if(debug==0)cout << endl << "float_USDfi = " << fixed << setprecision(2) << float_USDfi << endl;
@@ -118,10 +118,12 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 				    }
 				    (this)->valor_total= float_DKK1+ float_DKKfi+float_USD1 +float_USDfi;
 				    
-				    cout << endl << "pos_DKK1 = " << pos_DKK1 << " pos_USD1 = " << pos_USD1 << endl;
-				    cout << endl << "pos_DKKfi = " << pos_DKKfi << " pos_USDfi = " << pos_USDfi << endl;
-				    cout << endl << "float_DKK1 = " << float_DKK1 << " float_USD1 = " << float_USD1 << endl;
-				    cout << endl << "float_DKKfi = " << float_DKKfi << " float_USDfi = " << float_USDfi << endl;
+				    if(debug==0) {
+					cout << endl << "pos_DKK1 = " << pos_DKK1 << " pos_USD1 = " << pos_USD1 << endl;
+					cout << endl << "pos_DKKfi = " << pos_DKKfi << " pos_USDfi = " << pos_USDfi << endl;
+					cout << endl << "float_DKK1 = " << float_DKK1 << " float_USD1 = " << float_USD1 << endl;
+					cout << endl << "float_DKKfi = " << float_DKKfi << " float_USDfi = " << float_USDfi << endl;
+				    }
 				    	  
 				}
 				    
@@ -147,8 +149,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					//if(pos_DKK1==-1) cout << endl << "ERROR!! ABORT!!! DKK1 FAILS"<< endl;
 					if(pos_DKK1<parametres.length()){
 						 if(debug==0)cout << "calculo valor dkk" << endl;
-						 if(debug==0)cout << endl << "dkk1 parametres.substr(3,3) = " << parametres.substr(3,3) << endl;
-						string val_dkk1=parametres.substr(3,3);
+						 if(debug==0)cout << endl << "dkk1 parametres.substr(3,3) = " << parametres.substr(3,4) << endl;
+						string val_dkk1=parametres.substr(3,4);
 						 if(debug==0)cout << endl << "val_dkk1 = " << val_dkk1<< endl;
 						float_DKK1=stof(val_dkk1)*0.13426;
 						 if(debug==0)cout << endl << "float_dkk1 =" << fixed << setprecision(2) << float_DKK1 << endl;
@@ -160,8 +162,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					    //if(pos_USD1==-1) cout << endl << "ERROR!! ABORT!!! USD1 FAILS"<< endl;
 					    if(pos_USD1<parametres.length()){
 						 if(debug==0)cout << "calculo valor usd" << endl;
-						 if(debug==0)cout << endl << "usd1 parametres.substr(3,3) = " << parametres.substr(3,3) << endl;
-						string val_usd1=parametres.substr(3,3);
+						 if(debug==0)cout << endl << "usd1 parametres.substr(3,4) = " << parametres.substr(3,4) << endl;
+						string val_usd1=parametres.substr(3,4);
 						 if(debug==0)cout << "val_usd1 = " << val_usd1;
 						float_USD1 = stof(val_usd1)*0.853776;
 						 if(debug==0)cout << endl << "float_usd1 = " << fixed << setprecision(2) << float_USD1 << endl;
@@ -173,8 +175,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					//if(pos_DKKfi==-1) cout << endl << "ERROR!! ABORT!!! DKKfi FAILS"<< endl;
 					if(pos_DKKfi<parametres.length()){
 						 if(debug==0)cout << "calculo valor dkk fi" << endl;
-						 if(debug==0)cout << endl << "dkkfi parametres.substr(10,13) = " << parametres.substr(10,13) << endl;
-						string val_dkkfi=parametres.substr(10,13);
+						 if(debug==0)cout << endl << "dkkfi parametres.substr(11,13) = " << parametres.substr(11,13) << endl;
+						string val_dkkfi=parametres.substr(11,13);
 						 if(debug==0)cout << "val_dkkfi = " << val_dkkfi;
 						float_DKKfi=-stof(val_dkkfi)*0.13426;						
 						 if(debug==0)cout << endl << "float_dkkfi =" << fixed << setprecision(2) << float_DKKfi << endl;
@@ -185,8 +187,8 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 					    //if(pos_USD1==-1) cout << endl << "ERROR!! ABORT!!! USD1 FAILS"<< endl;
 					    if(pos_USDfi<parametres.length()){
 						 if(debug==0)cout << "calculo valor usd fi" << endl;
-						 if(debug==0)cout << endl << "usd parametres.substr(7,13) = " << parametres.substr(10,13) << endl;
-						 string val_usdfi=parametres.substr(10,13);
+						 if(debug==0)cout << endl << "usd parametres.substr(11,13) = " << parametres.substr(11,13) << endl;
+						 string val_usdfi=parametres.substr(11,13);
 						 if(debug==0)cout << "val_usdfi = " << val_usdfi;
 						float_USDfi = -stof(val_usdfi)*0.853776;
 						 if(debug==0)cout << endl << "float_USDfi = " << fixed << setprecision(2) << float_USDfi << endl;
@@ -194,10 +196,12 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 				    }
 				    (this)->valor_total=float_DKK1+float_DKKfi+float_USD1+float_USDfi;
 				    
-				    if(debug==0)cout << endl << "pos_DKK1 = " << pos_DKK1 << " pos_USD1 = " << pos_USD1 << endl;
-				    if(debug==0)cout << endl << "pos_DKKfi = " << pos_DKKfi << " pos_USDfi = " << pos_USDfi << endl;
-				    if(debug==0)cout << endl << "float_DKK1 = " << float_DKK1 << " float_USD1 = " << float_USD1 << endl;
-				    if(debug==0)cout << endl << "float_DKKfi = " << float_DKKfi << " float_USDfi = " << float_USDfi << endl;
+				    if(debug==0){
+				      cout << endl << "pos_DKK1 = " << pos_DKK1 << " pos_USD1 = " << pos_USD1 << endl;
+				      cout << endl << "pos_DKKfi = " << pos_DKKfi << " pos_USDfi = " << pos_USDfi << endl;
+				      cout << endl << "float_DKK1 = " << float_DKK1 << " float_USD1 = " << float_USD1 << endl;
+				      cout << endl << "float_DKKfi = " << float_DKKfi << " float_USDfi = " << float_USDfi << endl;
+				    }
 				  
 				}
 						

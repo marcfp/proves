@@ -43,7 +43,7 @@ string to_string(double arg1){
 
 
 int main(int argc, char* argv[]){
-	Money m1, m2;	
+	Money m1, m2, mresultat;	
 	Money m3;
 
 	cout << "15. Refine the Money class by adding a currency (given as a constructor argument). Accept a " << endl;
