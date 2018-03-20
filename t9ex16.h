@@ -7,6 +7,7 @@
 using namespace std;
 class Money{
 	long double valor_total;
+	string moneda;
 	int debug=1;
 	
 public:
@@ -225,6 +226,11 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 	float getValor_total(){
 		return(valor_total);
 	}
+
+	string getMoneda(){
+		return(moneda);
+	}
+
 	
 	~Money(){}
 
@@ -233,4 +239,7 @@ http://en.cppreference.com/w/cpp/string/basic_string/erase
 	Money operatorX (const Money& m2) const;
 	Money operator/ (const Money& m2) const;
 	string to_string(double arg1);
+	
+	Money operator> ( Money& m2) const;
+	//Money getMoneda();
 }; 
