@@ -61,37 +61,139 @@ int divisordiv;
 		//4+5
 		//cout << "dominador1 =" << this->dominador1*(this->divisor2) << endl;
 		//cout << "dominador2 =" << this->dominador2*(this->divisor1) << endl;
-		
-		return ((this->dominador1*(this->divisor2))+(this->dominador2*(this->divisor1)));
+		try{
+			if(dominador1!=0 && dominador2!=0 && divisor1!=0 && divisor2!=0){
+			//return(0);
+//	throw exception(e
+				return ((this->dominador1*(this->divisor2))+(this->dominador2*(this->divisor1)));
+			}
+		}
+		catch(exception& e) {
+		 //throw exception& e;
+			cout << "Hi ha un error!!!!" << e.what() << endl;
+		}
+
+		return(0);
+//		return ((this->dominador1*(this->divisor2))+(this->dominador2*(this->divisor1)));
 	}
 	float sumadivisor(){
 //		cout << "divisor1 = " << this->divisor1 << "divisor2 =" << this->divisor2 << endl;
 		//dominadorsuma=this->divisor1*this->divisor2;
-		return(this->divisor1*this->divisor2);
+		try{    
+                        if(dominador1!=0 && dominador2!=0 && divisor1!=0 && divisor2!=0){
+                        //return(0);
+				return(this->divisor1*this->divisor2);
+			 }
+                }
+                catch(exception& e) {
+                 //throw exception& e;
+                        cout << "Hi ha un error!!!!" << e.what() << endl;
+                }
+
+		
+
+		return(0);
+//		return(this->divisor1*this->divisor2);
 	}
 	float restadominador(){
-		return ((this->dominador1*(this->divisor2))-(this->dominador2*(this->divisor1)));
+		try{
+                        if(dominador1!=0 && dominador2!=0 && divisor1!=0 && divisor2!=0){
+	                        return ((this->dominador1*(this->divisor2))-(this->dominador2*(this->divisor1)));
+			}
+                }
+                catch(exception& e) {
+                 //throw exception& e;
+                        cout << "Hi ha un error!!!!" << e.what() << endl;
+                }
+
+                		
+		return(0);
+//		return ((this->dominador1*(this->divisor2))-(this->dominador2*(this->divisor1)));
 	}
 	float restadivisor(){
-		return(this->divisor1*this->divisor2);
+		try{    
+                        if(dominador1!=0 && dominador2!=0 && divisor1!=0 && divisor2!=0){
+	                        return(this->divisor1*this->divisor2);
+			}
+                }
+		 catch(exception& e) {
+                 //throw exception& e;
+                        cout << "Hi ha un error!!!!" << e.what() << endl;
+                }
+
+		
+		return(0);
+//		return(this->divisor1*this->divisor2);
 	}
 	float multiplicadominador(){
-		return(this->dominador1* this->dominador2);
+		try{
+                        if(dominador1!=0 && dominador2!=0 && divisor1!=0 && divisor2!=0){
+	                        return ((this->dominador1*(this->divisor2))*(this->dominador2*(this->divisor1)));	
+			}
+                }
+		 catch(exception& e) {
+                 //throw exception& e;
+                        cout << "Hi ha un error!!!!" << e.what() << endl;
+                }
+
+		
+		return(0);
+		//rueturn(this->dominador1* this->dominador2);
 	}
 	float multiplicadivisor(){
-		return(this->divisor1 * this->divisor2);
+		try{
+                        if(dominador1!=0 && dominador2!=0 && divisor1!=0 && divisor2!=0){
+	                        return(this->divisor1*this->divisor2);
+			}
+                }
+		catch(exception& e) {
+                 //throw exception& e;
+                        cout << "Hi ha un error!!!!" << e.what() << endl;
+                }
+                return(0);
+//		return(this->divisor1 * this->divisor2);
 	}
 	float divisiodivisor(){
-		return(this->divisor1*this->dominador2);
+		try{
+                        if(dominador1!=0 && dominador2!=0 && divisor1!=0 && divisor2!=0){	
+				return(this->divisor1*this->dominador2);
+			}
+		}
+		catch(exception& e) {
+                 //throw exception& e;
+                        cout << "Hi ha un error!!!!" << e.what() << endl;
+                }
+                return(0);
+//              return(this->divisor1*this->dominador2);
 	}
 	float divisiodominador(){
-		return(this->dominador1*this->divisor2);
+		if(divisor1==0 || divisor2==0 || dominador1==0 || dominador2==0){
+                         return(0);
+                }
+                else {
+		 return(this->dominador1*this->divisor2);
+		}
+
+                return(0);
+//              return(this->dominador1*this->divisor2);
 	}
 	float igualtatdivisor(){
-		return(this->divisor2/this->divisor1);
+		if(divisor1==0 || divisor2==0 || dominador1==0 || dominador2==0){
+                         return(0);
+                }   
+                else {
+			return(this->divisor2/this->divisor1);
+		}
+		return(0);
 	}
 	float igualtatdominador(){
-		return(this->dominador2/this->dominador1);
+		if(divisor1==0 || divisor2==0 || dominador1==0 || dominador2==0){
+                         return(0);
+                }   
+                else {
+			return(this->dominador2/this->dominador1);
+		}
+		return(0);
 	}
 	float igualfraccio(){
 		cout << "Són iguals les fraccions ?" << endl;
