@@ -17,7 +17,7 @@ constexpr int to_int(const char lletra)
         : 0;
     }
     
-int debug=0;
+int debug=1;
 class Roma{
 
   int valor;
@@ -59,34 +59,27 @@ class Roma{
       if(debug==1)cout << "valor val  = " << val << endl;
       conta++;
       for(int i=1;i<num.size();++i){
-        if(conta<=3 && conta<=num.size()){ 
+        if(conta<=num.size()){ 
+	  
+	  anterior=to_int(num[i-1]);
+	  
 	  if(debug==1)cout  << " val = " << val << " to_int(num[i]) = " << to_int(num[i]) << "\n anterior = " << anterior << " i = " << i << " conta = " <<  conta <<  endl;
-	  if(conta==1){ 
-	      anterior=to_int(num[i]);
-	     // val=val+to_int( num[i]);
-	  }
-	  else anterior=to_int(num[i-1]);
+	  
 	  if(val<to_int(num[i]) && conta==1)  val=to_int(num[i])-val; 
-	  else if(conta<=3 || anterior==to_int(num[i] && to_int(num[0]) == to_int(num[2]) && to_int(num[1])==10)) {
-		    if(conta <=3 && val>=to_int(num[i]) && anterior<val) val=to_int(num[i])+val; //comproba que el número no estigui mal format (restant)
+	  else if(conta<=num.size() || anterior==to_int(num[i] && to_int(num[0]) == to_int(num[2]) && to_int(num[1])==10)) {
+		    if(conta <=num.size() && val>=to_int(num[i]) && anterior<=val) val=to_int(num[i])+val; //comproba que el número no estigui mal format (restant)
 		    else{
 		      if(debug==1)cout << "to_int(num[0]) = " << to_int(num[0])<< " to_int(num[1]) = " << to_int(num[1]) << " to_int(num[2]) = " << to_int(num[2]) << endl;
 		      if(to_int(num[0]) == to_int(num[2]) && to_int(num[1])==10) {
 			cout << "Número mal format" << endl;
 			return(0);
-		      }else{
-			cout << "Número mal format" << endl;
-			return(0);
-		      }
-		      
+		      }	      
 		    }
 		    anterior=to_int(num[i]);
 		    if(conta==2 &&  ((to_int(num[i])==5 && to_int(num[i-1])==5) || (to_int(num[i])==50 && to_int(num[i-1])==50)|| (to_int(num[i])==500 && to_int(num[i-1])==500))){
                       if(debug==1)cout << "Número erroni, no es pot repetir!!" << endl;
-                      return (-15);
-                      
+                      return (-15);                      
                     }
-
 		}
 		else {
 		  if(to_int(num[i])!=to_int(num[i-1])) conta=0;
@@ -116,14 +109,11 @@ class Roma{
 		      return(0);
 		  }
 	    anterior=to_int(num[i]);
-	    //if(to_int(num[i])>val){     
-	    //  return (0);
-	    //}
 	  }
 	  else {
-	    if(debug==1)cout << " to_int(num[i]) = " << to_int(num[i]) << " to_int(num[i-1]) = " << to_int(num[i-1]) << " i = " <<  i << " num.size() = " << num.size() << " val = " << val << endl;
+	    if(debug==1)cout << " conta = " << conta <<  " to_int(num[i]) = " << to_int(num[i]) << " to_int(num[i-1]) = " << to_int(num[i-1]) << " i = " <<  i << " num.size() = " << num.size() << " val = " << val << endl;
 	    if(to_int(num[i])<=to_int(num[i-1]) && i<num.size()){ // per provar ....
-	      if(conta <=3)val=val+to_int(num[i]);	       //per provar a veure si sumo ...
+	      if(conta <num.size())val=val+to_int(num[i]);	       //per provar a veure si sumo ...
 	      else { 
 		    cout << "número mal format!! "<< endl;
 		    return (0);
