@@ -11,7 +11,7 @@
 		  let -> #
 		  Quit
 		  surt
-		  roman numbers in progress
+		  roman numbers in progress (function correct)
 	  Print :
 		  ;
 	  Quit:
@@ -43,15 +43,15 @@
   -------------------------------------------------------------
   */
 
-  #include "std_lib_facilities.h"
+#include "std_lib_facilities.h"
 
-  using namespace std;
+using namespace std;
 
-  #define debug 1
+#define debug 1
   //------------------------------------------------------------------------------
 
   /*error: no matching function for call to ‘Variable::Variable(std::string&, double&)’*/
-  class Variable{
+class Variable{
   public:
 	  string name;
 	  double value;
@@ -61,7 +61,7 @@
 
   };
 
-  class Token {
+class Token {
   public:
       char kind;        // what kind of token
       double value;     // for numbers: a value
@@ -78,7 +78,7 @@
 
   //------------------------------------------------------------------------------
 
-  class Token_stream {
+class Token_stream {
   public:
       Token_stream();   // make a Token_stream that reads from cin
       Token get();      // get a Token (get() is defined elsewhere)
@@ -93,19 +93,19 @@
 
   //------------------------------------------------------------------------------
 
-  const char number ='8'; //global!! //8 <- és número
-  const char quit = 'e';
-  const char print = ';';
-  const string prompt = "|=>";
-  const char /*string*/ result = '='; //used to indicate that what follows is a result
-  vector<Variable> var_table;
+const char number ='8'; //global!! //8 <- és número
+const char quit = 'e';
+const char print = ';';
+const string prompt = "|=>";
+const char /*string*/ result = '='; //used to indicate that what follows is a result
+vector<Variable> var_table;
 
 
-  Token_stream ts;        // provides get() and putback()
+ Token_stream ts;        // provides get() and putback()
 
 
   // The constructor just sets full to indicate that the buffer is empty:
-  Token_stream::Token_stream()
+Token_stream::Token_stream()
   :full(false), buffer(0)    // no Token in buffer
   {
   }
@@ -129,8 +129,257 @@
     }
 
 
+    /*
+     romans
+    */
+    
+class Numero_roma{
+  string cadena;
+  int val;
+public:
+  int as_int(string text);
+  void set_string(string text);
+  string get_string();
+};
 
-  void clean_up_mess()
+void Numero_roma::set_string(string text)//maked with classes
+{
+    cadena=text;
+}
+string Numero_roma::get_string() //maked with classes
+{
+  return cadena;
+}
+
+int Numero_roma::as_int(string text)//calculated with classes
+{
+   int result = 0;
+   const int LEN = this->cadena.length();
+   int conti=0;
+   int contx=0;
+   //falta contl;
+   int contc=0;
+   int contd=0;
+   int contm=0;
+   int cont5m=0;
+      
+   setlocale(LC_ALL, "ca_ES.UTF-8");
+   if(debug==1)cout << " this->cadena = " << this->cadena <<  " LEN = " << LEN << endl;   
+   
+   for (int i = 0; i < LEN; ++i)
+   {
+      if (this->cadena[i] == 'I' && i != LEN-1)
+      {
+         if      (this->cadena[i+1] == 'V' && this->cadena[i-1]!='I') { 
+	   result +=    4; 
+	   if(this->cadena[i+2] == 'I' && this->cadena.length()>=3) { 
+	     cout << endl << "mal format IVI ?" << endl; 
+	     return 0;	     
+	  }
+	  if(debug==1)cout << "I suma 4 result =" << result << endl; 
+	  i++;	   
+	} //IV leap V char
+         else if (this->cadena[i+1] == 'X') { result +=    9; if(debug==1)cout << "I suma 9 result = " << result << endl;i++; } //IX leap X char
+         else if (this->cadena[i+1] == 'I' && this->cadena[i+2] == 'I' && i+2<=LEN-1) { 
+		result +=    3; 
+		conti++;
+		i+=2;
+		if(debug==1)cout << endl << "suma 3 bucle I" << endl;
+		if(conti>2) { cout << "Masses lletres I seguides!!!" << endl; return 0; }
+		if(debug==1)cout << "I suma 3 result =" << result << endl;	   
+	      }
+	      else if(this->cadena[i+1] == 'I' && i+1<=LEN-1){
+		result +=    2; 
+		conti++;
+		i++;
+		if(debug==1)cout << endl << "suma 2 bucle I" << endl;
+		if(conti>2) { cout << "Masses lletres I seguides!!!" << endl; return 0; }
+		if(debug==1)cout << "I suma 2 result =" << result << endl;	   
+	      }
+	      else if(this->cadena.find('I')!=this->cadena.rfind('I')){
+		  result=0;
+		  cout  << endl << "número mal format" << endl;
+		  return (0);
+	      }
+      }
+      else if (this->cadena[i] == 'X' && i != LEN-1)
+      {	
+	  if(debug==1)cout << " this->cadena.find('X') = " << this->cadena.find('X') << " \t this->cadena.rfind('X') =" << this->cadena.rfind('X') << endl;
+	  if((/*roman.find('X')==roman.rfind('X')-2 ||*/ this->cadena[i+2]=='X' && this->cadena[i+1]=='X' && this->cadena[i]=='X')&& this->cadena.length()>=3 && this->cadena.find('X')-this->cadena.rfind('X')==-3){
+	    if(debug==1)cout << "suma 30 XXX" << endl;		
+	    result += 30;
+	    i += 2;
+	    contx=4;
+	  }
+	  else if(this->cadena.find('X')==this->cadena.rfind('X')-1 || this->cadena[i+1]=='X' && this->cadena[i]=='X'){
+		  if(debug==1)cout << "suma 20 XX" << endl;
+		  result += 20;
+		  i++;
+		  contx=2;
+		}
+		else if(this->cadena[i]=='X' && this->cadena[i+1]=='I' && this->cadena[i+2]=='X'){
+		      result +=19;
+		      if(debug==1) cout << endl << "bucle suma 19 X" << endl;
+		      i=i+2;
+		     }
+		    else if((this->cadena[i+1] == 'L' && this->cadena.find('L')==this->cadena.rfind('L')) && (this->cadena[i]=='X') ) { 
+			    result +=   40; 
+			    if(debug==1)cout << endl << " bucle X suma 40" << endl;
+			    i++; 			    	   
+			  }
+			  else if(this->cadena[i+1]=='V'){
+			    if(debug==1)cout << "suma 15" << endl; 
+			    result += 15;
+			    i++;
+			      }
+			      else if(this->cadena.find('X')==this->cadena.rfind('X') && this->cadena[i]=='X' && this->cadena[i+1]=='C'){
+				    if(debug==1)cout << "suma 90 X" << endl;
+				    result += 90;
+				    i++;
+				    contx=1;
+				  }
+			    else if(this->cadena.find('X')==this->cadena.rfind('X') && this->cadena[i]=='X'){
+				    if(debug==1)cout << "suma 10 X" << endl;
+				    result += 10;
+				    contx=1;
+				  }
+				  if(this->cadena[i+1]=='C'){
+				    if(debug==1)cout << "suma 90 X " << endl;
+				    result +=90;
+				    i++;
+				  }
+				  else {
+				    if(debug==1)cout << " contx = " << contx << endl;
+				  }
+      }
+      else if(this->cadena[i] =='L' && i!= LEN-1){
+	if(debug==1)cout << endl << "suma 50" << endl;
+	result +=50;
+	if(this->cadena[i+1]=='V' && this->cadena[i+4]=='I' && this->cadena[i+3]=='I' && this->cadena[i+2]=='I'){
+	  result +=8;
+	  i+=4;
+	}
+	else if(this->cadena[i+1]=='V' && this->cadena[i+2]=='I' && this->cadena[i+3]=='I'){
+	      result +=7;
+	      i+=3;
+	      }
+	      else if(this->cadena[i+1]=='V' && this->cadena[i+2]=='I'){
+	      result +=6;
+	      i=i+2;
+	      }
+	      else if(this->cadena[i+1]=='X' && this->cadena[i+2]=='X' && this->cadena[i+3]=='X' ){
+		result +=30;
+		if(this->cadena[i+4]=='X'){
+		  cout << "  masses X!! número erroni" << endl;
+		  result=0;
+		  return(0);
+		}
+		i=i+3;
+	      }
+	      else if(this->cadena[i+1]=='X' && this->cadena[i+2]=='X'  ){
+		result +=20;
+		i=i+2;
+	      }
+	      else if(this->cadena[i+1]=='X' ){
+		result +=10;
+		i=i+1;
+	      }
+      }
+      else if (this->cadena[i] == 'C' && i != LEN-1)
+      {
+	if(debug==1)cout << endl << "C suma 100" << endl;
+	result +=100;
+	contc++;	
+	if(contc>3){
+	  cout << endl << "Número mal format" << endl;
+	  result=0;
+	  return(0);
+	}
+        if(this->cadena[i+1] == 'D') { 
+		    result +=  300; 
+		    i++; 
+		    if(debug==1)cout << endl << "suma 400" << endl; 
+		    if(contd>0) {
+			  cout << endl << " LLetra D repetida! Número mal format!" << endl;
+			  result=0;
+			  return (0);
+		    }
+	   
+	} //CD leap D char
+        else if (this->cadena[i+1] == 'M') { result +=  800; i++; if(debug==1)cout << endl << "suma 900" << endl;} //CM leap M char
+        else if (this->cadena[i+1] == 'L') { result +=  50; if(debug==1)cout << endl << "suma 150" << endl;if(this->cadena[i+2]!='L') i++; }                  
+      }
+      else if(this->cadena[i]=='D' && i != LEN -1){
+	if(debug==1)cout << endl << "suma 500" << endl;
+	result +=500;
+	contd++;
+	if(contd>1){
+	  cout << endl << "Número mal format, Repetició D" << endl;
+	  result=0;
+	  return(0);
+	}
+      }
+      else if (this->cadena[i] == 'M' && i != LEN-1)
+      {
+	 if(debug==1) cout << endl << "suma 1000" << endl;
+	 result +=1000;
+	 contm++;
+	 if(contm>3){
+	  result=0;
+	  cout << endl << "LLetra M repetides masses cops" << endl ;
+	  return(0);
+	 }	 
+      }
+      else if (this->cadena[i] == 'I' && this->cadena.length()>=3 && i>=3 && this->cadena[i-2]!='I' && this->cadena[i-1]!='I')      { 
+	result +=    1; 
+	cout << endl << "suma 1 If I i="<< i << endl;	
+	conti++;
+      }
+      else if (this->cadena[i] == 'V')      { 
+	if(this->cadena[i-1]!='I' && this->cadena[i+1]=='I' && this->cadena[i+2]!='V'){
+	  result +=    5; 
+	  if(debug==1)cout << endl << "suma 5" << endl;	  
+	}	
+	else {
+	   result +=    5; 
+	   if(debug==1) cout << endl << "suma 5 else " << endl;
+	}
+      }
+      else if (this->cadena[i]=='X'){
+		result += 10;
+		if(debug==1)cout << endl << "suma 10" << endl;	
+	    }
+	    else if (this->cadena[i]=='L'){
+		  result += 50;
+		  if(debug==1)cout << endl << "suma 50" << endl;	
+		  }
+		  else if(this->cadena[i]=='C'){
+		    result +=100;
+		    if(debug==1)cout << endl << "suma 100" << endl;	
+		  } 
+		  else {
+		    cout << "90 roman[i]==" << this->cadena[i] << endl;
+		    if(this->cadena[i]=='I' && this->cadena[i+1]=='I'&& this->cadena[i+2]=='I'){ 
+		      result+=2;
+		      i=i+3;
+		    }else if(this->cadena[i]=='I' && this->cadena[i+1]=='I'){ 
+			    result+=1;
+			    i=i+2;			     
+			  }else if(this->cadena[i]=='I' && i<=LEN-1 ){ 
+				  result+=1;
+				  i++;
+				}
+		  }      
+   }
+   val= result;
+   return(val);
+}
+    /*
+     fi romans
+    */
+    
+
+void clean_up_mess()
   {
 	  ts.ignore(print); //pagina 216-217 del llibre, just al cambiar de pàgina
   }
@@ -139,7 +388,7 @@
 
   //------------------------------------------------------------------------------
 
-  double get_value(string s)// return the Value of a variable named s
+double get_value(string s)// return the Value of a variable named s
   {
 	cout << "\n\n\nDefinir valors romans a la taula és la solució ? \n\n\n" << endl;
 	cout << "s = " << s << endl;
@@ -150,7 +399,7 @@
 
   }
 
-  void set_value(string s, double d)
+void set_value(string s, double d)
   // set the Variable named s to d
   {
   for (Variable& v : var_table)
@@ -162,7 +411,7 @@
   error("set: undefined variable ",s);//, s);
   } 	
 
-  bool is_declared(string var)
+bool is_declared(string var)
     // is var already in var_table ?
     {
 	  for (const Variable& v : var_table)
@@ -196,7 +445,7 @@
     }
 
   // The putback() member function puts its argument back into the Token_stream's buffer:
-  void Token_stream::putback(Token t)
+void Token_stream::putback(Token t)
   {
       if (full) { 
 		  error("putback() into a full buffer\nNO HI HA RES AL BUFFER??\n");
@@ -255,7 +504,7 @@
   // declaration token
   // declaration keyword
 
-  Token Token_stream::get()
+Token Token_stream::get()
   //lectura de dades des del teclat i composició del Token
   {
       if (full) {       // do we already have a Token ready?
@@ -290,11 +539,11 @@
 	      case '5': case '6': case '7': case '8': case '9':
 //	      case 'I':
 		  {
-  //		    cout << "ch = " << ch << endl;
+  //		   if(debug==1) cout << "ch = " << ch << endl;
 		      cin.putback(ch);         // put digit back into the input stream
 		      double val;
 		      cin >> val;              // read a floating-point number
-  //		    cout << "val = " << val << endl << " number = " << number << endl;
+  		   if(debug==1) cout << "val = " << val << endl << " number = " << number << endl;
 		      return Token(number,val);   // let '8' represent "a number"
 		  }
 	    default:
@@ -305,15 +554,15 @@
 			  //if(debug==1)cout << "s(després) = " << s << endl;
 			  while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_')){ // comparar aquí si ch == _ (underscore), no ?
 					  s+=ch;
-  /*					if(debug==1){
+  					if(debug==1){
 						  cout << endl << "carrega" << endl;
 						  cout << endl << " ch = " << ch << endl << " s = " << s << endl << "decllet = " << decllet << endl << " s = " << s << endl;
-						  cout << "s = " << s << endl;
+						  cout << "s = " << s << " he de desgranar aquesta 's' per calcular números romans, no ?" << endl;
 						  }
-  */
+  
 			  }
 			  cin.putback(ch);
-			  //cout << "ch = " << ch;
+//			  if(debug==1)cout << "ch = " << ch;
 			  if(s==declsurt){
 				if(debug==1)cout << "SURT?" << endl;
 				return Token{surt};
@@ -335,11 +584,11 @@
 					  return Token{let};
 			  }
 			  if(s==declsqrt){//arrel
-					  /*if(debug==1){
+/*					  if(debug==1){
 							  cout << endl << "declsqrt" << endl;
 							  cout << "faig arrel ?(get)" << endl;
 					  }
-					  */
+*/
 					  return Token{arrel};
 			  }
 
@@ -359,13 +608,12 @@
 					  //primary
 					  //o
 					  //term	
-					  //com ho faig ? com ho puc fer?
 					  //return (0); //Token{pows};
 			  }
 			  if (s==decldecls) {
 			    cout << " Declara VARIABLE? (crear clase i metodes pk no es pugui sobreescriure?)" << endl;
 			  }
-			  if(s==declromaI) {
+			  /*if(s==declromaI) {
 			    cin.putback(ch);         // put digit back into the input stream
 			    double val;
 			    val=1; 
@@ -430,12 +678,20 @@
 			    //Retornar token a amb valor 1000
 			    //return Token{romaM};
 			    return Token{romaM,val};
+			  }*/
+			  if(s.find("I") || s.find("V")|| s.find("X")|| s.find("L")|| s.find("C")|| s.find("D")|| s.find("M")){
+			    cout << endl << "això funciona ? és així ?"  << endl;
+			    Numero_roma r;
+			    r.set_string(s);
+			    double val=r.as_int(s);
+			    cout << endl << " el valor entrat en números romans és " << val << endl;
+			    return Token{'W',val};
 			  }
-			  /*if(debug==1){ 
+/*			  if(debug==1){ 
 					  cout << endl << "ultim debug" << endl;
 					  cout << endl << "let = " << let << "surto token{name,s}" << " name = " << name << " s = " << s << endl << " ch ='" << ch << "'" << endl << "name = '" << name << "'" << endl << " s ='" << s << "'" << endl << " let ='" << let << "'" << endl << " number = '" << number << "'" << endl << " declsqrt=" << declsqrt << endl << " arrel = " << arrel << endl;
 			  }
-			  */
+*/
 			 
 			  return Token{name,s};
 		  }
@@ -449,11 +705,11 @@
 
   //------------------------------------------------------------------------------
 
-  double expression();    // declaration so that primary() can call expression()
+double expression();    // declaration so that primary() can call expression()
 
   //------------------------------------------------------------------------------
   // deal with numbers and parentheses
-  double primary()
+double primary()
   {
       Token t = ts.get();
       cout << "primary : \nt.kind = " << t.kind << "\n t.value = " << t.value << "\nt.name = "<< t.name << endl;
@@ -472,8 +728,13 @@
 	      if (t.kind != ')') error("')' expected");
 	      return d;
 	  }
+/*################################################################################################################################################*/
+      case 'W': //falta retornar el resultat com a número romà
+	return t.value;  // return the number's value
+/*################################################################################################################################################*/
       case number:             // we use '8' to represent a number
 	  return t.value;  // return the number's value
+	  
       case '-':
 	  return - primary();
       case '+':case '=': 
@@ -487,77 +748,15 @@
 		  return (0);
 	  }
 	  else {
-		  //if(debug==1)cout << " valor = " << valor; 
-		  resultat=sqrt(valor);	
-		  //cout << endl << " El resultat de l'arrel de "<< valor << " és " ; // << resultat << endl;
-		  return (resultat);
+//		if(debug==1)cout << " valor = " << valor; 
+		resultat=sqrt(valor);	
+//		cout << endl << " El resultat de l'arrel de "<< valor << " és " ; // << resultat << endl;
+		return (resultat);
 	  }
       case 'a': //si 'a', recull valor!!!!
 	  if(debug==1)cout << "get_value(t.name) = " << get_value(t.name) << endl;
-	  //cout << "t.value = " << t.value << endl;
-	  return get_value(t.name);
-
-      /*case 'p': // forçar pow(x,i) i integer ? :w
-      * 
-	  double valore;
-	  double valorp;
-	  valorp=primary();
-	  valore=expression();
-	  cout << endl << "fa la potencia ara ? (primary)ÉS EL BOO??, t.value =" << t.value << "valorp = " << valorp << endl;
-  */
-    /* case 'I':case 'V': case 'X': case 'L': case 'C': case 'D': case 'M':
-      {
-	cout << "t.kind = " << t.kind << "\t t.value = " << t.value << "\t t.name = " << t.name << endl;
-      }*/
-      case 'I':
-	if(debug==1) cout << "dins de primary : t.value = "  << t.value << endl;
-	t=ts.get();
-	t.kind='I'; //aqui numeros romans ???
-	t.name='R';
-	t.value=1;
-	return t.value;
-      case 'V':
-	if(debug==1) cout << "dins de primary : t.value = "  << t.value << endl;
-	t=ts.get();
-	t.kind='V'; //aqui numeros romans ???
-	t.name='R';
-	t.value=5;
-	return t.value;
-      case 'X':
-	if(debug==1) cout << "dins de primary : t.value = "  << t.value << endl;
-	t=ts.get();
-	t.kind='X'; //aqui numeros romans ???
-	t.name='R';
-	t.value=10;
-	return t.value;
-      case 'L':
-	if(debug==1) cout << "dins de primary : t.value = "  << t.value << endl;
-	t=ts.get();
-	t.kind='L'; //aqui numeros romans ???
-	t.name='R';
-	t.value=50;
-	return t.value;
-      case 'C':
-	if(debug==1) cout << "dins de primary : t.value = "  << t.value << endl;
-	t=ts.get();
-	t.kind='C'; //aqui numeros romans ???
-	t.name='R';
-	t.value=100;
-	return t.value;
-      case 'D':
-	if(debug==1) cout << "dins de primary : t.value = "  << t.value << endl;
-	t=ts.get();
-	t.kind='D'; //aqui numeros romans ???
-	t.name='R';
-	t.value=500;
-	return t.value;
-      case 'M':
-	if(debug==1) cout << "dins de primary : t.value = "  << t.value << endl;
-	t=ts.get();
-	t.kind='M'; //aqui numeros romans ???
-	t.name='R';
-	t.value=1000;
-	return t.value;
+//	  if(debug==1)cout << "t.value = " << t.value << endl;
+	  return get_value(t.name);      	
       default:
 	  //if(debug==1)cout << "t.value = " << t.value << endl << "t.kind =" << t.kind << endl;
 	  error("primary expected");
@@ -565,29 +764,30 @@
   }
 
   //------------------------------------------------------------------------------
-  int factorial(int left)
+int factorial(int left)
   {
   //	if(debug)cout  << " dins de factorial ?\n" ;
   if (left!=1 && left!=0){
-		  /*cout << "\nfactorial  de 1 ";
-		  left=1;
-		  return(1);*/
-  //		if(debug) cout << "\n factorial de  " << left << " * factorial(" << left-1 << ") = " << left*factorial(left-1) ;
+/*		cout << "\nfactorial  de 1 ";
+		left=1;
+		return(1);
+*/
+//		if(debug) cout << "\n factorial de  " << left << " * factorial(" << left-1 << ") = " << left*factorial(left-1) ;
 		  return( left* factorial(left-1));
 
 
 	  }
 	  else {
-		  //if(debug) cout << "left = " << left << "\n";
-		  if(left==0) return(1);
-		  //if(debug) cout << "\nfactorial  de 1 " << endl;
-		  return(1);
-		  }
+//		if(debug) cout << "left = " << left << "\n";
+		if(left==0) return(1);
+//		if(debug) cout << "\nfactorial  de 1 " << endl;
+		return(1);
+		}
 
   }
 
 
-  double sqrt1( double val){ //arrel
+double sqrt1( double val){ //arrel
 	  double prova;
 	  if(val >1){
 		  prova =sqrt(val);
@@ -599,10 +799,10 @@
 	  }
 
   return(1);
-  }
+}
 
-  // deal with *, /, and %
-  double term()
+// deal with *, /, and %
+double term()
   {
       double left = primary();
       double valor;
@@ -611,7 +811,7 @@
       while(true) {
 	  switch (t.kind) {
 	  case '!':
-  //	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
+//	    if(debug)cout << "\nfactorial ?\n left = " << factorial((int)left) << "\n";
 	      valor=left;
 	      left=factorial(left);
 	      cout << "El factorial de " << (int)valor << " és " << (int)left << "\nIntro > ";
@@ -644,13 +844,13 @@
 		      t = ts.get();
 		      break;
 		    
-		  /*	double d = primary();
-			  if(d==0) error("divide by zero");
-  //			if(i2==0) error("% : divide by zero");
-			  left = fmod(left,d);//i1 % i2;
-			  t = ts.get();
-			  break;
-		  */	
+/*			double d = primary();
+			if(d==0) error("divide by zero");
+//			if(i2==0) error("% : divide by zero");
+			left = fmod(left,d);//i1 % i2;
+			t = ts.get();
+			break;
+*/	
 		  }
 		  catch (exception& e){
 			  cout << "Aquí hi ha un error ? pot ser ? e.what = " << e.what() << endl;
@@ -666,7 +866,7 @@
   //------------------------------------------------------------------------------
 
   // deal with + and -
-  double expression()
+double expression()
   {
       double left = term();      // read and evaluate a Term
       Token t = ts.get();        // get the next token from token stream
@@ -688,9 +888,9 @@
       }
   }
 
-  double define_name(string var, double val);
+double define_name(string var, double val);
 
-  double calcul_pow()
+double calcul_pow()
   {
 
     try{
@@ -708,7 +908,7 @@
 	int i= (int)t4.value;     
 	if(debug==1)cout << "i = " << i << endl << " d=" << d << endl;
 	for (int j=1; j<i; j++) d=d*t2.value;
-	Token t5 = ts.get();//)  
+	Token t5 = ts.get();
 	
 	return(d);
       }
@@ -726,7 +926,7 @@
     }
   }
 
-  double declaration()
+double declaration()
   // assume we have seen "let”
   // handle : name = expression
   // declare a variable called "name ” with the initial value "expression”
@@ -747,10 +947,10 @@
   if(debug==1) cout << "var_name = " << var_name << "\n d =" << d << endl;
   set_value(var_name,d);
   return d;
-  }
+}
 
 
-  double statement()
+double statement()
   {
     Token t = ts.get();
     switch (t.kind) {
@@ -770,7 +970,7 @@
 
 
 
-  void calculate()
+void calculate()
   {
 
 	  while (cin) 
@@ -806,17 +1006,17 @@
 
   //------------------------------------------------------------------------------
 
-  int main()
+int main()
   try
   {
 	  //predefined names :
-	  define_name("I", 1);
+	  /*define_name("I", 1);
 	  define_name("V", 5);
 	  define_name("X", 10);
 	  define_name("L", 50);
 	  define_name("C", 100);
 	  define_name("D", 500);
-	  define_name("M", 1000);
+	  define_name("M", 1000);*/
 	  define_name("pi", 3.1415926535);
 	  define_name("ne", 2.7182818284);
 	  define_name("k", 1000);
