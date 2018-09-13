@@ -670,7 +670,7 @@ void calculate()
 int main()
 try
 {   
-    cout << "\npàgina 252 del llibre\n Exercici potencia, canviar let per #, exercicis tema 7" << endl;
+    cout << "\npàgina 252 del llibre\n Acabar exercici potencia, canviar let per #, exercicis tema 7" << endl;
     
     define_name("pi",3.1415926535,'c');
     define_name("e",2.7182818284,'c');
