@@ -12,14 +12,14 @@
 	  Declaration:
 		  "let" Name "=" Expression
           Statement :
-                  Declaration <- falta
-                  Expression <- fet
-                  Print <- fet
-                  pow <- falta
-                  let -> # <- falta
+                  Declaration <- feta
+                  Expression <- feta
+                  Print <- feta
+                  pow <- falta fer el càlcul
+                  let -> # <- feta
                   Quit <- fet
-                  surt <- falta
-                  roman numbers in progress (function correct) <- falta
+                  Exit <- fet
+                  
           Print : <- fet
                   ;
           Quit:
@@ -76,6 +76,7 @@ const char interrogant='?';
 const string ajuda_mayus="Help";
 const char quit='q';
 const string paraula_quit="Quit";
+const string paraula_exit="Exit";
 const string interrogant_string="?";
 
 const char constant='c';
@@ -86,6 +87,7 @@ const string potencia_string="pow";
 
 //const char Roma='R';
 const string declkey="let";
+const string decl_quadrat="#";
 
 //------------------------------------------------------------------------------
 class Token {
@@ -202,10 +204,7 @@ Token Token_stream::get()
 	case 'R':
     case 'p':
     case ',': // coma funcio pow
-	    return Token(ch);        // let each character represent itself
-	    //#####################################################################################################################
-	    //recullo tokens de números
-    
+	    return Token(ch);        // let each character represent itself	    
 	case '.':
 	case '0': 
 	case '1': 
@@ -225,27 +224,29 @@ Token Token_stream::get()
 		return Token(number,val);   // let '8' represent "a number"
 	    }
 	default:
-	    if(isalpha(ch) || ch=='?'){
+	    if(isalpha(ch) || ch=='?' || ch=='#'){
 	      string s;
 	      s += ch;
-          cout << " ch = " << ch << " s = " << s << endl;
-	      while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_' || ch=='?')) s+=ch;
+          if(debug==1)cout << " ch = " << ch << " s = " << s << endl;
+	      while(cin.get(ch) && (isalpha(ch) || isdigit(ch) || ch=='_' || ch=='?' || ch=='#')) s+=ch;
 	      cin.putback(ch);
 	      
-          cout << " s = " << s << endl;
+          if(debug==1)cout << " s = " << s << endl;
 	      if(s == declkey) return Token{let}; //declaration keyboard
+	      if(s == decl_quadrat) return Token{let}; //declaration keyboard
 	      if(debug==1)cout << endl<< " s = " << s << endl;
 	      if(s==declarrel) return Token{arrel};//Sqrt
 	      if(s==ajuda_mayus) return Token{ajuda};//Help
           ;
 	      if(s==paraula_quit) return Token{quit};//Quit
+	      if(s==paraula_exit) return Token{quit};//Exit
 	      if(s==interrogant_string) return Token{ajuda};//?
 	      if(s==paraula_const){//const
-            cout << "Paraula constant trobada" << endl;
+            if(debug==1)cout << "Paraula constant trobada" << endl;
             return Token{constant};
 	      }
 	      if(s==potencia_string){
-           cout << "Potencia string " << endl;
+           if(debug==1)cout << "Potencia string " << endl;
            return Token{potencia};
           }
 	   /*
@@ -325,13 +326,13 @@ double statement()
       }
       case potencia:
       {
-          cout << "Calcul de potencia a statement" << endl;
+          if(debug==1)cout << "Calcul de potencia a statement" << endl;
           Token t1=ts.get();
           //if(t1.kin(d!=',')error("',' expected");
-          cout << "p t1.kind = " << t1.kind << endl;
+          if(debug==1)cout << "p t1.kind = " << t1.kind << endl;
           
           Token t2=ts.get();          
-          cout << "s ( t2.kind = " << t2.kind << endl;
+          if(debug==1)cout << "s ( t2.kind = " << t2.kind << endl;
           
           /* //només un valor
           Token t3=ts.get();          
@@ -339,20 +340,23 @@ double statement()
           */
           //una expressió
           double d = expression();
-          cout << " d = " << d << endl;
+          if(debug==1)cout << " d = " << d << endl;
           
           Token t4=ts.get();          
-          cout << "q , t4.name = " << t4.name << ", t4.value = " << t4.value << " t4.kind = " << t4.kind << endl;          
+          if(debug==1)cout << "q , t4.name = " << t4.name << ", t4.value = " << t4.value << " t4.kind = " << t4.kind << endl;          
           
           Token t5=ts.get();          
-          cout << "c t5.value = " << t5.value << "forçar que sigui enter" << endl;          
+          if(debug==1)cout << "c t5.value = " << t5.value << "forçar que sigui enter" << endl;          
           
           Token t6=ts.get();          
-          cout << "s t6.name = " << t6.name << "t6.value = " << t6.value << " t6.kind = " << t6.kind << endl;          
-          
-          break;
+          if(debug==1)cout << "s t6.name = " << t6.name << "t6.value = " << t6.value << " t6.kind = " << t6.kind << endl;          
+          double calc=d;
+          for(int i=1;i<t5.value;++i)calc=calc*d;
+          //break;
+          if(debug==1)cout << " La potencia és " << calc << endl;
+          return calc;
       }
-      default:
+      default: 
       {
             ts.putback(t);
             return expression();
@@ -369,7 +373,7 @@ double get_value(string s); //agafo valor de variable
 
 double primary();
 
-//------------------------------------------------------------------------------
+//---------t;---------------------------------------------------------------------
 
 // deal with numbers and parentheses
 
@@ -377,7 +381,7 @@ double primary()
 {
     Token t = ts.get();
     //if(debug==1)
-        cout << endl << "primary t.kind =" << t.kind << endl;
+    if(debug==1)cout << endl << "primary t.kind =" << t.kind << endl;
     switch (t.kind) { //type of token t.kind
     case '(':    // handle '(' expression ')'
         {
@@ -409,69 +413,28 @@ double primary()
     }
     case 'h':
     {
-	cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
-	cout << endl << " per sortir, escriu Quit; " << endl;
-	cout << endl << " per calcular l'arrel escriu sqrt seguit de l'expressió" << endl;
-	cout << endl << " per exemple sqrt 25; o sqrt(25); o sqrt(25+120-240+120);" << endl;
-	cout << endl << " per guardar variables: let nom_variable=expressió" << endl;
-	cout << endl << " per exemple let x=y+25^3;" << endl;
-	cout << endl << "	llavors si fem let y=3" << endl;
-	cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
-	cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
-	cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
-	
-	//return(0);
+        cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
+        cout << endl << " per sortir, escriu Quit; " << endl;
+        cout << endl << " per calcular l'arrel escriu sqrt seguit de l'expressió" << endl;
+        cout << endl << " per exemple sqrt 25; o sqrt(25); o sqrt(25+120-240+120);" << endl;
+        cout << endl << " per guardar variables: let nom_variable=expressió" << endl;
+        cout << endl << " per exemple let x=y+25^3;" << endl;
+        cout << endl << "	llavors si fem let y=3" << endl;
+        cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
+        cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
+        cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;		
 	break;
     }
     case 'q':
     {
-      cout << "surt amb Quit ?" << endl;     
+        cout << "surt amb Quit ?" << endl;     
     break;        
     }
     case 'c':
     {
-      if(debug==1)cout << "definir variables constants funcio declaration ?" << endl;
+        if(debug==1)cout << "definir variables constants funcio declaration ?" << endl;
     break;
-    }
-    /*case 'p':
-    {
-     cout << endl << "Càlcul de potència dels números" << endl; 
-     //double d = primary();
-     Token t1=ts.get();
-     //if(t1.kind!=',')error("',' expected");
-     cout << "p t1.value = " << t1.value << endl;
-     Token t2=ts.get();
-     t2=ts.get();
-     cout << "s t2.value = " << t2.value << endl;
-     Token t3=ts.get();
-     t3=ts.get();
-     cout << "s t3.kind = " << t3.kind << endl;
-     Token t4=ts.get();
-     t4=ts.get();
-     cout << "s t4.value = " << t4.value << endl;
-     Token t5=ts.get();
-     t5=ts.get();
-     cout << "s t5.value = " << t5.value << endl;
-     //double d = expression();
-    //        t = ts.get();
-           // cout << "t.kind = "<< t.kind << "t.name = " << t.name << "t.value = " << t.value << endl;
-            //if (t.kind != ')') error("')' expected");
-      //      Token t1 = ts.get();
-            //cout << "t1.kind = "<< t1.kind << "t1.name = " << t1.name << "t1.value = " << t1.value << endl;
-            //if (t1.kind != ')') error("')' expected");
-      //      Token t2 = ts.get();
-            //cout << "t2.kind = "<< t2.kind << "t2.name = " << t2.name << "t2.value = " << t2.value << endl;
-      //      Token t3 = ts.get();
-      //      cout << "t3.kind = "<< t3.kind << "t3.name = " << t3.name << "t3.value = " << t3.value << endl;
-      //      Token t4 = ts.get();
-      //      cout << "t4.kind = "<< t4.kind << "t4.name = " << t4.name << "t4.value = " << t4.value << endl;
-            //Token t5 = ts.get();
-            //cout << "t5.kind = "<< t5.kind << "t5.name = " << t5.name << "t5.value = " << t5.value << endl;
-            //if (t2.kind != ')') error("')' expected");
-     //return pow();
-            break;
-    }
-    */
+    }    
     default:
         error("primary expected"); 
     }
@@ -670,7 +633,7 @@ void calculate()
 int main()
 try
 {   
-    cout << "\npàgina 252 del llibre\n Acabar exercici potencia, canviar let per #, exercicis tema 7" << endl;
+    cout << "\npàgina 252 del llibre\n Acabar exercici potencia(fet), canviar Quit per Exit(fet), canviar let per #(fet), exercicis tema 7(falta fer-los tots)" << endl;
     
     define_name("pi",3.1415926535,'c');
     define_name("e",2.7182818284,'c');
