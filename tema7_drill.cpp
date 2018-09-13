@@ -633,7 +633,7 @@ void calculate()
 int main()
 try
 {   
-    cout << "\npàgina 252 del llibre\n Acabar exercici potencia(fet), canviar Quit per Exit(fet), canviar let per #(fet), exercicis tema 7(falta fer-los tots)" << endl;
+    cout << "\npàgina 252 del llibre\n Acabar exercici potencia(fet), canviar Quit per Exit(fet), canviar let per #(fet), exercicis tema 7(falta fer-los tots) no suma ... no opera bé" << endl;
     
     define_name("pi",3.1415926535,'c');
     define_name("e",2.7182818284,'c');
