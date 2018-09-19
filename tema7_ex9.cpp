@@ -49,7 +49,7 @@
   -------------------------------------------------------------
   -> Input comes from cin through the Token_stream alled td <-
   -------------------------------------------------------------
-  pagina 239<- 7.7 Recovering from errors.
+  pagina 239<- 7.7 Recovering from errors.w
   */
 
 #include "std_lib_facilities.h"
@@ -57,8 +57,8 @@
 //------------------------------------------------------------------------------
 
 
-int debug = 1; //debu
-//int debug = 0; //NO debug
+//int debug = 1; //debu
+int debug = 0; //NO debug
 const char number='8';
 const char print=';';
 const char result='=';
@@ -66,6 +66,18 @@ const string prompt ="--/|> ";
 //const string result = "= ";
 
 const char name='a';
+
+const char suma='+';
+
+const char resta='-';
+
+const char multiplica='*';
+
+const char divisio='/';
+
+const char fact='!';
+
+const char modul='%';
 
 const char let='l';                 //define var
 const string declkey="let";
@@ -211,16 +223,16 @@ Token Token_stream::get()
 	case result:
 	case '(': 
 	case ')': 
-	case '+': 
-	case '-': 
-	case '*': 
-	case '/':
-	case '%': 
-	case '!': //recullo tokens especials
+    case suma://'+': 
+    case resta://'-': 
+    case multiplica: //'*': 
+    case divisio://'/':
+    case modul://'%': 
+    case fact://'!': //recullo tokens especials
 	//case 'L': //MAL POSADA!! ERROR!!!! token let, carregar variables(statement?=
-	case 'p': //tokenwuit pow(statement?)
+    case potencia://'p': //tokenwuit pow(statement?)
     case ',': //coma de pow
-    case '?':
+    case ajuda://'?':
     //case '#':
 	    return Token(ch);        // let each character represent itself
 	    //#####################################################################################################################
@@ -338,8 +350,8 @@ double calcul_potencia(){
             if(debug==1)cout << " t5.kind =" << t5.kind << " t5.name = " << t5.name << " t5.value = " << t5.value << endl;
             Token t6=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
             if(debug==1)cout << " t6.kind =" << t6.kind << " t6.name = " << t6.name << " t6.value = " << t6.value << endl;
-            Token t7=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
-            if(debug==1)cout << " t7.kind =" << t7.kind << " t7.name = " << t7.name << " t7.value = " << t7.value << endl;
+            //Token t7=ts.get(); // ; si el recullo, falla ... comentat funciona
+            //if(debug==1)cout << " t7.kind =" << t7.kind << " t7.name = " << t7.name << " t7.value = " << t7.value << endl;
             double valor =t3.value;
             cout << " valt5 = " << valt5 << endl;
             if(t5.value-valt5==0){
@@ -357,14 +369,6 @@ double statement()
 {
     Token t = ts.get();
     switch(t.kind){
-        case potencia:
-        {
-            if(debug==1)cout << "càlcul de potencia Statement? t.kind =" << t.kind << endl;
-            return calcul_potencia();
-            
-            //return(0);
-        }    
-      
       case let:
       {
         if(debug==1)cout << endl << "( statement ) let( statement ) =" << let << " declaration " << endl;
@@ -372,7 +376,7 @@ double statement()
       }
       case constant:
       {
-        if(debug==1)cout << "Defineixo variable constant \n declaration" << endl;
+        if(debug==1)cout << "Defineixo variable constant \n (statement)" << endl;
         return declaration_constant();
       }
       default:
@@ -406,6 +410,21 @@ double primary()
     Token t = ts.get();
     if(debug==1)cout << endl << "t.kind =" << t.kind << endl;
     switch (t.kind) { //type of token t.kind
+        case potencia:
+            {
+                if(debug==1)cout << "8-pow(2,3); funciona, pero pow(2,3)-8; no càlcul de potencia primary t.kind =" << t.kind << endl;
+                //return calcul_potencia();
+                double d=calcul_potencia();
+                //return expression();
+                
+                cout << " result d = " << d << endl;
+                //left=d;
+                //t = ts.get();
+                //return(0);
+                
+                return d;
+                //break;
+            }
         case '(':    // handle '(' expression ')'
         {
             double d = expression();
@@ -417,23 +436,23 @@ double primary()
             return get_value(t.name); //recull valor de variable definida, ja que n'hi ha vàries
         case number:            // we use '8' to represent a number    
             return t.value;  // return the number's value        
-        case '-': //negative numbers
+        case resta: //'-': //negative numbers
             return - primary();
-        case '+':
+        case suma: //'+':
             return primary();
-        case 'r':
+        case arrel:
         {
             if(debug==1)cout << "calcul de l'arrel" << endl;
             double d = primary();
             //t = ts.get();( << endl;
             if(d<0) {
                 cout << "Arrel no real" << endl;
-                sqrt(-d);
+                return sqrt(-d);
             }
             else return sqrt(d);      
         }
         case '?':
-        case 'h':
+        case ajuda://'h':
         {
             cout << endl << "aquí ha d'anar l'ajuda de la calculadora" << endl;
             cout << endl << " per sortir, et escriu \"Quit;\" ó \"Surt;\" (sense les cometes) " << endl;
@@ -449,20 +468,17 @@ double primary()
             return(0);
             break;
         }
-        case 'q':
+        case quit://'q':
         {
             cout << "surt amb Quit ?" << endl;      
             break;    
         }        
-        case 'c':
+    /*case 'c':
         { 
             if(debug==1)cout << "definir variables constants funcio declaration ?" << endl;
             break;
         } 
-        case 'p':
-        {
-            return statement();
-        }
+        */
         case ')':
         {
             return (0);
@@ -474,7 +490,7 @@ double primary()
 
 //------------------------------------------------------------------------------
 
-// deal with *, /, and %
+// deal with *, /, and %, !, la potencia hauria d'anar aquí ?
 double term()
 {
     double left = primary();
@@ -482,11 +498,14 @@ double term()
 
     while(true) {
         switch (t.kind) {
-        case '*':
-            left *= primary();
-            t = ts.get();
-            break;
-        case '/':
+            
+            case multiplica://'*':
+            {
+                left *= primary();
+                t = ts.get();
+                break;
+            }
+            case divisio://'/':
             {
                 double d = primary();
                 if (d == 0) cout << /*error(*/"divide by zero";//);
@@ -494,27 +513,29 @@ double term()
                 t = ts.get();
                 break;
             }
-        case '%':
-	    {
-	      int i1=narrow_cast<int>(left);
-	      int i2=narrow_cast<int>(primary());
-	      if(i2==0) error("%: divide by zero");
-	      left=i1%i2;
-	      /*double d = primary();
-	      if(d==0) error("%: divide by zero");
-	      left = fmod(left,d);	     */
-	      t=ts.get();
-	      break;
-	  }
-        case '!':
-        {            
-            cout << /*"factorial = " <<*/ factorial(left) << endl;
-            t=ts.get();
-            break;
-        }        
-        default:
-            ts.putback(t);     // put t back into the token stream
-            return left;
+            case modul://'%':
+            {
+                int i1=narrow_cast<int>(left);
+                int i2=narrow_cast<int>(primary());
+                if(i2==0) error("%: divide by zero");
+                left=i1%i2;
+                /*double d = primary();
+                if(d==0) error("%: divide by zero");
+                left = fmod(left,d);	     */
+                t=ts.get();
+                break;
+            }
+            case fact://'!':
+            {            
+                cout << /*"factorial = " <<*/ factorial(left) << endl;
+                t=ts.get();
+                break;
+            }          
+            default:
+            {
+                ts.putback(t);     // put t back into the token stream
+                return left;
+            }
         }
     }
 }
@@ -667,7 +688,8 @@ int main()
 
 try
 {   
-    cout << "\npàgina 225 del llibre\n 9. Allow the user to use pow(x,i) to mean \"Multiply x with itself i times\"; for example, pow(2.5,3) is 2.5*2.5*2.5. Require i to be an integer using the technique we used for %.10. Change the \"declaration keyword\" from let to #.11. Change the \"quit keyword\" from quit to exit. That will involve defining a string for quit justas we did for let in §7.8.2.\n\n falta factorial(fet), potencia(fet), canvi paraula definicio (fet) i afegir paraula Surt(fet), afegir ? per ajuda(fet), revisar variables constants(falta) i variables variables(falta)" << endl;
+    cout << "\n 8-pow(2,3);;=0 pow(2,3)-8;=8, pk ?!!\nrevisar variables constants(falta) i variables variables(falta)" << endl;
+    //cout << "\npàgina 225 del llibre\n 9. Allow the user to use pow(x,i) to mean \"Multiply x with itself i times\"; for example, pow(2.5,3) is 2.5*2.5*2.5. Require i to be an integer using the technique we used for %.10. Change the \"declaration keyword\" from let to #.11. Change the \"quit keyword\" from quit to exit. That will involve defining a string for quit justas we did for let in §7.8.2.\n\n falta ufactorial(fet), potencia(fet), canvi paraula definicio (fet) i afegir paraula Surt(fet), afegir ? per ajuda(fet), revisar variables constants(falta) i variables variables(falta)" << endl;
     
     define_name("pi",3.1415926535,'c');
     define_name("e",2.7182818284,'c');
