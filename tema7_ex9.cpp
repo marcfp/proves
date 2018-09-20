@@ -220,6 +220,7 @@ Token Token_stream::get()
 	    return Token{ch};*/
 	case print:    // for "print"
 	//case quit:    // for "quit"
+    
 	case result:
 	case '(': 
 	case ')': 
@@ -235,6 +236,16 @@ Token Token_stream::get()
     case ajuda://'?':
     //case '#':
 	    return Token(ch);        // let each character represent itself
+    /*
+    case '\n': //per return no retorno el valor, pk ?? s'ha de mirar i arreglar!!
+        {
+		cin.putback(ch);         // put digit back into the input stream
+		double val;
+		cin >> val;  	            // read a floating-point number
+		if(debug==1)cout << " val = " << val << endl;
+		return Token(number,val);   // let '8' represent "a number"
+	    }
+	*/
 	    //#####################################################################################################################
 	    //recullo tokens de números
 	case '.':
@@ -280,7 +291,7 @@ Token Token_stream::get()
 	      if(s==declpotencia){
               if(debug==1)cout << "Paraula pow trobada" << endl;
               return Token{potencia};
-          }
+          }         
 	      //if(s == declI || s == declV || s == declX || s == declL || s == declC || s == declD || s == declM ) return  Token{Roma};
 	      
 	      return Token{name,s};
@@ -434,6 +445,7 @@ double primary()
         }
         case 'a'://variables definides?
             return get_value(t.name); //recull valor de variable definida, ja que n'hi ha vàries
+        case result:
         case number:            // we use '8' to represent a number    
             return t.value;  // return the number's value        
         case resta: //'-': //negative numbers
