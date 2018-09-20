@@ -58,8 +58,8 @@
 
 //------------------------------------------------------------------------------
 
-int debug = 1; //debu
-//int debug = 0; //NO debug
+//int debug = 1; //debu
+int debug = 0; //NO debug
 const char number='8';
 const char print=';';
 const char result='=';
@@ -561,7 +561,8 @@ double term()
             }
             case fact://'!':
             {            
-                cout << /*"factorial = " <<*/ factorial(left) << endl;
+                //cout << /*"factorial = " <<*/ factorial(left) << endl;
+                left=factorial(left);
                 t=ts.get();
                 break;
             }          
