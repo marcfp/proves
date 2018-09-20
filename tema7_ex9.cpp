@@ -1,4 +1,3 @@
-  //
 // This is example code from Chapter 7.2 "Input and output" of
 // "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
 //
@@ -55,10 +54,12 @@
 #include "std_lib_facilities.h"
 
 //------------------------------------------------------------------------------
+//#include "token.h"
 
+//------------------------------------------------------------------------------
 
-//int debug = 1; //debu
-int debug = 0; //NO debug
+int debug = 1; //debu
+//int debug = 0; //NO debug
 const char number='8';
 const char print=';';
 const char result='=';
@@ -100,7 +101,7 @@ const string paraula_surt="Surt";
 const char constant='c';            //define constants
 const string paraula_const="const";
 
-const char potencia='p';            //power
+const char potencia='P';            //power
 const string declpotencia="pow";
 
 //------------------------------------------------------------------------------
@@ -350,31 +351,52 @@ double declaration_constant() //declaració de variables constants
 double calcul_potencia(){
             Token t1=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
             if(debug==1)cout << " t1.kind =" << t1.kind << " t1.name = " << t1.name << " t1.value = " << t1.value << endl;
-            Token t2=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
-            if(debug==1)cout << " t2.kind =" << t2.kind << " t2.name = " << t2.name << " t2.value = " << t2.value << endl;
-            Token t3=ts.get(); // vaig endavant, he de recollir l'altre token, però com ? //numero base
-            if(debug==1)cout << " t3.kind =" << t3.kind << " t3.name = " << t3.name << " t3.value = " << t3.value << endl;
-            Token t4=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
-            if(debug==1)cout << " t4.kind =" << t4.kind << " t4.name = " << t4.name << " t4.value = " << t4.value << endl;
-            Token t5=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?//numero exponent;
-            int valt5=static_cast<int>(t5.value);
-            if(debug==1)cout << " t5.kind =" << t5.kind << " t5.name = " << t5.name << " t5.value = " << t5.value << endl;
-            Token t6=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
-            if(debug==1)cout << " t6.kind =" << t6.kind << " t6.name = " << t6.name << " t6.value = " << t6.value << endl;
-            //Token t7=ts.get(); // ; si el recullo, falla ... comentat funciona
-            //if(debug==1)cout << " t7.kind =" << t7.kind << " t7.name = " << t7.name << " t7.value = " << t7.value << endl;
-            double valor =t3.value;
-            cout << " valt5 = " << valt5 << endl;
-            if(t5.value-valt5==0){
-                //for(int i=1; i<t5.value;++i) valor=t3.value*valor;
-                for(int i=1; i<valt5;++i) valor=t3.value*valor;
-                return valor;
+            if(t1.kind!='(') {
+                cout << "Malformed function" << endl;
+                return (0);   
             }
             else {
-                cout << "La potencia no pot ser calculada!!" << endl;
-                return (0);
-            }   
-}
+                Token t2=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
+                if(debug==1)cout << " t2.kind =" << t2.kind << " t2.name = " << t2.name << " t2.value = " << t2.value << endl;
+            
+                Token t3=ts.get(); // vaig endavant, he de recollir l'altre token, però com ? //numero base
+                if(debug==1)cout << " t3.kind =" << t3.kind << " t3.name = " << t3.name << " t3.value = " << t3.value << endl;
+                if(t3.kind!=',') {
+                    cout << "Malformed function" << endl;
+                    return (0);   
+                }
+                else {
+                    Token t4=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
+                    if(debug==1)cout << " t4.kind =" << t4.kind << " t4.name = " << t4.name << " t4.value = " << t4.value << endl;
+                    int valt4=static_cast<int>(t4.value);
+                
+                    Token t5=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?//numero exponent;
+                    
+                    if(debug==1)cout << " t5.kind =" << t5.kind << " t5.name = " << t5.name << " t5.value = " << t5.value << endl;
+                    //Token t6=ts.get(); // vaig endavant, he de recollir l'altre token, però com ?
+                    //if(debug==1)cout << " t6.kind =" << t6.kind << " t6.name = " << t6.name << " t6.value = " << t6.value << endl;
+                    if(t5.kind!=')') {
+                        cout << "Malformed function" << endl;
+                        return (0);   
+                    }
+                    else {
+            //Token t7=ts.get(); // ; si el recullo, falla ... comentat funciona
+            //if(debug==1)cout << " t7.kind =" << t7.kind << " t7.name = " << t7.name << " t7.value = " << t7.value << endl;
+                        double valor =t2.value;
+                        if(debug==1)cout << " valt4 = " << valt4 << endl;
+                        if(t4.value-valt4==0){
+                            //for(int i=1; i<t5.value;++i) valor=t3.value*valor;
+                            for(int i=1; i<valt4;++i) valor=t2.value*valor;
+                            return valor;
+                        }
+                        else {
+                            cout << "Malformed function" << endl;
+                            return (0);
+                        }
+                    }
+                }
+            }
+}            
 
 double statement()
 {
@@ -423,12 +445,12 @@ double primary()
     switch (t.kind) { //type of token t.kind
         case potencia:
             {
-                if(debug==1)cout << "8-pow(2,3); funciona, pero pow(2,3)-8; no càlcul de potencia primary t.kind =" << t.kind << endl;
+                if(debug==1)cout << "p t.kind =" << t.kind << endl;
                 //return calcul_potencia();
                 double d=calcul_potencia();
                 //return expression();
                 
-                cout << " result d = " << d << endl;
+                if(debug==1)cout << " result d = " << d << endl;
                 //left=d;
                 //t = ts.get();
                 //return(0);
