@@ -1,0 +1,7 @@
+/home/marc/projects/tema8_ex1/build/CMakeFiles/install/strip.dir
+/home/marc/projects/tema8_ex1/build/CMakeFiles/install/local.dir
+/home/marc/projects/tema8_ex1/build/CMakeFiles/tema8_ex1.dir
+/home/marc/projects/tema8_ex1/build/CMakeFiles/edit_cache.dir
+/home/marc/projects/tema8_ex1/build/CMakeFiles/rebuild_cache.dir
+/home/marc/projects/tema8_ex1/build/CMakeFiles/install.dir
+/home/marc/projects/tema8_ex1/build/CMakeFiles/list_install_components.dir

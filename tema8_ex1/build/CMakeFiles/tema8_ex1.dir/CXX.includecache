@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/marc/projects/tema8_ex1/main.cpp
+std_lib_facilities.h
+/home/marc/projects/tema8_ex1/std_lib_facilities.h
+
+/home/marc/projects/tema8_ex1/std_lib_facilities.h
+iostream
+-
+iomanip
+-
+fstream
+-
+sstream
+-
+cmath
+-
+cstdlib
+-
+string
+-
+list
+-
+forward_list
+-
+vector
+-
+unordered_map
+-
+algorithm
+-
+array
+-
+regex
+-
+random
+-
+stdexcept
+-
+
